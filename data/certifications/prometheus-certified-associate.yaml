@@ -1,0 +1,270 @@
+# Prometheus Certified Associate (PCA)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: prometheus-certified-associate
+title: Prometheus Certified Associate (PCA)
+provider: The Linux Foundation / CNCF
+description: A multiple-choice, associate-level certification covering observability concepts, Prometheus architecture, PromQL, instrumentation and exporters, and alerting with Alertmanager.
+updatedAt: "2026-08-08"
+overview: |-
+  The PCA is a knowledge exam, and an easy one. Sixty multiple-choice questions in ninety minutes, and everything it tests is published free on prometheus.io. It does not prove you can operate Prometheus at scale — it proves you have read the documentation carefully. That is worth something, but be clear about which thing.
+
+  ## What it is actually good for
+
+  Learning PromQL properly. Most people who run Prometheus daily know four queries and copy the rest from dashboards someone else built. The exam forces you to learn `rate` versus `irate`, aggregation over time versus over dimensions, vector matching and `histogram_quantile` — and those are genuinely useful the day after you pass.
+
+  The badge itself is a weak signal. It is beginner-level, closed-book recall, with none of the CKA's live cluster. Treat the certificate as a side effect of the studying, not the reason for it.
+
+  ## Where the marks are
+
+  PromQL is 28% and the only domain you cannot pass by reading. Everything else is definitions. Weight your prep the same way: if you have twenty hours, spend ten of them writing queries against a running server.
+
+  The trap is the Observability Concepts domain at 18%. Logs, traces, spans, push versus pull and SLO/SLI/SLA basics are barely mentioned on prometheus.io, so candidates who study only the Prometheus docs walk in having skipped nearly a fifth of the exam. PromLabs, who helped define the exam scope, say the same thing about their own training.
+
+  ## Before you book
+
+  **Closed book.** No documentation, no Prometheus instance, no browser tabs. This is the opposite of the CKA, and it means memorising function names rather than knowing where to look them up.
+
+  **75% is 45 of 60.** Fifteen wrong answers is the whole margin, and multiple-select questions score all-or-nothing.
+
+  **$250 with a free retake, valid two years.** Renewal means sitting the current exam again before it expires — there is no maintenance fee and no continuing-education route.
+exam:
+  code: PCA
+  cost:
+    value: $250 USD (includes one free retake); $299 USD bundled with the LFS241 course
+    source: Linux Foundation Training & Certification — Prometheus Certified Associate (PCA) certification page (training.linuxfoundation.org)
+    retrievedAt: "2026-08-08"
+  duration: 90 minutes
+  passingScore: 75%
+  validity: 2 years
+  format: Online, proctored, closed-book — 60 multiple-choice and multiple-select questions, no Prometheus instance and no documentation access
+domains:
+  - name: PromQL
+    weight: 28
+    topics:
+      - Selecting data with instant and range vector selectors
+      - Rates and derivatives
+      - Aggregating over time
+      - Aggregating over dimensions
+      - Binary operators and vector matching
+      - Histograms and quantile calculation
+      - Timestamp metrics
+  - name: Prometheus Fundamentals
+    weight: 20
+    topics:
+      - System architecture
+      - Configuration and scraping
+      - Understanding Prometheus limitations
+      - Data model and labels
+      - Exposition format
+  - name: Observability Concepts
+    weight: 18
+    topics:
+      - Metrics
+      - Logs and events
+      - Tracing and spans
+      - Push versus pull collection
+      - Service discovery
+      - Basics of SLOs, SLAs and SLIs
+  - name: Alerting & Dashboarding
+    weight: 18
+    topics:
+      - Dashboarding basics
+      - Configuring alerting rules
+      - Understanding and using Alertmanager
+      - Alerting basics — when, what and why to alert
+  - name: Instrumentation and Exporters
+    weight: 16
+    topics:
+      - Client libraries
+      - Instrumenting application code
+      - Exporters and when to use one
+      - Structuring and naming metrics
+prepPath:
+  - step: Run Prometheus locally before reading about it
+    description: Download the binary, scrape itself and node_exporter, and open the expression browser. Two hours of a running server makes the architecture questions trivial later — targets, scrape intervals and the /metrics endpoint stop being abstractions once you have watched them work.
+    estimatedHours: 6
+    resources:
+      - title: First steps with Prometheus
+        type: documentation
+        url: https://prometheus.io/docs/introduction/first_steps/
+        provider: Prometheus
+        free: true
+      - title: Getting started
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/getting_started/
+        provider: Prometheus
+        free: true
+      - title: Monitoring Linux host metrics with the Node Exporter
+        type: tutorial
+        url: https://prometheus.io/docs/guides/node-exporter/
+        provider: Prometheus
+        free: true
+      - title: PCA Curriculum (official)
+        type: documentation
+        url: https://github.com/cncf/curriculum
+        provider: CNCF
+        free: true
+  - step: Learn the data model, labels and exposition format exactly
+    description: Counter, gauge, histogram and summary, and what each one is for. This is 20% of the exam and it is where precise wording matters — questions distinguish a counter from a gauge, and a histogram from a summary, on details that are easy to half-know.
+    estimatedHours: 10
+    resources:
+      - title: Data model
+        type: documentation
+        url: https://prometheus.io/docs/concepts/data_model/
+        provider: Prometheus
+        free: true
+      - title: Exposition formats
+        type: documentation
+        url: https://prometheus.io/docs/instrumenting/exposition_formats/
+        provider: Prometheus
+        free: true
+      - title: Configuration reference
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+        provider: Prometheus
+        free: true
+      - title: Storage and the TSDB
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/storage/
+        provider: Prometheus
+        free: true
+  - step: Spend most of your study time on PromQL
+    description: The heaviest domain at 28%, and the only one you cannot learn by reading. Work through selectors, rate, aggregation over time versus over dimensions, binary operators and histogram_quantile — then write each one yourself against a live server until the syntax is automatic.
+    estimatedHours: 25
+    resources:
+      - title: Querying basics
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/basics/
+        provider: Prometheus
+        free: true
+      - title: Query functions
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/functions/
+        provider: Prometheus
+        free: true
+      - title: Operators and vector matching
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/operators/
+        provider: Prometheus
+        free: true
+      - title: PromQL Cheat Sheet
+        type: documentation
+        url: https://promlabs.com/promql-cheat-sheet/
+        provider: PromLabs
+        free: true
+      - title: PromLabs public Prometheus demo — run queries live
+        type: tutorial
+        url: https://demo.promlabs.com/
+        provider: PromLabs
+        free: true
+  - step: Instrument one service yourself
+    description: Add a client library to a small application, expose counters and a histogram, and name them by the official conventions. Then read an exporter's source. Knowing why you instrument directly rather than writing an exporter is the distinction this 16% domain keeps testing.
+    estimatedHours: 10
+    resources:
+      - title: Client libraries
+        type: documentation
+        url: https://prometheus.io/docs/instrumenting/clientlibs/
+        provider: Prometheus
+        free: true
+      - title: Instrumentation best practices
+        type: documentation
+        url: https://prometheus.io/docs/practices/instrumentation/
+        provider: Prometheus
+        free: true
+      - title: Metric and label naming
+        type: documentation
+        url: https://prometheus.io/docs/practices/naming/
+        provider: Prometheus
+        free: true
+      - title: Exporters and integrations
+        type: documentation
+        url: https://prometheus.io/docs/instrumenting/exporters/
+        provider: Prometheus
+        free: true
+      - title: Histograms and summaries
+        type: documentation
+        url: https://prometheus.io/docs/practices/histograms/
+        provider: Prometheus
+        free: true
+  - step: Write alerting rules and route them through Alertmanager
+    description: Configure a rule with a for clause, fire it, and watch Alertmanager group, inhibit and silence it. Grouping and inhibition are the parts candidates skip and the parts the exam asks about, because they are what separates Alertmanager from the rule evaluator.
+    estimatedHours: 10
+    resources:
+      - title: Alerting rules
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+        provider: Prometheus
+        free: true
+      - title: Alertmanager overview
+        type: documentation
+        url: https://prometheus.io/docs/alerting/latest/overview/
+        provider: Prometheus
+        free: true
+      - title: Alertmanager configuration
+        type: documentation
+        url: https://prometheus.io/docs/alerting/latest/configuration/
+        provider: Prometheus
+        free: true
+      - title: Alerting best practices
+        type: documentation
+        url: https://prometheus.io/docs/practices/alerting/
+        provider: Prometheus
+        free: true
+      - title: Grafana dashboards
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/visualizations/dashboards/
+        provider: Grafana Labs
+        free: true
+  - step: Close the observability-theory gap the Prometheus docs do not cover
+    description: Logs, traces and spans, push versus pull, and SLO/SLI/SLA definitions are 18% of the exam and largely absent from prometheus.io. Read them from a vendor-neutral source, because these are vocabulary questions and the published definitions are what gets marked.
+    estimatedHours: 8
+    resources:
+      - title: Observability primer — logs, metrics, traces, spans
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/observability-primer/
+        provider: OpenTelemetry
+        free: true
+      - title: Service Level Objectives — Google SRE Book
+        type: documentation
+        url: https://sre.google/sre-book/service-level-objectives/
+        provider: Google
+        free: true
+      - title: Implementing SLOs — SRE Workbook
+        type: documentation
+        url: https://sre.google/workbook/implementing-slos/
+        provider: Google
+        free: true
+      - title: PCA exam preparation notes
+        type: documentation
+        url: https://training.promlabs.com/pca-certification/
+        provider: PromLabs
+        free: true
+      - title: Observability Engineering
+        type: book
+        provider: Charity Majors, Liz Fong-Jones, George Miranda, Austin Parker
+        free: false
+        isbnAsin: "1098179927"
+        year: 2026
+        freeAlternative:
+          title: OpenTelemetry Observability Primer
+          url: https://opentelemetry.io/docs/concepts/observability-primer/
+prerequisites:
+  - Comfortable on the Linux command line
+  - Basic understanding of HTTP services and containers
+  - No formal prerequisites — the Linux Foundation classes the PCA as beginner level
+relatedRoadmaps:
+  - observability-engineer
+  - sre
+faq:
+  - question: Is the Prometheus Certified Associate exam hard?
+    answer: It is a knowledge exam, and an easy one — sixty multiple-choice and multiple-select questions in ninety minutes, and everything it tests is published free on prometheus.io. It does not prove you can operate Prometheus at scale, only that you have read the documentation carefully, so treat the badge as a side effect of studying rather than the goal itself.
+  - question: What is the PCA exam actually good for?
+    answer: Its real value is forcing you to learn PromQL properly — rate versus irate, aggregation over time versus over dimensions, vector matching and histogram_quantile — instead of copying four queries from dashboards someone else built. Those skills are genuinely useful the day after you pass, even though the badge itself is a weak, beginner-level, closed-book signal.
+  - question: Which domain should I spend the most time studying for the PCA?
+    answer: PromQL is weighted 28%, the heaviest domain, and it is the only one you cannot pass by reading alone — you need to write queries against a live server. If you have twenty hours to study, plan on spending roughly ten of them on PromQL specifically.
+  - question: What topics do candidates most often forget to study for the PCA?
+    answer: Observability Concepts is 18% of the exam, covering logs, traces, spans, push versus pull collection, and SLO/SLI/SLA basics, but these topics are barely mentioned on prometheus.io. Candidates who study only the Prometheus docs walk in having skipped nearly a fifth of the exam, so this material needs a vendor-neutral source instead.
+  - question: Can I use documentation during the Prometheus Certified Associate exam?
+    answer: "No. The PCA is closed-book: no documentation, no running Prometheus instance, and no browser tabs are allowed, which is the opposite of exams like the CKA. That means memorising function names rather than knowing where to look them up."
+  - question: How much does the PCA cost and what is the passing score?
+    answer: The exam costs $250 USD and includes one free retake, or $299 USD bundled with the LFS241 course. The passing score is 75%, which is 45 of 60 questions, so fifteen wrong answers is the whole margin, and multiple-select questions score all-or-nothing; the certification stays valid for two years with no maintenance fee.

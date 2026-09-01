@@ -1,0 +1,188 @@
+# Microsoft Certified — Azure Administrator Associate (AZ-104)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: az-104
+title: Microsoft Certified — Azure Administrator Associate (AZ-104)
+provider: Microsoft
+description: The core Azure operations certification, testing whether you can implement, manage and monitor an Azure environment — identity, governance, storage, compute, virtual networking and monitoring.
+updatedAt: "2026-08-10"
+overview: |-
+  The AZ-104 is the operations certification for Azure — the day-to-day of running an environment someone else designed. It sits closer to the job than the architecture exams do, and it is broader than any single week of that job.
+
+  ## What the weights tell you to study
+
+  The weights are unusually flat: identity and compute lead at 23% each, and storage, networking and monitoring each take 18%. No domain dominates, and no domain can be skipped. That flatness is the exam's real difficulty — five subjects at once, each deep enough to have its own tooling.
+
+  Identity is where to start regardless. Microsoft Entra ID underpins the other four domains, and role assignments show up in storage, compute and networking questions alike.
+
+  ## What the exam is actually like
+
+  **Interactive components.** Microsoft states the exam may include them, which in practice can mean working in a live portal rather than choosing from four answers. Clicking through the real portal during preparation is not optional — you need to know where things are, not just what they are called.
+
+  **One hundred minutes** is tighter than it appears once interactive tasks are involved. They take longer than multiple choice and are worth pacing for.
+
+  **Multiple tools, one answer.** The prerequisites name the portal, PowerShell, the Azure CLI, ARM templates and Bicep. Questions specify which to use, and the correct `az` flag is not the correct PowerShell parameter. Pick one tool for daily work, but read questions carefully for which one they are asking about.
+
+  ## Where the marks are lost
+
+  Networking, for the same reason as every cloud exam: NSGs, route tables, peering and DNS resolution fail in ways that look alike from the portal. Build a two-VNet peering scenario and break it deliberately.
+
+  Backup and recovery is the other gap. It spans storage and compute, belongs cleanly to neither in most study material, and is reliably examined.
+
+  ## Before you book
+
+  700 out of 1,000 to pass. The pricing is regional — Microsoft publishes the local figure at checkout — so the cost depends on where you sit it.
+
+  The validity is the detail worth knowing: **12 months, renewed free** through an online assessment on Microsoft Learn. Shorter than the two- or three-year cycles elsewhere, but the renewal is unproctored, takes far less preparation, and costs nothing. Treat this as an annual habit rather than a three-year milestone.
+exam:
+  code: AZ-104
+  cost:
+    value: Price varies by the country or region in which the exam is proctored — Microsoft publishes the local price at checkout
+    source: Microsoft Learn — Microsoft Certified Azure Administrator Associate certification page
+    retrievedAt: "2026-08-10"
+  duration: 100 minutes
+  passingScore: 700 out of 1,000
+  validity: 12 months, renewable free of charge via an online assessment on Microsoft Learn
+  format: Proctored, may include interactive components — scheduled through Pearson VUE, available in ten languages
+domains:
+  - name: Manage Azure identities and governance
+    weight: 23
+    topics:
+      - Creating and managing Microsoft Entra users and groups
+      - Managing licences, external users and self-service password reset
+      - Managing built-in Azure roles and assigning them at different scopes
+      - Implementing and managing Azure Policy and configuring resource locks
+      - Applying and managing tags, resource groups and subscriptions
+      - Managing costs with alerts, budgets and Azure Advisor recommendations
+      - Configuring management groups
+  - name: Implement and manage storage
+    weight: 18
+    topics:
+      - Configuring Azure Storage firewalls and virtual networks
+      - Creating and using shared access signature tokens and stored access policies
+      - Configuring identity-based access for Azure Files and managing access keys
+      - Creating and configuring storage accounts, redundancy and object replication
+      - Configuring storage account encryption and managing data with AzCopy
+      - Configuring Azure Files shares and Blob Storage containers
+      - Storage tiers, soft delete, snapshots, blob versioning and lifecycle management
+  - name: Deploy and manage Azure compute resources
+    weight: 23
+    topics:
+      - Interpreting, modifying and deploying ARM templates and Bicep files
+      - Creating and configuring virtual machines, disks and sizes
+      - Encryption at host and moving VMs between resource groups, subscriptions or regions
+      - Deploying VMs to availability zones and availability sets
+      - Virtual Machine Scale Sets configuration and scaling
+      - Azure Container Registry, Container Instances and Container Apps
+      - App Service plans, scaling, TLS certificates, custom DNS, backup and deployment slots
+  - name: Implement and manage virtual networking
+    weight: 18
+    topics:
+      - Creating and configuring virtual networks, subnets and network peering
+      - Configuring public IP addresses and user-defined routes
+      - Troubleshooting network connectivity
+      - Network security groups and application security groups, and evaluating effective rules
+      - Implementing Azure Bastion
+      - Configuring service endpoints and private endpoints for Azure PaaS
+      - Configuring Azure DNS and internal or public load balancers
+  - name: Monitor and maintain Azure resources
+    weight: 18
+    topics:
+      - Interpreting metrics and configuring log settings in Azure Monitor
+      - Querying and analysing logs, and setting up alert rules and action groups
+      - Monitoring VMs, storage accounts and networks with Azure Monitor Insights
+      - Using Azure Network Watcher and Connection Monitor
+      - Creating Recovery Services vaults and Azure Backup vaults
+      - Configuring backup policies and performing backup and restore operations
+      - Configuring Azure Site Recovery and performing a regional failover
+prepPath:
+  - step: Read the official study guide and note the weighting ranges
+    description: Microsoft publishes the skills measured as ranges rather than fixed percentages — identity and governance and compute are each 20–25%, storage and networking each 15–20%, and monitoring 10–15%. The weights shown above are the midpoints of those ranges, normalised to sum to 100; treat the official ranges as authoritative. The current version took effect on 17 April 2026.
+    estimatedHours: 3
+    resources:
+      - title: Study guide for Exam AZ-104
+        type: certification
+        url: https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104
+        provider: Microsoft
+        free: true
+      - title: Microsoft Certified — Azure Administrator Associate
+        type: certification
+        url: https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/
+        provider: Microsoft
+        free: true
+  - step: Work the free Microsoft Learn paths end to end
+    description: Microsoft's own learning paths track the exam objectives more closely than any third-party course, because the same team writes both. They include sandboxed Azure environments, so you can complete most of the hands-on work without spending anything or risking your own subscription.
+    estimatedHours: 35
+    resources:
+      - title: Azure Administrator Learning Paths
+        type: course
+        url: https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/
+        provider: Microsoft
+        free: true
+      - title: Azure documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/
+        provider: Microsoft
+        free: true
+  - step: Practise in a real subscription, not only the sandbox
+    description: The exam expects fluency across the portal, PowerShell, the Azure CLI and Bicep for the same task, because real administration mixes all four. Build a virtual network with peering, deploy VMs across availability zones, configure NSGs and then deliberately break connectivity and diagnose it with Network Watcher.
+    estimatedHours: 40
+    resources:
+      - title: Azure Virtual Network documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/virtual-network/
+        provider: Microsoft
+        free: true
+      - title: Bicep documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/
+        provider: Microsoft
+        free: true
+      - title: Azure CLI documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/cli/azure/
+        provider: Microsoft
+        free: true
+  - step: Take the free practice assessment and the exam sandbox
+    description: "Microsoft offers an official practice assessment at no cost, plus a sandbox that reproduces the exam interface including its interactive question types. Run the sandbox at least once: candidates lose time on exam day learning the interface rather than answering questions."
+    estimatedHours: 10
+    resources:
+      - title: AZ-104 Practice Assessment
+        type: course
+        url: https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/practice/assessment?assessment-type=practice&assessmentId=21
+        provider: Microsoft
+        free: true
+      - title: Exam AZ-104 prep videos — Exam Readiness Zone
+        type: video
+        url: https://learn.microsoft.com/en-us/shows/exam-readiness-zone/?terms=az-104
+        provider: Microsoft
+        free: true
+  - step: Plan the renewal before you sit the exam
+    description: Unlike AWS and CNCF certifications, this one expires after 12 months. Renewal is free and takes an unproctored online assessment on Microsoft Learn, available from six months before expiry — but if you let it lapse you retake the full paid exam. Put the date in a calendar the day you pass.
+    estimatedHours: 2
+    resources:
+      - title: Renew your Microsoft certification
+        type: certification
+        url: https://learn.microsoft.com/en-us/credentials/certifications/renew-your-microsoft-certification
+        provider: Microsoft
+        free: true
+prerequisites:
+  - Subject matter expertise implementing, managing and monitoring an Azure environment
+  - Familiarity with operating systems, networking, servers and virtualisation
+  - Experience with PowerShell, the Azure CLI, the Azure portal, ARM templates or Bicep, and Microsoft Entra ID
+relatedRoadmaps:
+  - cloud-architect
+  - devops-engineer
+  - sre
+faq:
+  - question: Is the AZ-104 exam hard?
+    answer: "Its difficulty comes from breadth rather than depth: the weights are unusually flat, with identity and compute at 23% each and storage, networking and monitoring each at 18%, so no domain dominates and none can be skipped. That means five subjects at once, each with its own tooling, in a hundred minutes that feel tighter once interactive tasks are involved."
+  - question: What domains does the AZ-104 exam cover, and where should I start?
+    answer: The five domains are Manage Azure identities and governance (23%), Deploy and manage Azure compute resources (23%), Implement and manage storage (18%), Implement and manage virtual networking (18%), and Monitor and maintain Azure resources (18%). Identity is the right place to start regardless of the weights, because Microsoft Entra ID underpins the other four domains and role assignments show up in storage, compute and networking questions alike.
+  - question: Where do most candidates lose points on the AZ-104 exam?
+    answer: "Networking, for the same reason as every cloud exam: NSGs, route tables, peering and DNS resolution fail in ways that look alike from the portal, so building a two-VNet peering scenario and breaking it deliberately is worthwhile practice. Backup and recovery is the other gap — it spans storage and compute, belongs cleanly to neither in most study material, and is reliably examined."
+  - question: Do I need to know PowerShell, the Azure CLI and Bicep, or just the portal?
+    answer: All of them — the exam expects fluency across the portal, PowerShell, the Azure CLI and Bicep for the same task, because real administration mixes all four. Questions specify which tool to use, and the correct `az` flag is not the correct PowerShell parameter, so pick one tool for daily work but read each question carefully for which one it is asking about.
+  - question: How much does the AZ-104 exam cost and how long does the certification last?
+    answer: Pricing is regional, so Microsoft publishes the local price at checkout rather than a single figure. The passing score is 700 out of 1,000, and the certification is valid for 12 months, renewed free of charge through an unproctored online assessment on Microsoft Learn — shorter than the two- or three-year cycles elsewhere, but the renewal takes far less preparation and costs nothing.
+  - question: What happens if I let my AZ-104 certification expire?
+    answer: Renewal is available from six months before expiry and is free, taking only an unproctored online assessment on Microsoft Learn. But if you let it lapse instead of renewing on time, you have to retake the full paid exam, which is why it is worth treating the renewal as an annual habit and putting the date in a calendar the day you pass.

@@ -13,16 +13,18 @@
 [![code licence: MIT](https://img.shields.io/badge/code-MIT-63656a?labelColor=33353a)](LICENSE)
 [![no dependencies](https://img.shields.io/badge/dataset-no%20dependencies-0f7a4a?labelColor=33353a)](#using-it)
 
-**11 career paths · 107 phases · 611 projects · 44 sourced figures**
+**11 career paths · 12 certifications · 107 phases · 63 exam domains · 56 sourced figures**
 
 </div>
 
 <br>
 
-Machine-readable career roadmaps for infrastructure and AI engineering. Each path
-is ordered phases, the skills and projects that make a phase *done*, curated
-resources, salary bands, and — where written — what the job is actually like once
-you have it.
+Machine-readable career roadmaps and certification blueprints for infrastructure
+and AI engineering. Each path is ordered phases, the skills and projects that
+make a phase *done*, curated resources, salary bands, and — where written — what
+the job is actually like once you have it. Each certification is the published
+exam blueprint with its domain weights, what it costs and where that price came
+from, and a preparation path with hours attached.
 
 <br>
 
@@ -53,6 +55,41 @@ editorial estimates, not measurements.</sub>
 
 <br>
 
+## The certifications
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/certifications-dark.png">
+  <img src="assets/certifications-light.png" alt="Twelve certification blueprints with their published domain weights, cost and preparation hours" width="100%">
+</picture>
+
+<br>
+
+The bars are the **published domain weights** — where the marks actually are,
+which is rarely the order the official curriculum lists them in. CKA puts 30% on
+troubleshooting; that is the exam telling you what the job is.
+
+| Certification | Provider | Cost | Exam | Prep |
+|---|---|---|---|---:|
+| [CKA](certifications/cka.md) | Linux Foundation / CNCF | `$445` | 2 h, pass 66% | ~120 h |
+| [CKAD](certifications/ckad.md) | Linux Foundation / CNCF | `$445` | 2 h, pass 66% | ~96 h |
+| [CKS](certifications/cks.md) | Linux Foundation / CNCF | `$445` | 2 h, pass 67% | ~98 h |
+| [LFCS](certifications/lfcs.md) | The Linux Foundation | `$445` | 2 h, pass 66% | ~78 h |
+| [Prometheus Certified Associate](certifications/prometheus-certified-associate.md) | Linux Foundation / CNCF | `$250` | 90 min, pass 75% | ~69 h |
+| [Terraform Associate](certifications/terraform-associate.md) | HashiCorp | `$70` | 1 h, pass ~70% | ~58 h |
+| [FinOps Certified Practitioner](certifications/finops-certified-practitioner.md) | FinOps Foundation | `$325` | 60 min, pass 75% | ~37 h |
+| [AWS Solutions Architect – Associate](certifications/aws-solutions-architect-associate.md) | AWS | `$150` | 130 min | ~86 h |
+| [AWS Security – Specialty](certifications/aws-security-specialty.md) | AWS | `$300` | 170 min | ~123 h |
+| [AZ-104 Azure Administrator](certifications/az-104.md) | Microsoft | *varies by region* | 120 min | ~90 h |
+| [CCSP](certifications/ccsp.md) | ISC2 | `$599` | 3 h, pass 700/1000 | ~126 h |
+| [AIGP](certifications/iapp-aigp.md) | IAPP | `$799` / `$649` member | 2 h | ~67 h |
+
+<sub>Costs carry their source and the date they were read on each page. **AZ-104
+has no single price** — Microsoft prices per region and publishes it at
+checkout — and the dataset says so rather than inventing a number. Prices change;
+check the provider before paying.</sub>
+
+<br>
+
 ## What makes this different
 
 <picture>
@@ -72,6 +109,11 @@ opinion wearing a number, and there are enough of those.
 
 The same script rejects any URL carrying a `tag`, `ref`, `aff`, `affiliate_id`
 or `utm_*` parameter. See [what we sell](#who-publishes-this-and-what-we-sell).
+
+Two more checks the schema cannot express: **exam domain weights must sum to
+100** — a blueprint that does not is a transcription error, not a rounding one —
+and every `relatedRoadmaps` / `relatedCertifications` reference must resolve in
+**both** directions.
 
 ## Honest limits of the salary data
 
@@ -97,7 +139,8 @@ to be discovered file by file.
 
 | Field | Present on |
 |---|---|
-| `phases`, `salary`, `totalDuration`, `prerequisites`, `faq` | **all 11** |
+| `phases`, `salary`, `totalDuration`, `prerequisites`, `faq` | **all 11 paths** |
+| `exam`, `domains`, `prepPath` | **all 12 certifications** |
 | `jobReality` — day-to-day, interviews, entry paths, progression, failure modes | **2** — `sre`, `finops-engineer` |
 | `stages` — coarse groupings over the phases | **1** — `sre` |
 
@@ -105,16 +148,18 @@ to be discovered file by file.
 many openings exist, what share is remote, whether demand is growing — are
 deliberately not modelled rather than invented.
 
-**573 of the 597 cited resources are free** (96%). Where a paid book is the only
+**782 of the 823 cited resources are free** (95%). Where a paid book is the only
 route to a topic, `freeAlternative` names a free one beside it.
 
 ## Using it
 
 ```
-data/roadmaps/*.yaml         source of truth — one file per path, filename == slug
-roadmaps/*.md                the same thing, generated, for reading on GitHub
-schema/roadmap.schema.json   JSON Schema (draft 2020-12) for the data
-tools/                       validation, figures, and the Markdown renderer
+data/roadmaps/*.yaml           source of truth — one file per path, filename == slug
+data/certifications/*.yaml     source of truth — one file per exam
+roadmaps/*.md                  the same, generated, for reading on GitHub
+certifications/*.md            likewise
+schema/*.schema.json           JSON Schema (draft 2020-12) for both
+tools/                         validation, figures, and the Markdown renderer
 ```
 
 **Read [`roadmaps/`](roadmaps), consume [`data/`](data/roadmaps).** A 44 KB YAML
@@ -148,7 +193,7 @@ npm run check-links      # every cited URL — CI, weekly
 npm run render-markdown  # regenerate roadmaps/*.md after changing the data
 ```
 
-`check-links` reaches 426 unique URLs. A dozen of them — MySQL's docs,
+`check-links` reaches 581 unique URLs. A dozen of them — MySQL's docs,
 `platform.openai.com`, the Ansible docs — answer 403 or 429 to any automated
 request and 200 to a browser, with or without a spoofed user agent. Those are
 reported as blocked rather than failed: a weekly red build over links that are

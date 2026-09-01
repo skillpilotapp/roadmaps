@@ -1,0 +1,239 @@
+# Certified Kubernetes Administrator (CKA)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: cka
+title: Certified Kubernetes Administrator (CKA)
+provider: The Linux Foundation / CNCF
+description: A hands-on, performance-based certification proving you can install, configure, and troubleshoot production Kubernetes clusters from the command line.
+updatedAt: "2026-08-10"
+overview: |-
+  The CKA is respected because it cannot be passed by memorising answers. You solve real cluster problems from a command line in two hours, so passing is a signal that you can operate Kubernetes rather than describe it.
+
+  ## What the weights tell you to study
+
+  Troubleshooting alone is 30%, which is the exam telling you what the job actually is: diagnosing why something broke, not building green-field clusters. Add Cluster Architecture at 25% and over half the marks sit in two domains. A candidate who has only practised happy-path deployments will run out of time.
+
+  Study in weight order rather than curriculum order. The official ordering starts with architecture and says nothing about where the marks are.
+
+  ## What the exam is actually like
+
+  **Time is the constraint, not knowledge.** Most people who fail knew the material and typed too slowly. Every candidate report says the same thing, and it is why the prep path puts shell setup on day one rather than treating it as a detail — `kubectl` aliases, completion and `--dry-run=client -o yaml` need two months of use to become automatic under pressure.
+
+  **You get the documentation, and it will not save you.** The permitted resources are the kubernetes.io docs and the Gateway API docs, including translations — you may search within them, but you may not open an external search result. Candidates who have not internalised the material lose the exam to searching, because reading a page you have never read before costs minutes you do not have.
+
+  **Tasks are independent and unevenly weighted.** Each one states its weight. Skipping a hard 4% task to bank two easy 7% ones is the correct call, and it is a decision worth practising in simulations rather than discovering live.
+
+  **Context switching is real.** Tasks run against different clusters and you must switch context between them. Solving a task perfectly in the wrong cluster scores zero, and it happens to people every sitting.
+
+  ## Where the marks are lost
+
+  Networking is the domain that surprises people: services, ingress and network policies fail in ways that look identical from `kubectl get` output and are diagnosed completely differently. etcd backup and restore is the opposite case — purely procedural, worth full marks, and reliably present, which makes drilling it the highest-return hour of preparation on the whole exam.
+
+  ## Before you book
+
+  The exam is valid for two years, and the fee includes one free retake. That changes the calculation: sitting it slightly under-prepared is a cheaper mistake than most certifications allow, and the first attempt tells you exactly which domains need work.
+
+  Budget real hands-on hours against a multi-node cluster. Reading will not get you through performance-based tasks in two hours.
+exam:
+  code: CKA
+  cost:
+    value: $445 USD
+    source: Linux Foundation Training & Certification — CKA certification pricing page (training.linuxfoundation.org)
+    retrievedAt: "2026-08-04"
+  duration: 2 hours
+  passingScore: 66%
+  validity: 2 years
+  format: Online, proctored, performance-based (command-line tasks on a live Kubernetes cluster)
+domains:
+  - name: Cluster Architecture, Installation & Configuration
+    weight: 25
+    topics:
+      - Role-based access control (RBAC)
+      - Bootstrapping a cluster with kubeadm
+      - High-availability cluster topology
+      - etcd backup and restore
+      - Managing the Kubernetes API server and control plane components
+  - name: Workloads & Scheduling
+    weight: 15
+    topics:
+      - Deployments and rolling updates/rollbacks
+      - ConfigMaps and Secrets
+      - Resource limits, requests, and autoscaling
+      - Manifest management with Kustomize and Helm
+      - Node affinity, taints, and tolerations
+  - name: Services & Networking
+    weight: 20
+    topics:
+      - Host networking configuration
+      - Cluster networking and the Container Network Interface (CNI)
+      - ClusterIP, NodePort, and LoadBalancer services
+      - Ingress controllers and rules
+      - Network policies
+  - name: Storage
+    weight: 10
+    topics:
+      - Persistent volumes and persistent volume claims
+      - Storage classes and dynamic provisioning
+      - Volume access modes
+      - Configuring applications with persistent storage
+  - name: Troubleshooting
+    weight: 30
+    topics:
+      - Diagnosing cluster component failures
+      - Monitoring cluster and application resource usage
+      - Managing and analyzing logs
+      - Troubleshooting services and networking
+      - Troubleshooting application and node failures
+prepPath:
+  - step: Set up a real multi-node cluster
+    description: Install kubeadm on 2-3 VMs so you have somewhere to break things. kind or minikube work for single-node practice, but node-level failures — a kubelet that will not start, a node stuck NotReady — are a third of the exam and need more than one node to reproduce.
+    estimatedHours: 8
+    resources:
+      - title: Creating a cluster with kubeadm
+        type: documentation
+        url: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes the Hard Way
+        type: tutorial
+        url: https://github.com/kelseyhightower/kubernetes-the-hard-way
+        provider: Kelsey Hightower
+        free: true
+      - title: kind (Kubernetes in Docker)
+        type: documentation
+        url: https://kind.sigs.k8s.io/
+        provider: Kubernetes SIGs
+        free: true
+  - step: Configure your shell before studying anything else
+    description: Set up the kubectl alias, completion and the --dry-run=client -o yaml habit on day one, then use them for every subsequent step. Candidates lose the exam on typing speed, not knowledge, and two months of practice with the shortcuts is what makes them automatic under time pressure.
+    estimatedHours: 2
+    resources:
+      - title: kubectl Cheat Sheet
+        type: documentation
+        url: https://kubernetes.io/docs/reference/kubectl/quick-reference/
+        provider: Kubernetes
+        free: true
+      - title: kubectl Quick Reference — aliases and completion
+        type: documentation
+        url: https://kubernetes.io/docs/reference/kubectl/quick-reference/
+        provider: Kubernetes
+        free: true
+  - step: Study Troubleshooting and Cluster Architecture first
+    description: These two domains are 55% of the score, and they are the ones you cannot cram. Work them in weight order rather than in curriculum order — the official ordering starts with architecture but says nothing about where the marks are.
+    estimatedHours: 45
+    resources:
+      - title: Kubernetes Documentation
+        type: documentation
+        url: https://kubernetes.io/docs/home/
+        provider: Kubernetes
+        free: true
+      - title: Troubleshooting Clusters
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/debug/debug-cluster/
+        provider: Kubernetes
+        free: true
+      - title: Debug Running Pods
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/
+        provider: Kubernetes
+        free: true
+      - title: CKA Curriculum (official)
+        type: documentation
+        url: https://github.com/cncf/curriculum
+        provider: CNCF
+        free: true
+  - step: Cover Networking, Workloads and Storage
+    description: The remaining 45%. Networking is where most candidates lose marks they expected to keep — services, ingress and network policies each fail in ways that look identical from kubectl get output and are diagnosed completely differently.
+    estimatedHours: 35
+    resources:
+      - title: Services, Load Balancing, and Networking
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/services-networking/
+        provider: Kubernetes
+        free: true
+      - title: Network Policies
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+        provider: Kubernetes
+        free: true
+      - title: Persistent Volumes
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+        provider: Kubernetes
+        free: true
+      - title: "Kubernetes: Up and Running"
+        type: book
+        provider: Brendan Burns, Joe Beda, Kelsey Hightower, Lachlan Evenson
+        free: false
+        isbnAsin: 109811020X
+        year: 2022
+        freeAlternative:
+          title: Kubernetes Documentation — Concepts
+          url: https://kubernetes.io/docs/concepts/
+  - step: Practise etcd backup and restore until it is muscle memory
+    description: It appears regularly, it is worth full marks, and it is entirely procedural — which makes it the highest-return single task on the exam. Restore into a broken cluster rather than only taking snapshots of a healthy one, because that is the version that gets asked.
+    estimatedHours: 6
+    resources:
+      - title: Operating etcd clusters for Kubernetes
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/
+        provider: Kubernetes
+        free: true
+      - title: Backing up an etcd cluster
+        type: documentation
+        url: https://etcd.io/docs/latest/op-guide/recovery/
+        provider: etcd
+        free: true
+  - step: Break your own cluster on purpose
+    description: Stop the kubelet, corrupt a manifest, exhaust a node's memory, apply a network policy that blocks the traffic you need. Diagnosing a failure someone else caused is the exam; diagnosing one you caused is how you learn the symptom-to-cause mapping fast enough.
+    estimatedHours: 12
+    resources:
+      - title: Troubleshooting kubeadm
+        type: documentation
+        url: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/troubleshooting-kubeadm/
+        provider: Kubernetes
+        free: true
+      - title: Monitoring, Logging, and Debugging
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/debug/
+        provider: Kubernetes
+        free: true
+  - step: Take full-length timed simulations
+    description: Two hours, a timer, and only the official documentation open — the exam permits kubernetes.io and nothing else. Review every missed task and, more importantly, every task you got right slowly, because time is the constraint that fails prepared candidates.
+    estimatedHours: 12
+    resources:
+      - title: Killer.sh CKA Simulator
+        type: course
+        url: https://killer.sh/cka
+        provider: Killer.sh
+        free: false
+      - title: CKA Exam Candidate Handbook
+        type: documentation
+        url: https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2
+        provider: The Linux Foundation
+        free: true
+      - title: Important Instructions — CKA and CKAD
+        type: documentation
+        url: https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cka-and-ckad
+        provider: The Linux Foundation
+        free: true
+prerequisites:
+  - Comfortable with Linux command-line administration
+  - Basic understanding of containers and Docker
+relatedRoadmaps:
+  - devops-engineer
+  - platform-engineer
+  - sre
+  - cloud-architect
+faq:
+  - question: Is the CKA exam hard?
+    answer: "It is hard in a specific way: the material is not obscure, but the exam is two hours of live command-line tasks against a real cluster, and most candidates who fail knew the content and typed too slowly. Time is the constraint, not knowledge — which is why the prep path treats shell setup (kubectl aliases, completion, --dry-run=client -o yaml) as day-one work rather than a detail."
+  - question: What domains does the CKA exam cover, and what should I study first?
+    answer: Troubleshooting is 30% of the score and Cluster Architecture, Installation & Configuration is 25% — together over half the exam. Study in that weight order rather than the official curriculum order, which starts with architecture but says nothing about where the marks actually are. The remaining 45% splits across Services & Networking (20%), Workloads & Scheduling (15%), and Storage (10%).
+  - question: Where do most candidates lose marks on the CKA?
+    answer: "Networking is the domain that surprises people: services, ingress and network policies fail in ways that look identical from kubectl get output but are diagnosed completely differently. etcd backup and restore is the opposite case — purely procedural and reliably present, which makes drilling it the highest-return single hour of preparation on the whole exam."
+  - question: Can I use documentation during the CKA exam?
+    answer: "Yes — the permitted resources are the kubernetes.io docs and the Gateway API docs, including translations, and you may search within them. It will not save an unprepared candidate: you may not open an external search result, and reading a page you have never read before costs minutes you do not have in a two-hour exam."
+  - question: What happens if I fail the CKA on my first attempt?
+    answer: The certification fee includes one free retake, and the credential is valid for two years once you pass. That changes the calculation — sitting the exam slightly under-prepared is a cheaper mistake than most certifications allow, and a first attempt tells you exactly which domains need more work before the retake.
+  - question: Do I need a multi-node cluster to prepare for the CKA?
+    answer: Yes. Single-node tools like kind or minikube work for practising deployments, but node-level failures — a kubelet that will not start, a node stuck NotReady — are roughly a third of the exam's Troubleshooting domain and cannot be reproduced with only one node. Setting up 2-3 VMs with kubeadm is the first step in the prep path for that reason.

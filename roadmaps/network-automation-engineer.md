@@ -363,6 +363,13 @@ The roadmap frames this as a scale question rather than a preference: at a few t
 
 [Site Reliability Engineer](sre.md) · [Platform Engineer](platform-engineer.md) · [DevOps Engineer](devops-engineer.md) · [Observability Engineer](observability-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Linux Foundation Certified System Administrator (LFCS)](../certifications/lfcs.md) | The Linux Foundation | `$445 USD` | 2 hours, pass 67% |
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/network-automation-engineer.yaml`](../data/roadmaps/network-automation-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

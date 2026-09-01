@@ -375,6 +375,15 @@ No — the roadmap treats influence as a core skill because architects usually h
 
 [FinOps Engineer](finops-engineer.md) · [Cloud Security Engineer](cloud-security-engineer.md) · [Site Reliability Engineer](sre.md) · [Platform Engineer](platform-engineer.md) · [Database Reliability Engineer](database-reliability-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+| [Microsoft Certified — Azure Administrator Associate (AZ-104)](../certifications/az-104.md) | Microsoft | `Price varies by the country or region in which the exam is proctored — Microsoft publishes the local price at checkout` | 100 minutes, pass 700 out of 1,000 |
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [Certified Cloud Security Professional (CCSP)](../certifications/ccsp.md) | ISC2 | `$599 USD` | 3 hours, pass 700 out of 1000 points |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/cloud-architect.yaml`](../data/roadmaps/cloud-architect.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

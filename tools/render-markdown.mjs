@@ -15,15 +15,21 @@ import { parse } from 'yaml'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const OUT = join(ROOT, 'roadmaps')
+const OUT_CERTS = join(ROOT, 'certifications')
 const CHECK = process.argv.includes('--check')
 
 const LEVEL = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' }
 const esc = (s) => String(s).replace(/\|/g, '\\|').replace(/\n+/g, ' ').trim()
 
-const roadmaps = readdirSync(join(ROOT, 'data/roadmaps'))
-  .filter((f) => f.endsWith('.yaml'))
-  .map((f) => parse(readFileSync(join(ROOT, 'data/roadmaps', f), 'utf8')))
-  .sort((a, b) => a.title.localeCompare(b.title))
+const load = (dir) =>
+  readdirSync(join(ROOT, dir))
+    .filter((f) => f.endsWith('.yaml'))
+    .map((f) => parse(readFileSync(join(ROOT, dir, f), 'utf8')))
+    .sort((a, b) => a.title.localeCompare(b.title))
+
+const roadmaps = load('data/roadmaps')
+const certs = load('data/certifications')
+const certBySlug = Object.fromEntries(certs.map((c) => [c.slug, c]))
 
 const resourceLine = (r) => {
   const label = r.url ? `[${esc(r.title)}](${r.url})` : `**${esc(r.title)}**`
@@ -151,9 +157,152 @@ const render = (r) => {
     L.push('')
   }
 
+  const relCerts = [...(r.relatedCertifications ?? [])].filter((s) => certBySlug[s])
+  if (relCerts.length) {
+    L.push('## Certifications on this path')
+    L.push('')
+    L.push('| Certification | Provider | Cost | Exam |')
+    L.push('|---|---|---|---|')
+    for (const s of relCerts) {
+      const c = certBySlug[s]
+      L.push(`| [${esc(c.title)}](../certifications/${s}.md) | ${esc(c.provider)} | \`${c.exam.cost.value}\` | ${esc(c.exam.duration)}, pass ${esc(c.exam.passingScore)} |`)
+    }
+    L.push('')
+  }
+
   L.push('---')
   L.push('')
   L.push(`<sub>Source of truth: [\`data/roadmaps/${r.slug}.yaml\`](../data/roadmaps/${r.slug}.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>`)
+  L.push('')
+  return L.join('\n')
+}
+
+
+/** A weight bar, so a blueprint can be read at a glance instead of arithmetically. */
+const bar = (weight) => '█'.repeat(Math.max(1, Math.round(weight / 5))) + '░'.repeat(Math.max(0, 20 - Math.round(weight / 5)))
+
+const renderCert = (c) => {
+  const L = []
+  L.push(`<!-- Generated from data/certifications/${c.slug}.yaml by tools/render-markdown.mjs. Do not edit. -->`)
+  L.push('')
+  L.push(`# ${c.title}`)
+  L.push('')
+  L.push(`> ${c.description}`)
+  L.push('')
+  L.push(`**${c.provider}** · code \`${c.exam.code}\` · **${c.exam.cost.value}** · ${c.exam.duration} · pass ${c.exam.passingScore} · valid ${c.exam.validity} · updated ${c.updatedAt}`)
+  L.push('')
+  L.push(c.overview)
+  L.push('')
+
+  L.push('## The exam')
+  L.push('')
+  L.push('| | |')
+  L.push('|---|---|')
+  L.push(`| Code | \`${c.exam.code}\` |`)
+  L.push(`| Cost | **${c.exam.cost.value}** |`)
+  L.push(`| Duration | ${esc(c.exam.duration)} |`)
+  L.push(`| Passing score | ${esc(c.exam.passingScore)} |`)
+  L.push(`| Valid for | ${esc(c.exam.validity)} |`)
+  L.push(`| Format | ${esc(c.exam.format)} |`)
+  L.push('')
+  L.push(`<sub>Cost from ${esc(c.exam.cost.source)}, read on ${c.exam.cost.retrievedAt}. Prices change and this one is not re-read continuously — check the provider before paying.</sub>`)
+  L.push('')
+
+  L.push('## What the exam weights')
+  L.push('')
+  L.push('The blueprint decides where study time goes. These are the published weights.')
+  L.push('')
+  L.push('| Domain | Weight | |')
+  L.push('|---|---:|---|')
+  for (const d of [...c.domains].sort((a, b) => b.weight - a.weight)) {
+    L.push(`| ${esc(d.name)} | ${d.weight}% | \`${bar(d.weight)}\` |`)
+  }
+  L.push('')
+  for (const d of c.domains) {
+    L.push(`<details><summary><b>${esc(d.name)}</b> — ${d.weight}%</summary>`)
+    L.push('')
+    for (const t of d.topics) L.push(`- ${t}`)
+    L.push('')
+    L.push('</details>')
+    L.push('')
+  }
+
+  if (c.prerequisites?.length) {
+    L.push('## Before you book it')
+    L.push('')
+    for (const p of c.prerequisites) L.push(`- ${p}`)
+    L.push('')
+  }
+
+  const hours = c.prepPath.reduce((n, s) => n + s.estimatedHours, 0)
+  L.push('## How to prepare')
+  L.push('')
+  L.push(`${c.prepPath.length} steps, **about ${hours} hours** in total.`)
+  L.push('')
+  c.prepPath.forEach((step, i) => {
+    L.push(`### ${i + 1}. ${step.step}`)
+    L.push('')
+    L.push(`<sub>**~${step.estimatedHours} hours**</sub>`)
+    L.push('')
+    L.push(step.description)
+    L.push('')
+    if (step.resources?.length) {
+      const free = step.resources.filter((x) => x.free).length
+      L.push(`<details><summary><b>Resources</b> — ${step.resources.length}, of which ${free} free</summary>`)
+      L.push('')
+      for (const r of step.resources) L.push(resourceLine(r))
+      L.push('')
+      L.push('</details>')
+      L.push('')
+    }
+  })
+
+  const rel = [...(c.relatedRoadmaps ?? [])].filter((s) => roadmaps.some((x) => x.slug === s))
+  if (rel.length) {
+    L.push('## Where this fits')
+    L.push('')
+    L.push(rel.map((s) => `[${roadmaps.find((x) => x.slug === s).title.replace(/ Roadmap$/, '')}](../roadmaps/${s}.md)`).join(' · '))
+    L.push('')
+  }
+
+  if (c.faq?.length) {
+    L.push('## Questions')
+    L.push('')
+    for (const q of c.faq) {
+      L.push(`<details><summary><b>${esc(q.question)}</b></summary><br>`)
+      L.push('')
+      L.push(q.answer)
+      L.push('')
+      L.push('</details>')
+      L.push('')
+    }
+  }
+
+  L.push('---')
+  L.push('')
+  L.push(`<sub>Source of truth: [\`data/certifications/${c.slug}.yaml\`](../data/certifications/${c.slug}.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>`)
+  L.push('')
+  return L.join('\n')
+}
+
+const certIndex = () => {
+  const L = []
+  L.push('<!-- Generated by tools/render-markdown.mjs. Do not edit. -->')
+  L.push('')
+  L.push('# The certifications')
+  L.push('')
+  L.push('Exam blueprints with the published domain weights, what each one costs and')
+  L.push('where the price came from, and a preparation path with hours attached.')
+  L.push('Generated from [`data/certifications`](../data/certifications).')
+  L.push('')
+  L.push('| Certification | Provider | Cost | Exam | Prep |')
+  L.push('|---|---|---|---|---:|')
+  for (const c of certs) {
+    const hours = c.prepPath.reduce((n, s) => n + s.estimatedHours, 0)
+    L.push(`| [${esc(c.title)}](${c.slug}.md) | ${esc(c.provider)} | \`${c.exam.cost.value}\` | ${esc(c.exam.duration)}, pass ${esc(c.exam.passingScore)} | ~${hours} h |`)
+  }
+  L.push('')
+  L.push('<sub>Costs carry the source and the date they were read, in each page. Prices change; check the provider before paying.</sub>')
   L.push('')
   return L.join('\n')
 }
@@ -177,15 +326,20 @@ const index = () => {
 }
 
 mkdirSync(OUT, { recursive: true })
-const files = { 'README.md': index(), ...Object.fromEntries(roadmaps.map((r) => [`${r.slug}.md`, render(r)])) }
+mkdirSync(OUT_CERTS, { recursive: true })
+const files = {
+  ...Object.fromEntries([['README.md', index()], ...roadmaps.map((r) => [`${r.slug}.md`, render(r)])]
+    .map(([n, b]) => [join(OUT, n), b])),
+  ...Object.fromEntries([['README.md', certIndex()], ...certs.map((c) => [`${c.slug}.md`, renderCert(c)])]
+    .map(([n, b]) => [join(OUT_CERTS, n), b])),
+}
 
 let drifted = []
-for (const [name, body] of Object.entries(files)) {
-  const path = join(OUT, name)
+for (const [path, body] of Object.entries(files)) {
   if (CHECK) {
     let current = null
     try { current = readFileSync(path, 'utf8') } catch { /* missing counts as drift */ }
-    if (current !== body) drifted.push(name)
+    if (current !== body) drifted.push(path.replace(ROOT, ''))
   } else {
     writeFileSync(path, body)
   }
@@ -199,5 +353,5 @@ if (CHECK) {
   }
   console.log(`${Object.keys(files).length} generated files match the data.`)
 } else {
-  console.log(`wrote ${Object.keys(files).length} files to roadmaps/`)
+  console.log(`wrote ${Object.keys(files).length} files to roadmaps/ and certifications/`)
 }

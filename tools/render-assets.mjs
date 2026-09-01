@@ -19,16 +19,23 @@ import { parse } from 'yaml'
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const OUT = join(ROOT, 'assets')
 
-const roadmaps = readdirSync(join(ROOT, 'data/roadmaps'))
-  .filter((f) => f.endsWith('.yaml'))
-  .map((f) => parse(readFileSync(join(ROOT, 'data/roadmaps', f), 'utf8')))
-  .sort((a, b) => a.title.localeCompare(b.title))
+const load = (dir) =>
+  readdirSync(join(ROOT, dir))
+    .filter((f) => f.endsWith('.yaml'))
+    .map((f) => parse(readFileSync(join(ROOT, dir, f), 'utf8')))
+    .sort((a, b) => a.title.localeCompare(b.title))
+
+const roadmaps = load('data/roadmaps')
+const certs = load('data/certifications')
 
 const totals = {
   paths: roadmaps.length,
   phases: roadmaps.reduce((n, r) => n + r.phases.length, 0),
   projects: roadmaps.reduce((n, r) => n + r.phases.reduce((m, p) => m + p.projects.length, 0), 0),
-  figures: roadmaps.reduce((n, r) => n + 4, 0),
+  certs: certs.length,
+  domains: certs.reduce((n, c) => n + c.domains.length, 0),
+  prepHours: certs.reduce((n, c) => n + c.prepPath.reduce((m, s) => m + s.estimatedHours, 0), 0),
+  figures: roadmaps.length * 4 + certs.length,
 }
 
 const THEMES = {
@@ -62,14 +69,15 @@ const banner = (t) => shell(t, `
       <h1>SkillPilot <span>Roadmaps</span></h1>
     </div>
     <div class="rule"></div>
-    <p><b>${totals.paths} infrastructure and AI engineering career paths</b>, as open
-       data — and every number in them says where it came from.</p>
+    <p><b>${totals.paths} career paths and ${totals.certs} certification blueprints</b> for
+       infrastructure and AI engineering, as open data — and every number in them
+       says where it came from.</p>
   </div>
   <div class="card mono">
     <div><span class="k">value:</span> <span class="v">"$172,508"</span></div>
     <div><span class="k">source:</span> <span class="s">Glassdoor SRE estimate (US)</span></div>
     <div><span class="k">retrievedAt:</span> <span class="v">"2026-08-04"</span></div>
-    <div class="stamp"><span class="dot"></span>CI fails without these</div>
+    <div class="stamp"><span class="dot"></span>${totals.figures} sourced figures · CI fails without these</div>
   </div>
 </div>`, `
   .inner{position:relative;height:100%;padding:0 72px;display:flex;align-items:center;justify-content:space-between;gap:56px}
@@ -160,7 +168,7 @@ const anatomy = (t) => shell(t, `
 <div class="ln hi">    <span class="k">source:</span> <span class="s">Glassdoor Site Reliability</span></div>
 <div class="ln hi">      <span class="s">Engineer estimate (overall average, US)</span></div>
 <div class="ln hi">    <span class="k">retrievedAt:</span> <span class="str">"2026-08-04"</span></div>
-    <div class="stamp"><span class="dot"></span>44 sourced figures, all enforced</div>
+    <div class="stamp"><span class="dot"></span>${totals.figures} sourced figures, all enforced</div>
   </div>
 </div>`, `
   .inner{position:relative;height:100%;padding:0 64px;display:flex;align-items:center;gap:60px}
@@ -186,7 +194,75 @@ const anatomy = (t) => shell(t, `
   .dot{width:6px;height:6px;background:${t.ok};display:inline-block}
 `, 1280, 520)
 
-const FIGURES = { banner: [banner, 1280, 400], paths: [paths, 1280, 620], anatomy: [anatomy, 1280, 520] }
+
+/**
+ * The headline price, for a figure that has one line per exam.
+ *
+ * `exam.cost.value` is deliberately not just a number — IAPP's reads "$799
+ * (non-member) / $649 USD (IAPP member). Retakes $625 / $475. Excludes the $250
+ * certification maintenance fee…", which is the honest answer and the reason
+ * the field is a string. The full text stays in the data and in the generated
+ * page; only this figure needs it short.
+ *
+ * AZ-104 has no figure at all — Microsoft prices the exam per region and
+ * publishes it at checkout — so it reads "varies" rather than a truncated
+ * sentence. That is the data being honest, not a gap.
+ */
+const headlinePrice = (value) => value.match(/\$[\d,]+/)?.[0] ?? 'varies'
+
+// ── the certifications, by what the exam actually weighs ──────────────────
+const certsFig = (t) => shell(t, `
+<div class="inner">
+  <header>
+    <h2>The certifications</h2>
+    <div class="totals mono">${totals.certs} EXAMS · ${totals.domains} DOMAINS · ~${totals.prepHours} PREP HOURS</div>
+  </header>
+  <div class="rows">
+    ${certs.map((c) => {
+      const hours = c.prepPath.reduce((n, s) => n + s.estimatedHours, 0)
+      const top = [...c.domains].sort((a, b) => b.weight - a.weight)[0]
+      return `
+      <div class="row">
+        <div class="code mono">${c.exam.code}</div>
+        <div class="name">${c.title.replace(/\s*\([^)]*\)\s*$/, '')}<div class="prov">${c.provider}</div></div>
+        <div class="weights">${[...c.domains].sort((a, b) => b.weight - a.weight)
+          .map((d) => `<i style="flex:${d.weight}" title="${d.name}"></i>`).join('')}</div>
+        <div class="heaviest mono">${top.weight}% ${top.name.length > 28 ? top.name.slice(0, 27) + '…' : top.name}</div>
+        <div class="num mono">${headlinePrice(c.exam.cost.value)}</div>
+        <div class="num mono dim">~${hours}h</div>
+      </div>`
+    }).join('')}
+  </div>
+  <footer class="mono">BARS ARE THE PUBLISHED DOMAIN WEIGHTS · CI REJECTS A BLUEPRINT THAT DOES NOT SUM TO 100</footer>
+</div>`, `
+  .inner{position:relative;height:100%;padding:46px 64px 0}
+  header{display:flex;align-items:baseline;justify-content:space-between;
+         padding-bottom:16px;border-bottom:1px solid ${t.line2};margin-bottom:8px}
+  h2{font-family:Archivo,sans-serif;font-size:30px;font-weight:600;letter-spacing:-.8px;color:${t.ink}}
+  .totals{font-size:12px;letter-spacing:.1em;color:${t.graphite2}}
+  .row{display:grid;grid-template-columns:74px 1fr 180px 226px 70px 52px;align-items:center;
+       gap:16px;padding:9px 0;border-bottom:1px solid ${t.line}}
+  .code{font-size:11.5px;color:${t.signal};letter-spacing:.04em}
+  .name{font-family:Archivo,sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.3px;
+        color:${t.ink};line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .prov{font-family:Inter,sans-serif;font-size:11.5px;font-weight:400;color:${t.graphite2};margin-top:2px}
+  .weights{display:flex;gap:2px;height:9px}
+  .weights i{background:${t.signal};opacity:.9}
+  .weights i:nth-child(2){opacity:.68} .weights i:nth-child(3){opacity:.5}
+  .weights i:nth-child(4){opacity:.36} .weights i:nth-child(n+5){opacity:.24}
+  .heaviest{font-size:11px;color:${t.graphite};white-space:nowrap;overflow:hidden}
+  .num{font-size:12.5px;color:${t.ink};text-align:right;white-space:nowrap;overflow:hidden}
+  .num.dim{color:${t.graphite2}}
+  footer{position:absolute;left:64px;right:64px;bottom:22px;font-size:10.5px;
+         letter-spacing:.09em;color:${t.graphite2};padding-top:12px}
+`, 1280, 800)
+
+const FIGURES = {
+  banner: [banner, 1280, 400],
+  paths: [paths, 1280, 620],
+  certifications: [certsFig, 1280, 800],
+  anatomy: [anatomy, 1280, 520],
+}
 
 const browser = await chromium.launch({ channel: 'chrome' })
 for (const [name, [render, w, h]] of Object.entries(FIGURES)) {

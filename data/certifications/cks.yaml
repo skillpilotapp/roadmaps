@@ -1,0 +1,288 @@
+# Certified Kubernetes Security Specialist (CKS)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: cks
+title: Certified Kubernetes Security Specialist (CKS)
+provider: The Linux Foundation / CNCF
+description: A hands-on, performance-based certification proving you can harden a Kubernetes cluster, secure its supply chain, and detect runtime threats from the command line. Requires a passed CKA to sit.
+updatedAt: "2026-08-08"
+overview: |-
+  The CKS is the hardest of the three CNCF Kubernetes exams, and the reason is structural rather than academic. It assumes everything the CKA tested and then asks you to do it under an adversarial framing, in the same two hours.
+
+  ## The prerequisite is the fact people discover too late
+
+  **You must have passed the CKA before you may attempt the CKS.** This is not a recommendation. The Linux Foundation verifies it, and the CKA itself expires after two years — so a lapsed CKA means renewing it before you can book.
+
+  There is one piece of good news, new since **18 June 2026**: passing or recertifying the CKS now automatically reinstates or extends your CKA under the CARE program, whether your CKA is still active or has already expired, with the CKA expiry realigned to your new CKS date. That changes the ownership maths considerably. Two credentials, one exam every two years.
+
+  ## Both credentials expire in two years
+
+  The CKS is valid for **2 years**, the same window as the CKA rather than a shorter one. Before CARE that meant two separate renewal exams on two separate clocks. Now the CKS carries the CKA along with it, which makes staying current cheaper than it used to be — provided you keep renewing the CKS and not just letting it lapse.
+
+  ## What the weights tell you to study
+
+  The three 20% domains — Microservice Vulnerabilities, Supply Chain Security, and Monitoring, Logging and Runtime Security — are 60% of the score between them, and they are the ones a CKA holder has least exposure to. Cluster Setup and Cluster Hardening, at 15% each, are the closest to familiar ground.
+
+  Supply chain is where the gap is widest. Scanners, signatures, SBOMs and admission policy are day-job tools for very few Kubernetes administrators, and they are worth as much as cluster hardening and system hardening combined.
+
+  ## What actually fails people
+
+  **Tool breadth, not Kubernetes depth.** Falco, Trivy, kube-bench, Kyverno, cosign, AppArmor, seccomp and gVisor all appear. Each is shallow on its own; collectively they are more surface area than the CKA covers, and a candidate meeting any of them for the first time in the exam loses that task.
+
+  **Time, again.** The tasks are longer than the CKA's because hardening means editing a manifest, restarting a component, and then verifying the control actually took effect. Skipping verification is how people submit work that scores nothing.
+
+  **Wider permitted docs, no more time to read them.** Eight documentation domains are allowed rather than one. That is more places to get lost, not a safety net.
+
+  ## Before you book
+
+  Budget real hours against a cluster you are willing to break, and expect the security tooling to take longer than the Kubernetes parts. Reading about a hardening control and applying one under a timer are different skills, and only the second one is on the exam.
+exam:
+  code: CKS
+  cost:
+    value: $445 USD (exam only); $625 USD bundled with THRIVE-ONE; $645 USD bundled with the LFS260 course
+    source: Linux Foundation Training & Certification — CKS certification page (training.linuxfoundation.org)
+    retrievedAt: "2026-08-08"
+  duration: 2 hours
+  passingScore: 67%
+  validity: 2 years
+  format: Online, proctored, performance-based (command-line tasks on live Kubernetes clusters, Kubernetes v1.35)
+domains:
+  - name: Cluster Setup
+    weight: 15
+    topics:
+      - Network security policies that restrict cluster-level access
+      - Reviewing component configuration against the CIS benchmark (etcd, kubelet, kubedns, kube-apiserver)
+      - Ingress objects with TLS
+      - Protecting node metadata and endpoints
+      - Verifying platform binaries before deploying
+  - name: Cluster Hardening
+    weight: 15
+    topics:
+      - Role-based access control to minimize exposure
+      - Service account hygiene — disabling defaults, minimizing permissions
+      - Restricting access to the Kubernetes API
+      - Upgrading Kubernetes to avoid known vulnerabilities
+  - name: System Hardening
+    weight: 10
+    topics:
+      - Minimizing the host OS footprint to reduce attack surface
+      - Least-privilege identity and access management
+      - Minimizing external access to the network
+      - Kernel hardening tools — AppArmor and seccomp
+  - name: Minimize Microservice Vulnerabilities
+    weight: 20
+    topics:
+      - Applying the appropriate Pod Security Standards
+      - Managing Kubernetes Secrets and encryption at rest
+      - Isolation techniques — multi-tenancy and sandboxed containers
+      - Pod-to-pod encryption with Cilium or Istio
+  - name: Supply Chain Security
+    weight: 20
+    topics:
+      - Minimizing base image footprint
+      - Understanding your supply chain — SBOM, CI/CD, artifact repositories
+      - Securing the supply chain — permitted registries, signing and validating artifacts
+      - Static analysis of workloads and images with Kubesec and KubeLinter
+  - name: Monitoring, Logging and Runtime Security
+    weight: 20
+    topics:
+      - Behavioral analytics to detect malicious activity
+      - Detecting threats across infrastructure, apps, networks, data, users and workloads
+      - Investigating and identifying phases of an attack
+      - Ensuring container immutability at runtime
+      - Using Kubernetes audit logs to monitor access
+prepPath:
+  - step: Confirm your CKA is valid before you buy anything
+    description: You cannot sit the CKS without having passed the CKA, and the Linux Foundation checks. Look up your expiry date first. Since 18 June 2026, passing the CKS also reinstates or extends an expired CKA, but that is a reward for passing — it does not remove the entry requirement.
+    estimatedHours: 1
+    resources:
+      - title: CKS certification page — prerequisites and pricing
+        type: certification
+        url: https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
+        provider: The Linux Foundation
+        free: true
+      - title: FAQ — CKA, CKAD and CKS
+        type: documentation
+        url: https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks
+        provider: The Linux Foundation
+        free: true
+      - title: Expanding CARE — passing CKS extends your CKA
+        type: documentation
+        url: https://training.linuxfoundation.org/blog/expanding-care-passing-cks-can-now-extend-your-cka-certification/
+        provider: The Linux Foundation
+        free: true
+  - step: Read the curriculum and the security checklist end to end
+    description: The CNCF publishes the exact competency list, and the Kubernetes security checklist maps almost one-to-one onto it. Read both before studying anything, so you know which of the six domains you already cover from CKA work and which are genuinely new ground.
+    estimatedHours: 5
+    resources:
+      - title: CKS Curriculum (official)
+        type: documentation
+        url: https://github.com/cncf/curriculum
+        provider: CNCF
+        free: true
+      - title: Kubernetes Security Checklist
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/security-checklist/
+        provider: Kubernetes
+        free: true
+      - title: Security concepts overview
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/
+        provider: Kubernetes
+        free: true
+  - step: Harden a cluster you built yourself against the CIS benchmark
+    description: Run kube-bench against your own kubeadm cluster, then fix what it flags — API server flags, kubelet configuration, etcd permissions. This is Cluster Setup and Cluster Hardening, 30% of the exam, and reading about the controls teaches you far less than watching a check flip to PASS.
+    estimatedHours: 20
+    resources:
+      - title: kube-bench — CIS Kubernetes Benchmark checks
+        type: documentation
+        url: https://github.com/aquasecurity/kube-bench
+        provider: Aqua Security
+        free: true
+      - title: CIS Kubernetes Benchmark
+        type: documentation
+        url: https://www.cisecurity.org/benchmark/kubernetes
+        provider: Center for Internet Security
+        free: true
+      - title: RBAC good practices
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/rbac-good-practices/
+        provider: Kubernetes
+        free: true
+      - title: Using RBAC authorization
+        type: documentation
+        url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+        provider: Kubernetes
+        free: true
+      - title: Set kubelet parameters via a config file
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/
+        provider: Kubernetes
+        free: true
+  - step: Drill the pod-level controls until you can write them from memory
+    description: Pod Security Standards, security contexts, seccomp, AppArmor, secrets encryption at rest and sandboxed runtimes are the 20% Microservice Vulnerabilities domain plus half of System Hardening. Every one is a small YAML block, and writing them without the docs open is the difference between finishing and running out of time.
+    estimatedHours: 22
+    resources:
+      - title: Pod Security Standards
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/pod-security-standards/
+        provider: Kubernetes
+        free: true
+      - title: Configure a security context for a pod or container
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+        provider: Kubernetes
+        free: true
+      - title: Restrict a container's syscalls with seccomp
+        type: tutorial
+        url: https://kubernetes.io/docs/tutorials/security/seccomp/
+        provider: Kubernetes
+        free: true
+      - title: Restrict a container's access to resources with AppArmor
+        type: tutorial
+        url: https://kubernetes.io/docs/tutorials/security/apparmor/
+        provider: Kubernetes
+        free: true
+      - title: Encrypting confidential data at rest
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
+        provider: Kubernetes
+        free: true
+  - step: Build a supply chain you can defend
+    description: Scan images with Trivy, cut a base image down to distroless, sign an artifact with cosign and enforce a permitted-registry policy with Kyverno. Supply Chain Security is 20% and the tools are unfamiliar to most CKA holders, which makes it the domain where preparation pays back fastest.
+    estimatedHours: 20
+    resources:
+      - title: Trivy — vulnerability and misconfiguration scanner
+        type: documentation
+        url: https://trivy.dev/
+        provider: Aqua Security
+        free: true
+      - title: Kyverno policy engine
+        type: documentation
+        url: https://kyverno.io/docs/introduction/
+        provider: Kyverno
+        free: true
+      - title: Signing artifacts with cosign
+        type: documentation
+        url: https://docs.sigstore.dev/cosign/signing/overview/
+        provider: Sigstore
+        free: true
+      - title: Runtime Class — selecting a sandboxed runtime
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/containers/runtime-class/
+        provider: Kubernetes
+        free: true
+      - title: Practical Cloud Security
+        type: book
+        provider: Chris Dotson
+        free: false
+        isbnAsin: "1098148177"
+        year: 2023
+        freeAlternative:
+          title: AWS Well-Architected Security Pillar
+          url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+  - step: Detect a threat instead of preventing it
+    description: Install Falco, write a rule, trigger it and read the output. Then turn on API server audit logging and find a specific action in the log. Monitoring and Runtime Security is 20%, and it is the one domain where hardening instincts do not help — the task is noticing, not blocking.
+    estimatedHours: 16
+    resources:
+      - title: Falco documentation
+        type: documentation
+        url: https://falco.org/docs/
+        provider: Falco
+        free: true
+      - title: Auditing — audit policy and backends
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+        provider: Kubernetes
+        free: true
+      - title: gVisor documentation
+        type: documentation
+        url: https://gvisor.dev/docs/
+        provider: gVisor
+        free: true
+      - title: "Kubernetes: Up and Running"
+        type: book
+        provider: Brendan Burns, Joe Beda, Kelsey Hightower, Lachlan Evenson
+        free: false
+        isbnAsin: 109811020X
+        year: 2022
+        freeAlternative:
+          title: Kubernetes Documentation — Concepts
+          url: https://kubernetes.io/docs/concepts/
+  - step: Sit timed simulations with only the permitted docs open
+    description: Two hours, a timer, and the eight allowed documentation domains — kubernetes.io, Falco, Cilium, Istio, etcd, bom, ingress-nginx and the Kubernetes blog. Your registration includes two Killer.sh attempts. Use the first one early enough that its results can still change how you study.
+    estimatedHours: 14
+    resources:
+      - title: Resources allowed during the exam
+        type: documentation
+        url: https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed
+        provider: The Linux Foundation
+        free: true
+      - title: Killer.sh CKS simulator
+        type: course
+        url: https://killer.sh/cks
+        provider: Killer.sh
+        free: false
+      - title: Candidate handbook
+        type: documentation
+        url: https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2
+        provider: The Linux Foundation
+        free: true
+prerequisites:
+  - A passed CKA — the Linux Foundation requires it before you may attempt the CKS
+  - Fluent kubectl and YAML authoring under time pressure
+  - Comfortable with Linux command-line administration, systemd and container runtimes
+relatedRoadmaps:
+  - cloud-security-engineer
+faq:
+  - question: Is the CKS exam hard?
+    answer: "It is the hardest of the three CNCF Kubernetes exams, and the reason is structural: it assumes everything the CKA tested and then asks you to do it under an adversarial framing, in the same two hours. What actually fails people is tool breadth rather than Kubernetes depth — Falco, Trivy, kube-bench, Kyverno, cosign, AppArmor, seccomp and gVisor all appear, and meeting any of them for the first time in the exam loses that task."
+  - question: Do I need to pass the CKA before I can take the CKS?
+    answer: Yes. You must have passed the CKA before you may attempt the CKS — this is not a recommendation, the Linux Foundation checks it, and a lapsed CKA (they expire after two years) means renewing it before you can even book. Since 18 June 2026, passing the CKS also reinstates or extends an expired CKA under the CARE program, but that is a reward for passing, not a way around the entry requirement.
+  - question: What domains does the CKS exam cover, and which ones should I focus on?
+    answer: Three domains are weighted 20% each — Minimize Microservice Vulnerabilities, Supply Chain Security, and Monitoring, Logging and Runtime Security — and together they are 60% of the score, plus they're the ones a CKA holder has least exposure to. Cluster Setup and Cluster Hardening, at 15% each, and System Hardening at 10%, are closer to familiar ground from CKA study.
+  - question: How much does the CKS certification cost, and how long is it valid?
+    answer: The exam alone costs $445 USD, with bundles at $625 USD including THRIVE-ONE or $645 USD including the LFS260 course. It runs 2 hours, requires a 67% passing score, and is valid for 2 years — the same window as the CKA, and since June 2026 a CKS pass also extends the linked CKA to the same expiry date.
+  - question: Why is supply chain security singled out as the hardest part to prepare for?
+    answer: "Supply chain is where the gap is widest for most candidates: scanners, signatures, SBOMs and admission policy are day-job tools for very few Kubernetes administrators, yet the Supply Chain Security domain alone is worth as much as Cluster Hardening and System Hardening combined. The prep path has a dedicated step for it — scanning images with Trivy, cutting a base image to distroless, signing with cosign and enforcing a permitted-registry policy with Kyverno."
+  - question: What documentation can I use during the CKS exam?
+    answer: Eight documentation domains are allowed during the exam — kubernetes.io, Falco, Cilium, Istio, etcd, bom, ingress-nginx and the Kubernetes blog — compared to just one for the CKA. That is more places to get lost, not a safety net, since the extra breadth does not come with any extra time to read.

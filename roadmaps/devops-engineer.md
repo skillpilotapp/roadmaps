@@ -365,6 +365,15 @@ It covers making the system you built observable: metrics, Prometheus, Grafana d
 
 [Site Reliability Engineer](sre.md) · [Platform Engineer](platform-engineer.md) · [Cloud Architect](cloud-architect.md) · [FinOps Engineer](finops-engineer.md) · [Observability Engineer](observability-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+| [Microsoft Certified — Azure Administrator Associate (AZ-104)](../certifications/az-104.md) | Microsoft | `Price varies by the country or region in which the exam is proctored — Microsoft publishes the local price at checkout` | 100 minutes, pass 700 out of 1,000 |
+| [Linux Foundation Certified System Administrator (LFCS)](../certifications/lfcs.md) | The Linux Foundation | `$445 USD` | 2 hours, pass 67% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/devops-engineer.yaml`](../data/roadmaps/devops-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

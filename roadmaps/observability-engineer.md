@@ -422,6 +422,13 @@ You need working knowledge of Linux, containers and HTTP services, comfort readi
 
 [Site Reliability Engineer](sre.md) · [DevOps Engineer](devops-engineer.md) · [Platform Engineer](platform-engineer.md) · [Database Reliability Engineer](database-reliability-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Prometheus Certified Associate (PCA)](../certifications/prometheus-certified-associate.md) | The Linux Foundation / CNCF | `$250 USD (includes one free retake); $299 USD bundled with the LFS241 course` | 90 minutes, pass 75% |
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/observability-engineer.yaml`](../data/roadmaps/observability-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

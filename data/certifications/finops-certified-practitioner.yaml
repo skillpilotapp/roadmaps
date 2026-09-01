@@ -1,0 +1,218 @@
+# FinOps Certified Practitioner (FOCP)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: finops-certified-practitioner
+title: FinOps Certified Practitioner (FOCP)
+provider: FinOps Foundation (under The Linux Foundation)
+description: A foundational, multiple-choice certification covering the FinOps Framework — cloud cost allocation, forecasting, rate and usage optimization, and running a FinOps practice across engineering and finance.
+updatedAt: "2026-08-08"
+overview: |-
+  The FOCP is a knowledge exam, and it is an easy one by certification standards. Fifty multiple-choice questions, one hour, not proctored, and everything it tests is published free on the FinOps Foundation's own site. Treating it like the CKA will waste your time.
+
+  ## The weights on this page are ours, not the Foundation's
+
+  **The FinOps Foundation does not publish percentage weights for the FOCP.** The four domains above are the official FinOps Framework Domains, taken from the Foundation's own documentation, but the percentages are SkillPilot's editorial estimate — allocated from the number of capabilities in each domain and the emphasis of the official course outline.
+
+  Treat them as a study-time guide, not a blueprint. What is safe to conclude is directional: the data and optimization domains carry the most material, and practice management is the smallest.
+
+  ## What the exam is actually like
+
+  **It tests vocabulary, not judgement.** You will be asked what a term means, which phase an activity belongs to, or which persona cares about a metric. There is no cluster to fix and no console to drive. If you can define the Framework's terms precisely, you pass.
+
+  **The margin is narrower than it looks.** 75% means 38 of 50. That is a comfortable bar for anyone who has read the Framework properly and a tight one for anyone skimming, because twelve wrong answers arrive faster than you would expect when several options are all plausible-sounding FinOps language.
+
+  **Three attempts, twelve months, no proctor.** You buy access rather than a seat, and you sit it when you are ready. This lowers the stakes considerably compared with a proctored exam booked for a fixed hour.
+
+  ## Who this is actually for
+
+  This certification signals shared vocabulary, not capability. It is worth real money to people who need to talk credibly across engineering and finance — platform engineers moving into cost work, FinOps analysts, cloud architects on procurement conversations, consultants who need the badge on a proposal.
+
+  It is not a substitute for having reduced a cloud bill. Nobody will hire you as a FinOps engineer on the FOCP alone, and the exam does not pretend otherwise. Pair it with one documented optimization you actually delivered.
+
+  ## Before you book
+
+  The credential is **valid for 24 months**, renewed by sitting a separate recertification exam rather than by paying an annual maintenance fee. The renewal is not future-dated — it runs 24 months from the day you pass it, so recertifying early costs you the unused remainder.
+exam:
+  code: FOCP
+  cost:
+    value: $325 USD (exam only); $500 USD bundled with the self-paced course
+    source: FinOps Foundation training portal — FinOps Certified Practitioner Certification Exam Only and self-paced learning path (learn.finops.org)
+    retrievedAt: "2026-08-08"
+  duration: 1 hour
+  passingScore: 75%
+  validity: 24 months
+  format: Online, not proctored, 50 multiple-choice questions — three attempts within 12 months of purchase
+domains:
+  - name: Understand Usage & Cost
+    weight: 30
+    topics:
+      - Data ingestion and the anatomy of a cloud bill
+      - Cost allocation, tagging and account hierarchy
+      - Showback and chargeback models
+      - Reporting and analytics for each FinOps persona
+      - Anomaly management
+  - name: Quantify Business Value
+    weight: 25
+    topics:
+      - Planning and estimating cloud spend
+      - Forecasting models and variance
+      - Budgeting and budget alerts
+      - KPIs and benchmarking
+      - Unit economics and cost per business metric
+  - name: Optimize Usage & Cost
+    weight: 30
+    topics:
+      - Rate optimization — reserved instances, savings plans, committed use discounts
+      - Usage optimization — rightsizing, scheduling and waste elimination
+      - Architecting and workload placement
+      - Licensing and SaaS cost management
+      - Sustainability considerations
+  - name: Manage the FinOps Practice
+    weight: 15
+    topics:
+      - FinOps principles, personas and their motivations
+      - The Inform, Optimize and Operate phases
+      - The FinOps maturity model — Crawl, Walk, Run
+      - Governance, policy and risk
+      - Building a FinOps team and cultural adoption
+prepPath:
+  - step: Read the FinOps Framework end to end
+    description: The Framework is the exam. Read the principles, personas, phases and maturity model in one sitting, then the four domains. It is free, it is short, and it is the source the questions are written from — most of what you need is on these pages.
+    estimatedHours: 6
+    resources:
+      - title: FinOps Framework Overview
+        type: documentation
+        url: https://www.finops.org/framework/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Principles
+        type: documentation
+        url: https://www.finops.org/framework/principles/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Phases — Inform, Optimize, Operate
+        type: documentation
+        url: https://www.finops.org/framework/phases/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Maturity Model
+        type: documentation
+        url: https://www.finops.org/framework/maturity-model/
+        provider: FinOps Foundation
+        free: true
+  - step: Learn the personas and why each one cares
+    description: A recurring question type describes a stakeholder — an engineer, a finance analyst, a procurement lead — and asks what they need. The exam tests whether you can match a motivation to a persona, which is vocabulary rather than reasoning, so learn the published list rather than improvising from your own org chart.
+    estimatedHours: 3
+    resources:
+      - title: FinOps Personas
+        type: documentation
+        url: https://www.finops.org/framework/personas/
+        provider: FinOps Foundation
+        free: true
+      - title: What is FinOps?
+        type: documentation
+        url: https://www.finops.org/introduction/what-is-finops/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Scopes
+        type: documentation
+        url: https://www.finops.org/framework/scopes/
+        provider: FinOps Foundation
+        free: true
+  - step: Work through the capabilities in the two data-heavy domains
+    description: Allocation, reporting, forecasting, budgeting and unit economics are where the specific terms live. Read each capability page and note the vocabulary — amortization, blended versus unblended rates, cost per unit — because the questions distinguish between terms that sound interchangeable and are not.
+    estimatedHours: 10
+    resources:
+      - title: FinOps Capabilities
+        type: documentation
+        url: https://www.finops.org/framework/capabilities/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Domains
+        type: documentation
+        url: https://www.finops.org/framework/domains/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps KPIs
+        type: documentation
+        url: https://www.finops.org/resources/finops-kpis/
+        provider: FinOps Foundation
+        free: true
+      - title: FinOps Terminology
+        type: documentation
+        url: https://www.finops.org/resources/terminology/
+        provider: FinOps Foundation
+        free: true
+  - step: Get the optimization mechanics straight on one real bill
+    description: "Open a billing console and find the discount options: reserved instances, savings plans, committed use discounts. Knowing which commitment applies to which resource, and how rightsizing differs from rate optimization, is the distinction the exam tests most often and the one people conflate."
+    estimatedHours: 8
+    resources:
+      - title: Optimize Usage & Cost domain
+        type: documentation
+        url: https://www.finops.org/framework/domains/
+        provider: FinOps Foundation
+        free: true
+      - title: FOCUS — FinOps Open Cost and Usage Specification
+        type: documentation
+        url: https://focus.finops.org/
+        provider: FinOps Foundation
+        free: true
+      - title: Cloud FinOps
+        type: book
+        provider: J. R. Storment, Mike Fuller
+        free: false
+        isbnAsin: "1492098353"
+        year: 2023
+        freeAlternative:
+          title: The FinOps Framework
+          url: https://www.finops.org/framework/
+  - step: Decide whether to buy the course or sit the exam directly
+    description: The exam-only option costs less; the bundle adds roughly six hours of official modules that mirror the Framework closely. If you already run cloud cost work daily, the free Framework plus the exam is usually enough. If FinOps is new to you, the course is the cheaper path to a first-attempt pass.
+    estimatedHours: 6
+    resources:
+      - title: FinOps Certified Practitioner Certification Exam Only
+        type: certification
+        url: https://learn.finops.org/finops-certified-practitioner-certification-exam
+        provider: FinOps Foundation
+        free: false
+      - title: FinOps Certified Practitioner — self-paced course and exam
+        type: course
+        url: https://learn.finops.org/path/finops-certified-practitioner-self-paced
+        provider: FinOps Foundation
+        free: false
+      - title: FinOps Certification overview
+        type: certification
+        url: https://training.linuxfoundation.org/certification/certified-finops/
+        provider: The Linux Foundation
+        free: true
+  - step: Review the framework once more against the 75% bar
+    description: You need 38 of 50 correct, which leaves room for twelve misses and no more. Re-read the capability pages you skimmed and check you can define every term without looking. The exam is not proctored and is not hands-on, so recall is the whole task.
+    estimatedHours: 4
+    resources:
+      - title: FinOps Framework Overview
+        type: documentation
+        url: https://www.finops.org/framework/
+        provider: FinOps Foundation
+        free: true
+      - title: Adopting FinOps — getting started
+        type: documentation
+        url: https://www.finops.org/resources/adopting-finops/
+        provider: FinOps Foundation
+        free: true
+prerequisites:
+  - Familiarity with at least one major cloud provider's billing model (AWS, Azure, or Google Cloud)
+  - Basic understanding of budgeting and cost reporting
+relatedRoadmaps:
+  - finops-engineer
+faq:
+  - question: Is the FOCP exam hard?
+    answer: It is an easy one by certification standards. Fifty multiple-choice questions in one hour, not proctored, and everything it tests is published free on the FinOps Foundation's own site — it tests vocabulary rather than judgement, so treating it like a hands-on exam such as the CKA will waste your time.
+  - question: What does the FOCP exam actually test?
+    answer: "It tests whether you can define the FinOps Framework's terms precisely: what a term means, which phase (Inform, Optimize, Operate) an activity belongs to, or which persona cares about a given metric. There is no cluster to fix and no console to drive, so recall of the published Framework is the whole task."
+  - question: Are the FOCP domain weights official?
+    answer: No. The four domains — Understand Usage & Cost, Quantify Business Value, Optimize Usage & Cost, and Manage the FinOps Practice — are the official FinOps Framework Domains, but the FinOps Foundation does not publish percentage weights for them. The percentages shown here are SkillPilot's editorial estimate, allocated from the number of capabilities in each domain and the emphasis of the official course outline, so treat them as a study-time guide rather than a blueprint.
+  - question: How much does the FOCP certification cost?
+    answer: The exam-only option is $325 USD, or $500 USD bundled with the self-paced course from the FinOps Foundation training portal. The bundle adds roughly six hours of official modules that mirror the Framework closely, which is the cheaper path to a first-attempt pass if FinOps is new to you.
+  - question: What score do I need to pass the FOCP, and how many attempts do I get?
+    answer: You need 75%, which is 38 of 50 questions correct — a comfortable bar for anyone who has read the Framework properly, but a tight one for anyone skimming, since twelve wrong answers arrive faster than expected when several options sound like plausible FinOps language. You get three attempts within 12 months of purchase, and the exam is not proctored, so you sit it when you are ready.
+  - question: Who is the FOCP certification actually useful for?
+    answer: It signals shared vocabulary, not capability, so it is worth real money to people who need to talk credibly across engineering and finance — platform engineers moving into cost work, FinOps analysts, cloud architects on procurement conversations, and consultants who need the badge on a proposal. It is not a substitute for having reduced a cloud bill, and it is best paired with one documented optimization you actually delivered.

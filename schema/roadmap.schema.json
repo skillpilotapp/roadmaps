@@ -29,7 +29,7 @@
       "properties": {
         "title": { "type": "string", "minLength": 1 },
         "type": {
-          "enum": ["documentation", "course", "tutorial", "book", "video", "tool", "article", "lab", "community", "practice"]
+          "enum": ["documentation", "course", "tutorial", "certification", "book", "video"]
         },
         "url": { "type": "string", "format": "uri" },
         "provider": { "type": "string", "minLength": 1 },

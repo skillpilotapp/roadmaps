@@ -398,6 +398,16 @@ It treats compliance as engineering rather than a questionnaire: expressing a wr
 
 [Site Reliability Engineer](sre.md) · [DevOps Engineer](devops-engineer.md) · [Cloud Architect](cloud-architect.md) · [AI Security Engineer](ai-security-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Certified Kubernetes Security Specialist (CKS)](../certifications/cks.md) | The Linux Foundation / CNCF | `$445 USD (exam only); $625 USD bundled with THRIVE-ONE; $645 USD bundled with the LFS260 course` | 2 hours, pass 67% |
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+| [Certified Cloud Security Professional (CCSP)](../certifications/ccsp.md) | ISC2 | `$599 USD` | 3 hours, pass 700 out of 1000 points |
+| [AWS Certified Security - Specialty (SCS-C02)](../certifications/aws-security-specialty.md) | Amazon Web Services | `$300 USD` | 170 minutes, pass 750 on a scaled score of 100–1,000 |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/cloud-security-engineer.yaml`](../data/roadmaps/cloud-security-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

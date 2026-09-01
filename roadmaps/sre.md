@@ -463,6 +463,14 @@ Data and stateful systems reliability is described as the wall in this roadmap, 
 
 [DevOps Engineer](devops-engineer.md) · [Database Reliability Engineer](database-reliability-engineer.md) · [Observability Engineer](observability-engineer.md) · [Cloud Architect](cloud-architect.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+| [Linux Foundation Certified System Administrator (LFCS)](../certifications/lfcs.md) | The Linux Foundation | `$445 USD` | 2 hours, pass 67% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/sre.yaml`](../data/roadmaps/sre.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

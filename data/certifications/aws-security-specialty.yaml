@@ -1,0 +1,246 @@
+# AWS Certified Security - Specialty (SCS-C02)
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: aws-security-specialty
+title: AWS Certified Security - Specialty (SCS-C02)
+provider: Amazon Web Services
+description: The specialty certification for securing AWS workloads — threat detection and incident response, logging, infrastructure security, identity, data protection and multi-account governance.
+updatedAt: "2026-08-17"
+overview: |-
+  The Security Specialty is the AWS certification that assumes you already run things on AWS. It does not teach you the platform — it asks whether you can tell why a request that should have been denied was allowed, and find the answer in logs you configured yourself.
+
+  ## What the weights tell you to study
+
+  Infrastructure Security leads at 20%, with Logging and Monitoring and Data Protection at 18% each. Those three are more than half the exam, and all three reward hands-on work over reading.
+
+  Identity and Access Management is nominally 16%, and that number understates it badly. Policy evaluation logic is the machinery underneath questions in every other domain: an infrastructure question about a VPC endpoint, a data question about a KMS key, a governance question about an SCP all resolve to whether a specific principal is allowed a specific action. Learn the evaluation order first and the rest of the exam gets easier.
+
+  Threat Detection and Incident Response and Management and Security Governance sit at 14% each. They are the smallest domains and they overlap heavily — both assume a multi-account organisation with centralised, automated controls.
+
+  ## What the exam is actually like
+
+  **170 minutes, 65 questions, and only 50 of them count.** Fifteen are unscored and unmarked, so a question that seems unreasonably obscure may simply not be scored. Answer it and move on rather than losing four minutes to it.
+
+  **Scaled scoring, 100 to 1,000, pass at 750, compensatory across the whole exam.** No individual domain has to be passed. There is no penalty for a wrong answer, which makes leaving anything blank strictly worse than guessing.
+
+  **Questions are scenarios with long stems.** Most describe an architecture, state a symptom, and offer four plausible remedies. The skill being tested is elimination under time pressure — reading the last sentence first, to find out what is actually being asked, is worth practising.
+
+  ## Where the marks are lost
+
+  Two places. The first is the boundary between a resource policy and an identity policy — S3 bucket policies and KMS key policies both need to agree with IAM, and questions are built precisely on that seam. The second is troubleshooting: several task statements are explicitly about diagnosing something already broken, and candidates who only ever built working configurations have never seen the failure mode being described.
+
+  ## Before you book
+
+  The exam is $300 and the certification is valid for three years. AWS publishes the in-scope and out-of-scope service lists in the exam guide appendix — read them before planning your study, because the surface is narrower than "AWS security" implies, and weeks are lost to services that cannot appear.
+exam:
+  code: SCS-C02
+  cost:
+    value: $300 USD
+    source: AWS Certification — AWS Certified Security - Specialty exam page (aws.amazon.com/certification)
+    retrievedAt: "2026-08-17"
+  duration: 170 minutes
+  passingScore: 750 on a scaled score of 100–1,000
+  validity: 3 years
+  format: 65 questions (50 scored, 15 unscored), multiple choice and multiple response, at a test centre or online proctored
+domains:
+  - name: Threat Detection and Incident Response
+    weight: 14
+    topics:
+      - Design and implement an incident response plan
+      - Detect security threats and anomalies by using AWS services
+      - Respond to compromised resources and workloads
+      - GuardDuty, Security Hub, Detective and the AWS Security Finding Format (ASFF)
+      - Credential invalidation and rotation after a compromise
+  - name: Security Logging and Monitoring
+    weight: 18
+    topics:
+      - Design and implement monitoring and alerting for security events
+      - Troubleshoot security monitoring and alerting
+      - Design and implement a logging solution
+      - Troubleshoot logging solutions
+      - Design a log analysis solution with Athena and CloudWatch Logs Insights
+  - name: Infrastructure Security
+    weight: 20
+    topics:
+      - Design and implement security controls for edge services
+      - Design and implement network security controls
+      - Design and implement security controls for compute workloads
+      - Troubleshoot network security
+      - WAF, Shield, CloudFront, Route 53, VPC design and endpoint policies
+  - name: Identity and Access Management
+    weight: 16
+    topics:
+      - Design, implement and troubleshoot authentication for AWS resources
+      - Design, implement and troubleshoot authorization for AWS resources
+      - Policy evaluation logic across identity, resource, SCP and permissions boundaries
+      - Cross-account access and role assumption
+      - IAM Identity Center and federation
+  - name: Data Protection
+    weight: 18
+    topics:
+      - Design and implement controls that provide confidentiality and integrity for data in transit
+      - Design and implement controls that provide confidentiality and integrity for data at rest
+      - Design and implement controls to manage the lifecycle of data at rest
+      - Design and implement controls to protect credentials, secrets and cryptographic key materials
+      - KMS key policies, grants and multi-Region keys
+  - name: Management and Security Governance
+    weight: 14
+    topics:
+      - Develop a strategy to centrally deploy and manage AWS accounts
+      - Implement a secure and consistent deployment strategy for cloud resources
+      - Evaluate the compliance of AWS resources
+      - Identify security gaps through architectural reviews and cost analysis
+      - AWS Organizations, Control Tower, Config and service control policies
+prepPath:
+  - step: Read the exam guide and the sample questions first
+    description: The guide is where the weights, the task statements and the in-scope service list live, and the last of those is the one people skip. Knowing which services are explicitly out of scope saves weeks — this exam is narrower than the AWS security surface suggests.
+    estimatedHours: 3
+    resources:
+      - title: AWS Certified Security - Specialty exam guide
+        type: documentation
+        url: https://d1.awsstatic.com/training-and-certification/docs-security-spec/AWS-Certified-Security-Specialty_Exam-Guide.pdf
+        provider: AWS
+        free: true
+      - title: AWS Certified Security - Specialty exam page
+        type: certification
+        url: https://aws.amazon.com/certification/certified-security-specialty/
+        provider: AWS
+        free: true
+      - title: AWS Skill Builder — exam prep
+        type: course
+        url: https://skillbuilder.aws/exam-prep
+        provider: AWS
+        free: true
+  - step: Master IAM policy evaluation logic before anything else
+    description: "Identity is 16% by weight and far more by influence: infrastructure, data protection and governance questions all resolve to 'is this request allowed?'. Learn the order — explicit deny, SCP, resource policy, permissions boundary, identity policy — until you can trace it without hesitating."
+    estimatedHours: 25
+    resources:
+      - title: Policy evaluation logic
+        type: documentation
+        url: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html
+        provider: AWS
+        free: true
+      - title: Service control policies (SCPs)
+        type: documentation
+        url: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html
+        provider: AWS
+        free: true
+      - title: Permissions boundaries for IAM entities
+        type: documentation
+        url: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
+        provider: AWS
+        free: true
+      - title: IAM Policy Simulator
+        type: documentation
+        url: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html
+        provider: AWS
+        free: true
+  - step: Build the logging pipeline in a real account
+    description: Logging and Monitoring is 18%. Turn on an organization CloudTrail, ship to a locked S3 bucket in a separate account, query it in Athena, and then break it — remove the bucket policy statement CloudTrail needs and watch what the failure looks like. Troubleshooting is a named task statement.
+    estimatedHours: 25
+    resources:
+      - title: AWS CloudTrail User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html
+        provider: AWS
+        free: true
+      - title: Querying AWS CloudTrail logs with Athena
+        type: documentation
+        url: https://docs.aws.amazon.com/athena/latest/ug/cloudtrail-logs.html
+        provider: AWS
+        free: true
+      - title: VPC Flow Logs
+        type: documentation
+        url: https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html
+        provider: AWS
+        free: true
+      - title: CloudWatch Logs Insights query syntax
+        type: documentation
+        url: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html
+        provider: AWS
+        free: true
+  - step: Work Infrastructure Security, the largest domain
+    description: At 20% it is the biggest single block. Security groups against NACLs, VPC endpoint policies, WAF rule evaluation order, and where traffic is actually inspected — the questions are usually 'why is this request still reaching the instance?', which is a troubleshooting skill and not a recall one.
+    estimatedHours: 30
+    resources:
+      - title: VPC security best practices
+        type: documentation
+        url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html
+        provider: AWS
+        free: true
+      - title: AWS WAF Developer Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html
+        provider: AWS
+        free: true
+      - title: VPC endpoint policies
+        type: documentation
+        url: https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html
+        provider: AWS
+        free: true
+  - step: Learn KMS properly — key policies, grants and multi-Region
+    description: "Data Protection is 18% and most of it is KMS. The recurring trap is a key policy and an IAM policy that disagree: access to a key needs both, and knowing which one is missing from an error message is worth several questions on its own."
+    estimatedHours: 20
+    resources:
+      - title: AWS KMS key policies
+        type: documentation
+        url: https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html
+        provider: AWS
+        free: true
+      - title: Grants in AWS KMS
+        type: documentation
+        url: https://docs.aws.amazon.com/kms/latest/developerguide/grants.html
+        provider: AWS
+        free: true
+      - title: AWS Secrets Manager User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html
+        provider: AWS
+        free: true
+      - title: Practical Cloud Security
+        type: book
+        provider: Chris Dotson
+        free: false
+        isbnAsin: "1098148177"
+        year: 2023
+        freeAlternative:
+          title: AWS Well-Architected Security Pillar
+          url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+  - step: Cover incident response and governance last, together
+    description: "They are 14% each and they share a mental model: multi-account, centralised, automated. Organizations, Control Tower, Config rules, GuardDuty and Security Hub all answer the same question at different layers, and studying them as one block is faster than as two domains."
+    estimatedHours: 20
+    resources:
+      - title: AWS Security Incident Response Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/welcome.html
+        provider: AWS
+        free: true
+      - title: AWS Control Tower User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html
+        provider: AWS
+        free: true
+      - title: AWS Config Developer Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
+        provider: AWS
+        free: true
+prerequisites:
+  - Two or more years of hands-on experience securing AWS workloads
+  - Working knowledge of IAM, VPC networking and at least one AWS logging service
+relatedRoadmaps:
+  - cloud-security-engineer
+  - cloud-architect
+  - sre
+faq:
+  - question: Is the AWS Security Specialty exam hard?
+    answer: It assumes you already run things on AWS — it does not teach the platform, it tests whether you can explain why a request that should have been denied was allowed and find the answer in logs you configured yourself. The questions are scenarios with long stems describing an architecture and a symptom, so the skill being tested is elimination under time pressure rather than recall.
+  - question: What domains does the SCS-C02 exam cover, and what should I study first?
+    answer: Infrastructure Security leads at 20%, with Security Logging and Monitoring and Data Protection at 18% each — those three make up more than half the exam and all reward hands-on work over reading. Identity and Access Management is nominally 16%, but policy evaluation logic underneath it feeds questions in every other domain, so learning the evaluation order first makes the rest of the exam easier.
+  - question: Where do most candidates lose marks on the AWS Security Specialty exam?
+    answer: "Two places. The first is the boundary between a resource policy and an identity policy — S3 bucket policies and KMS key policies both need to agree with IAM, and questions are built precisely on that seam. The second is troubleshooting: several task statements are explicitly about diagnosing something already broken, which candidates who only ever built working configurations have never seen."
+  - question: How much does the AWS Security Specialty certification cost, and how long is it valid?
+    answer: The exam costs $300 USD and the certification is valid for three years. AWS publishes the in-scope and out-of-scope service lists in the exam guide appendix, and reading them before planning your study matters because the surface is narrower than 'AWS security' implies — weeks are otherwise lost preparing for services that cannot appear.
+  - question: What is the format of the SCS-C02 exam?
+    answer: It is 170 minutes long with 65 questions, but only 50 are scored — the other 15 are unscored and unmarked, so an unreasonably obscure question may simply not count. Scoring is scaled from 100 to 1,000 with a pass mark of 750, compensatory across the whole exam, and there is no penalty for a wrong answer, which makes leaving anything blank strictly worse than guessing.
+  - question: What should I focus on when preparing for the Identity and Access Management domain?
+    answer: Master policy evaluation logic before anything else — the order of explicit deny, SCP, resource policy, permissions boundary and identity policy — because infrastructure, data protection and governance questions all resolve to whether a specific principal is allowed a specific action. Data Protection prep should cover KMS key policies and grants too, since the recurring trap is a key policy and an IAM policy that disagree, and knowing which one is missing from an error message is worth several questions.

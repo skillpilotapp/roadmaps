@@ -435,6 +435,13 @@ Guardrails run on every request in production, where latency and false positives
 
 [AI Agents Engineer](ai-agents-engineer.md) · [Site Reliability Engineer](sre.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Artificial Intelligence Governance Professional (AIGP)](../certifications/iapp-aigp.md) | IAPP (International Association of Privacy Professionals) | `$799 USD (non-member) / $649 USD (IAPP member). Retakes $625 / $475. Excludes the $250 certification maintenance fee per two-year term, waived by $295/year IAPP membership.` | 2 hours 45 minutes, pass 300 on a scaled 100-500 range (not a percentage) — 85 of the 100 questions are scored |
+| [Certified Cloud Security Professional (CCSP)](../certifications/ccsp.md) | ISC2 | `$599 USD` | 3 hours, pass 700 out of 1000 points |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/ai-security-engineer.yaml`](../data/roadmaps/ai-security-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

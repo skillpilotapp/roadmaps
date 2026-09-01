@@ -376,6 +376,14 @@ Yes — Databases on Kubernetes is one of the ten phases, and the roadmap is can
 
 [Site Reliability Engineer](sre.md) · [Cloud Architect](cloud-architect.md) · [Platform Engineer](platform-engineer.md) · [DevOps Engineer](devops-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [Linux Foundation Certified System Administrator (LFCS)](../certifications/lfcs.md) | The Linux Foundation | `$445 USD` | 2 hours, pass 67% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/database-reliability-engineer.yaml`](../data/roadmaps/database-reliability-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

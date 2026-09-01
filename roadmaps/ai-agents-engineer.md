@@ -328,6 +328,12 @@ With non-deterministic output, "it seemed better" is not measurement — an eval
 
 [AI Security Engineer](ai-security-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Artificial Intelligence Governance Professional (AIGP)](../certifications/iapp-aigp.md) | IAPP (International Association of Privacy Professionals) | `$799 USD (non-member) / $649 USD (IAPP member). Retakes $625 / $475. Excludes the $250 certification maintenance fee per two-year term, waived by $295/year IAPP membership.` | 2 hours 45 minutes, pass 300 on a scaled 100-500 range (not a percentage) — 85 of the 100 questions are scored |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/ai-agents-engineer.yaml`](../data/roadmaps/ai-agents-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

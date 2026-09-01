@@ -435,6 +435,13 @@ A cloud bill going up is not by itself bad news, and a bill going down is not by
 
 [Site Reliability Engineer](sre.md) · [DevOps Engineer](devops-engineer.md) · [Cloud Architect](cloud-architect.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [FinOps Certified Practitioner (FOCP)](../certifications/finops-certified-practitioner.md) | FinOps Foundation (under The Linux Foundation) | `$325 USD (exam only); $500 USD bundled with the self-paced course` | 1 hour, pass 75% |
+| [AWS Certified Solutions Architect – Associate (SAA-C03)](../certifications/aws-solutions-architect-associate.md) | Amazon Web Services | `$150 USD` | 130 minutes, pass 720 out of 1,000 (scaled) |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/finops-engineer.yaml`](../data/roadmaps/finops-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>

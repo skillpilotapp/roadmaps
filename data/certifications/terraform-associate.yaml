@@ -1,0 +1,233 @@
+# HashiCorp Certified Terraform Associate
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: terraform-associate
+title: HashiCorp Certified Terraform Associate
+provider: HashiCorp
+description: A multiple-choice certification validating foundational Terraform skills — infrastructure as code concepts, the core workflow, configuration language, modules, and state management.
+updatedAt: "2026-08-10"
+overview: |-
+  The Terraform Associate is the common entry-level infrastructure-as-code certification for DevOps and platform engineers. It is deliberately broad rather than deep: one hour, multiple choice, testing whether you understand Terraform's core workflow, configuration language, modules and state well enough to use it safely on a team.
+
+  ## The weights on this page are ours, not HashiCorp's
+
+  **HashiCorp does not publish percentage weights per objective**, unlike the Linux Foundation for the CKA. The eight objectives above come directly from HashiCorp's own exam review, but the percentages are SkillPilot's estimate, calculated proportionally from the number of published sub-objectives in each domain so study time can be allocated sensibly.
+
+  Treat them as a prioritisation aid, not an official figure. What is safe to conclude is directional: Terraform Configuration and Core Workflow carry the largest share of sub-objectives and are the safest places to over-invest.
+
+  ## Which version to study
+
+  The 003 exam retired on 8 January 2026. **TA-004 is the current version**, and study material written for 003 is now out of date — a real risk, because a great deal of third-party CKA-style prep content for Terraform still targets the retired exam. Check the version on anything you buy.
+
+  ## What the exam is actually like
+
+  **It rewards having typed the commands.** The questions describe a situation and ask which command applies. Someone who has run `terraform plan` and read the output recognises the scenario; someone who has only read about it is matching keywords and will be caught by the distractors.
+
+  **State is where solo users lose marks.** Locking, drift, `import` and the `state` subcommands only ever come up when someone else is applying to the same infrastructure. If you have only used Terraform alone, this is the domain to over-prepare.
+
+  **HCP Terraform appears more than people expect.** Workspaces, remote runs, the private registry and Sentinel are HashiCorp's own platform, and the exam covers them. Candidates who use only the open-source CLI reliably underestimate this.
+
+  **The distractors are plausible.** Answers distinguish between reasonable options rather than between right and obviously wrong, which is why reviewing the reasoning behind answers you got right is worth as much as reviewing the ones you missed.
+
+  ## Before you book
+
+  Unlike the CKA, **no retake is included** — each attempt is paid. That makes the sample questions under real time pressure a cheaper diagnostic than a second sitting, and it is the argument for running the full core workflow hands-on before you touch practice questions at all.
+exam:
+  code: TA-004
+  cost:
+    value: $70.50 USD plus applicable taxes
+    source: HashiCorp Developer — Infrastructure Automation Certification page (developer.hashicorp.com/certifications/infrastructure-automation)
+    retrievedAt: "2026-08-04"
+  duration: 1 hour
+  passingScore: Not publicly disclosed by HashiCorp (scaled scoring model)
+  validity: 2 years
+  format: Online, proctored, multiple choice / multiple answer / true-false
+domains:
+  - name: Infrastructure as Code (IaC) with Terraform
+    weight: 8
+    topics:
+      - Explain what IaC is
+      - Describe the advantages of IaC patterns
+      - Explain how Terraform manages multi-cloud and hybrid-cloud workflows
+  - name: Terraform Fundamentals
+    weight: 11
+    topics:
+      - Install and version Terraform providers
+      - Describe how Terraform uses providers
+      - Write configuration using multiple providers
+      - Explain how Terraform uses and manages state
+  - name: Core Terraform Workflow
+    weight: 19
+    topics:
+      - Describe the Terraform workflow
+      - Initialize a Terraform working directory
+      - Validate a Terraform configuration
+      - Generate and review an execution plan
+      - Apply changes to infrastructure
+      - Destroy Terraform-managed infrastructure
+      - Apply formatting and style conventions
+  - name: Terraform Configuration
+    weight: 22
+    topics:
+      - Use and differentiate resource and data blocks
+      - Reference resource attributes and create cross-resource references
+      - Use variables and outputs
+      - Understand and use complex types
+      - Write dynamic configuration using expressions and functions
+      - Define resource dependencies
+      - Validate configuration using custom conditions
+      - Apply best practices for managing sensitive data
+  - name: Terraform Modules
+    weight: 11
+    topics:
+      - Explain how Terraform sources modules
+      - Describe variable scope within modules
+      - Use modules in configuration
+      - Manage module versions
+  - name: Terraform State Management
+    weight: 11
+    topics:
+      - Describe the local backend
+      - Describe state locking
+      - Configure remote state using the backend block
+      - Manage resource drift and Terraform state
+  - name: Maintain Infrastructure with Terraform
+    weight: 8
+    topics:
+      - Import existing infrastructure into a Terraform workspace
+      - Use the CLI to inspect state
+      - Describe when and how to use verbose logging
+  - name: HCP Terraform
+    weight: 10
+    topics:
+      - Use HCP Terraform to create infrastructure
+      - Describe HCP Terraform collaboration and governance features
+      - Organize and use HCP Terraform workspaces and projects
+      - Configure and use HCP Terraform integrations
+prepPath:
+  - step: Install Terraform and run the core workflow end to end
+    description: Install the Terraform CLI, write a minimal configuration for a single resource, and run init, validate, plan, apply, and destroy so the core workflow is muscle memory before you study anything else.
+    estimatedHours: 4
+    resources:
+      - title: Terraform CLI Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/cli
+        provider: HashiCorp
+        free: true
+  - step: Study the official exam objectives in order
+    description: Work through HashiCorp's own exam review tutorial covering all 8 objectives, since it is the closest thing to an official study outline HashiCorp publishes.
+    estimatedHours: 20
+    resources:
+      - title: Terraform Associate 004 Exam Review
+        type: tutorial
+        url: https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-review-004
+        provider: HashiCorp
+        free: true
+  - step: Build a multi-resource configuration with variables, outputs, and a module
+    description: Write a configuration provisioning at least 3 related resources, using input variables and outputs, and calling one reusable module. Configuration language and modules together are the largest share of the exam, and the questions test whether you have written this rather than read about it.
+    estimatedHours: 10
+    resources:
+      - title: Terraform Module Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language/modules
+        provider: HashiCorp
+        free: true
+      - title: Terraform Registry — public modules
+        type: documentation
+        url: https://registry.terraform.io/
+        provider: HashiCorp
+        free: true
+      - title: Terraform Language Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language
+        provider: HashiCorp
+        free: true
+      - title: "Terraform: Up & Running"
+        type: book
+        provider: Yevgeniy Brikman
+        free: false
+        isbnAsin: "1098116747"
+        year: 2022
+        freeAlternative:
+          title: Terraform Documentation
+          url: https://developer.hashicorp.com/terraform/docs
+  - step: Configure remote state and practise state operations
+    description: Set up a remote backend, cause state drift deliberately, and recover from it with terraform state and terraform import. State is where the exam separates people who have run Terraform on a team from people who have run it alone — locking, drift and import only come up when someone else is also applying.
+    estimatedHours: 8
+    resources:
+      - title: Terraform State Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language/state
+        provider: HashiCorp
+        free: true
+      - title: State Locking
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language/state/locking
+        provider: HashiCorp
+        free: true
+      - title: Import existing infrastructure
+        type: tutorial
+        url: https://developer.hashicorp.com/terraform/tutorials/state/state-import
+        provider: HashiCorp
+        free: true
+  - step: Learn what each CLI command does to state, not just what it outputs
+    description: The exam asks which command you would use in a described situation. taint, replace, refresh, -target and the state subcommands all get tested, and knowing the flag is not the same as knowing what it changes on disk.
+    estimatedHours: 6
+    resources:
+      - title: Terraform CLI Command Reference
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/cli/commands
+        provider: HashiCorp
+        free: true
+      - title: Manage resources in state
+        type: tutorial
+        url: https://developer.hashicorp.com/terraform/tutorials/state/state-cli
+        provider: HashiCorp
+        free: true
+  - step: Cover HCP Terraform and the workflow questions
+    description: A recurring share of the exam is about HashiCorp's own platform — workspaces, remote runs, private registry, Sentinel policies — and about when a team workflow beats a local one. It is the part candidates who only use Terraform solo consistently miss.
+    estimatedHours: 6
+    resources:
+      - title: HCP Terraform Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/cloud-docs
+        provider: HashiCorp
+        free: true
+      - title: Terraform Workspaces
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language/state/workspaces
+        provider: HashiCorp
+        free: true
+  - step: Sit the official sample questions under time
+    description: One hour for the real thing, so practise at that pace. Review the reasoning behind every answer, including the ones you got right — the exam distinguishes between plausible options rather than between right and obviously wrong ones.
+    estimatedHours: 4
+    resources:
+      - title: Terraform Associate 004 Sample Questions
+        type: tutorial
+        url: https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-questions-004
+        provider: HashiCorp
+        free: true
+      - title: Terraform Associate 004 Study Guide
+        type: tutorial
+        url: https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-study-004
+        provider: HashiCorp
+        free: true
+prerequisites:
+  - Basic familiarity with at least one cloud provider (AWS, Azure, or GCP)
+  - Comfortable with the command line
+relatedRoadmaps:
+  - devops-engineer
+  - platform-engineer
+  - cloud-architect
+faq:
+  - question: Is the Terraform Associate exam hard?
+    answer: "It is deliberately broad rather than deep: one hour, multiple choice, testing whether you understand Terraform's core workflow, configuration language, modules and state well enough to use it safely on a team. It rewards having actually typed the commands — the questions describe a situation and ask which one applies, and someone who has only read about `terraform plan` is matching keywords and gets caught by the distractors."
+  - question: What domains does the Terraform Associate exam cover, and are the percentages official?
+    answer: There are eight objectives from HashiCorp's own exam review, but HashiCorp does not publish percentage weights per objective the way the Linux Foundation does for the CKA. The weights shown here are SkillPilot's estimate, calculated proportionally from the number of published sub-objectives in each domain, and should be treated as a prioritisation aid rather than an official figure — directionally, Terraform Configuration and Core Workflow carry the largest share of sub-objectives.
+  - question: Should I study for the TA-003 or TA-004 exam?
+    answer: TA-004 is the current version — the 003 exam retired on 8 January 2026. A great deal of third-party prep content still targets the retired exam, so check the version on anything you buy before studying from it.
+  - question: Where do most candidates lose marks on the Terraform Associate exam?
+    answer: "State is where solo users lose marks: locking, drift, import and the state subcommands only come up when someone else is also applying to the same infrastructure, so if you have only used Terraform alone, over-prepare that domain. HCP Terraform also appears more than people expect — workspaces, remote runs, the private registry and Sentinel are covered, and candidates who only use the open-source CLI reliably underestimate this part."
+  - question: Can I retake the Terraform Associate exam for free if I fail?
+    answer: No — unlike the CKA, no retake is included, and each attempt is paid. That makes running the official sample questions under real time pressure a cheaper diagnostic than a second sitting, which is why the prep path puts hands-on practice with the full core workflow before practice questions.
+  - question: What should I actually practise before taking the exam?
+    answer: Install the Terraform CLI and run init, validate, plan, apply and destroy end to end before studying anything else, then write a configuration with at least 3 related resources using variables, outputs and a reusable module. After that, set up a remote backend and deliberately cause and recover from state drift, since Configuration Language, Modules and State together cover most of what the exam tests hands-on.

@@ -391,6 +391,14 @@ It covers admission policy, provisioning controls and writing rejection messages
 
 [Site Reliability Engineer](sre.md) · [DevOps Engineer](devops-engineer.md) · [Cloud Architect](cloud-architect.md) · [Database Reliability Engineer](database-reliability-engineer.md)
 
+## Certifications on this path
+
+| Certification | Provider | Cost | Exam |
+|---|---|---|---|
+| [Certified Kubernetes Administrator (CKA)](../certifications/cka.md) | The Linux Foundation / CNCF | `$445 USD` | 2 hours, pass 66% |
+| [Certified Kubernetes Application Developer (CKAD)](../certifications/ckad.md) | The Linux Foundation / CNCF | `$445 USD (includes one free retake)` | 2 hours, pass 66% |
+| [Linux Foundation Certified System Administrator (LFCS)](../certifications/lfcs.md) | The Linux Foundation | `$445 USD` | 2 hours, pass 67% |
+
 ---
 
 <sub>Source of truth: [`data/roadmaps/platform-engineer.yaml`](../data/roadmaps/platform-engineer.yaml) · [CC BY-SA 4.0](../LICENSE) · [SkillPilot](https://skillpilot.app)</sub>
