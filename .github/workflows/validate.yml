@@ -8,10 +8,15 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
+      # --omit=dev keeps playwright, which only the figure renderer needs, out
+      # of a job that just reads YAML.
+      - run: npm install --omit=dev
       - run: npm run validate

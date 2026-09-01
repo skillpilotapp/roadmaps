@@ -9,19 +9,24 @@
  */
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+/** Repo root, resolved from this file rather than the working directory. */
+const ROOT = fileURLToPath(new URL('..', import.meta.url))
+
 // The default ajv export is draft-07; the schema here is 2020-12.
 import Ajv from 'ajv/dist/2020.js'
 import addFormats from 'ajv-formats'
 import { parse } from 'yaml'
 
-const DATA_DIR = 'data/roadmaps'
+const DATA_DIR = join(ROOT, 'data/roadmaps')
 /** A figure read more than this many months ago is reported, not trusted. */
 const STALE_AFTER_MONTHS = 12
 /** Query keys that turn a citation into a referral link. None may appear. */
 const TRACKING_KEYS = ['tag', 'ref', 'utm_source', 'utm_medium', 'utm_campaign', 'aff', 'affiliate_id']
 
 const ajv = addFormats(new Ajv({ allErrors: true, strict: false }))
-const validate = ajv.compile(JSON.parse(readFileSync('schema/roadmap.schema.json', 'utf8')))
+const validate = ajv.compile(JSON.parse(readFileSync(join(ROOT, 'schema/roadmap.schema.json'), 'utf8')))
 
 const files = readdirSync(DATA_DIR).filter((f) => f.endsWith('.yaml')).sort()
 const errors = []
@@ -36,7 +41,7 @@ const monthsSince = (iso) => {
 }
 
 for (const file of files) {
-  const where = `${DATA_DIR}/${file}`
+  const where = `data/roadmaps/${file}`
   let doc
   try {
     doc = parse(readFileSync(join(DATA_DIR, file), 'utf8'))
@@ -110,7 +115,7 @@ for (const file of files) {
 for (const { file, doc } of docs) {
   for (const related of doc.relatedRoadmaps ?? []) {
     if (!slugs.has(related)) {
-      errors.push(`${DATA_DIR}/${file}: relatedRoadmaps points at "${related}", which is not in this dataset`)
+      errors.push(`data/roadmaps/${file}: relatedRoadmaps points at "${related}", which is not in this dataset`)
     }
   }
 }

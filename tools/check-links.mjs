@@ -9,9 +9,14 @@
  */
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+/** Repo root, resolved from this file rather than the working directory. */
+const ROOT = fileURLToPath(new URL('..', import.meta.url))
+
 import { parse } from 'yaml'
 
-const DATA_DIR = 'data/roadmaps'
+const DATA_DIR = join(ROOT, 'data/roadmaps')
 /**
  * Statuses that mean "a bot asked", not "the page is gone".
  *

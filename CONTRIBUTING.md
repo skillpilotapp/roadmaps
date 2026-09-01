@@ -2,7 +2,7 @@
 
 ## The one rule
 
-**A number needs a source and a date.** Any field of the shape
+**A number needs a source and a date.** Any field of this shape
 
 ```yaml
 value: "$172,508"
@@ -10,7 +10,7 @@ source: Glassdoor Site Reliability Engineer salary estimate (overall average, US
 retrievedAt: "2026-08-04"
 ```
 
-is checked by `npm run validate`, which fails if `source` is missing or trivial
+is checked by `tools/validate.mjs`, which fails if `source` is missing or trivial
 and if `retrievedAt` is absent or not `YYYY-MM-DD`. Put the date you actually
 read it, not the date you opened the pull request.
 
@@ -20,10 +20,10 @@ salary negotiation.
 
 ## What is most useful
 
-1. **Re-reading stale figures.** `npm run validate` lists every figure older
+1. **Re-reading stale figures.** `tools/validate.mjs` lists every figure older
    than 12 months. Updating one, with a fresh source and date, is the single
    most valuable pull request here.
-2. **Dead links.** `npm run check-links` finds them. A replacement that teaches
+2. **Dead links.** `tools/check-links.mjs` finds them. A replacement that teaches
    the same thing beats deleting the entry.
 3. **Non-US salary markets.** The dataset is US-only today and says so. A
    sourced band for another market is a genuine addition — open an issue first
@@ -34,7 +34,7 @@ salary negotiation.
 
 ## What will be declined
 
-- **Referral or affiliate links.** `validate.mjs` rejects URLs carrying `tag`,
+- **Referral or affiliate links.** `tools/validate.mjs` rejects URLs carrying `tag`,
   `ref`, `aff`, `affiliate_id` or any `utm_*`. This applies to us too.
 - **Link-farm additions.** A phase caps at 12 resources. If yours is better
   than one already there, say which one it replaces.
@@ -43,9 +43,11 @@ salary negotiation.
 ## Before you open the pull request
 
 ```bash
-npm install
-npm run validate
+cd tools && npm install --omit=dev && npm run validate
 ```
+
+The dataset itself has no dependencies — everything that needs installing lives
+in `tools/`, so you can read, edit or consume `data/` without Node at all.
 
 One topic per pull request. If you are changing a figure, the source goes in
 the description as well as in the file, so it is visible in review without

@@ -10,10 +10,13 @@ on:
 jobs:
   check-links:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
+      - run: npm install --omit=dev
       - run: npm run check-links
