@@ -35,19 +35,21 @@ you have it.
 
 | Path | Level | Phases | Duration | Mid-level (US) |
 |---|---|---:|---|---|
-| [AI Agents Engineer](data/roadmaps/ai-agents-engineer.yaml) | Intermediate | 8 | 9-14 months | $147,289 |
-| [AI Security Engineer](data/roadmaps/ai-security-engineer.yaml) | Advanced | 10 | 7-9 months | $172,800 |
-| [Cloud Architect](data/roadmaps/cloud-architect.yaml) | Advanced | 10 | 8-11 months | $202,355 |
-| [Cloud Security Engineer](data/roadmaps/cloud-security-engineer.yaml) | Advanced | 10 | 9-12 months | $169,173 |
-| [Database Reliability Engineer](data/roadmaps/database-reliability-engineer.yaml) | Advanced | 10 | 8-11 months | $156,093 |
-| [DevOps Engineer](data/roadmaps/devops-engineer.yaml) | Intermediate | 9 | 15-21 months | $174,243 |
-| [FinOps Engineer](data/roadmaps/finops-engineer.yaml) | Intermediate | 10 | 6-8 months | $123,422 |
-| [Network Automation Engineer](data/roadmaps/network-automation-engineer.yaml) | Intermediate | 10 | 7-10 months | $130,170 |
-| [Observability Engineer](data/roadmaps/observability-engineer.yaml) | Advanced | 10 | 6-8 months | $164,046 |
-| [Platform Engineer](data/roadmaps/platform-engineer.yaml) | Advanced | 10 | 8-11 months | $130,978 |
-| [Site Reliability Engineer](data/roadmaps/sre.yaml) | Advanced | 10 | 8-11 months | $172,508 |
+| [AI Agents Engineer](roadmaps/ai-agents-engineer.md) | Intermediate | 8 | 9-14 months | $147,289 |
+| [AI Security Engineer](roadmaps/ai-security-engineer.md) | Advanced | 10 | 7-9 months | $172,800 |
+| [Cloud Architect](roadmaps/cloud-architect.md) | Advanced | 10 | 8-11 months | $202,355 |
+| [Cloud Security Engineer](roadmaps/cloud-security-engineer.md) | Advanced | 10 | 9-12 months | $169,173 |
+| [Database Reliability Engineer](roadmaps/database-reliability-engineer.md) | Advanced | 10 | 8-11 months | $156,093 |
+| [DevOps Engineer](roadmaps/devops-engineer.md) | Intermediate | 9 | 15-21 months | $174,243 |
+| [FinOps Engineer](roadmaps/finops-engineer.md) | Intermediate | 10 | 6-8 months | $123,422 |
+| [Network Automation Engineer](roadmaps/network-automation-engineer.md) | Intermediate | 10 | 7-10 months | $130,170 |
+| [Observability Engineer](roadmaps/observability-engineer.md) | Advanced | 10 | 6-8 months | $164,046 |
+| [Platform Engineer](roadmaps/platform-engineer.md) | Advanced | 10 | 8-11 months | $130,978 |
+| [Site Reliability Engineer](roadmaps/sre.md) | Advanced | 10 | 8-11 months | $172,508 |
 
-<sub>Durations assume ~10 hours a week and are editorial estimates, not measurements.</sub>
+<sub>Names link to the readable view; the data behind each one is in
+[`data/roadmaps`](data/roadmaps). Durations assume ~10 hours a week and are
+editorial estimates, not measurements.</sub>
 
 <br>
 
@@ -109,10 +111,17 @@ route to a topic, `freeAlternative` names a free one beside it.
 ## Using it
 
 ```
-data/roadmaps/*.yaml         one file per path, filename == slug
-schema/roadmap.schema.json   JSON Schema (draft 2020-12) for those files
-tools/                       validation and figure generation
+data/roadmaps/*.yaml         source of truth — one file per path, filename == slug
+roadmaps/*.md                the same thing, generated, for reading on GitHub
+schema/roadmap.schema.json   JSON Schema (draft 2020-12) for the data
+tools/                       validation, figures, and the Markdown renderer
 ```
+
+**Read [`roadmaps/`](roadmaps), consume [`data/`](data/roadmaps).** A 44 KB YAML
+file is a wall of raw text in a browser, so every path also exists as a
+generated Markdown page with the phases collapsed, the sources in a table and
+the resources linked. They are never edited by hand — CI regenerates them and
+fails if they no longer match the data, so the readable copy cannot quietly rot.
 
 **The dataset has no dependencies.** It is plain YAML with a published schema —
 no build step, no API, nothing to install unless you want to run the checks.
@@ -133,8 +142,10 @@ console.log(sre.phases.map((p) => `${p.title} — ${p.duration}`))
 ```bash
 cd tools
 npm install --omit=dev
-npm run validate      # schema, sourcing rules, cross-references — CI, every push
-npm run check-links   # every cited URL — CI, weekly
+npm run validate         # schema, sourcing rules, cross-references — CI, every push
+npm run check-markdown   # are the readable views still in sync? — CI, every push
+npm run check-links      # every cited URL — CI, weekly
+npm run render-markdown  # regenerate roadmaps/*.md after changing the data
 ```
 
 `check-links` reaches 426 unique URLs. A dozen of them — MySQL's docs,

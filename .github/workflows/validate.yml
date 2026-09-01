@@ -20,3 +20,4 @@ jobs:
       # of a job that just reads YAML.
       - run: npm install --omit=dev
       - run: npm run validate
+      - run: npm run check-markdown

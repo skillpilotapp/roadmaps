@@ -46,6 +46,10 @@ salary negotiation.
 cd tools && npm install --omit=dev && npm run validate
 ```
 
+**If you changed anything in `data/`, regenerate the readable views too** —
+`npm run render-markdown` — and commit the result. `roadmaps/*.md` is generated
+output: never edit it directly, and CI fails if it drifts from the data.
+
 The dataset itself has no dependencies — everything that needs installing lives
 in `tools/`, so you can read, edit or consume `data/` without Node at all.
 
