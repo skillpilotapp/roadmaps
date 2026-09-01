@@ -14,7 +14,7 @@ import { parse } from 'yaml'
 const DATA_DIR = 'data/roadmaps'
 const CONCURRENCY = 8
 const TIMEOUT_MS = 15000
-const UA = 'skillpilot-roadmaps-linkcheck/1.0 (+https://github.com/skillpilot/roadmaps)'
+const UA = 'skillpilot-roadmaps-linkcheck/1.0 (+https://github.com/carlosinfantes/skillpilot-roadmaps)'
 
 const urls = new Map()
 for (const file of readdirSync(DATA_DIR).filter((f) => f.endsWith('.yaml'))) {

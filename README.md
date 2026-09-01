@@ -9,8 +9,8 @@
 
 **11 career paths · 107 phases · 611 projects · 44 sourced figures**
 
-[![validate](https://github.com/skillpilot/roadmaps/actions/workflows/validate.yml/badge.svg)](../../actions/workflows/validate.yml)
-[![links](https://github.com/skillpilot/roadmaps/actions/workflows/check-links.yml/badge.svg)](../../actions/workflows/check-links.yml)
+[![validate](https://github.com/carlosinfantes/skillpilot-roadmaps/actions/workflows/validate.yml/badge.svg)](../../actions/workflows/validate.yml)
+[![links](https://github.com/carlosinfantes/skillpilot-roadmaps/actions/workflows/check-links.yml/badge.svg)](../../actions/workflows/check-links.yml)
 [![data licence: CC BY-SA 4.0](https://img.shields.io/badge/data-CC%20BY--SA%204.0-7a5a10)](LICENSE)
 [![code licence: MIT](https://img.shields.io/badge/code-MIT-63656a)](LICENSE)
 
