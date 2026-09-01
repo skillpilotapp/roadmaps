@@ -1,0 +1,659 @@
+# Platform Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: platform-engineer
+title: Platform Engineer Roadmap
+description: The path DevOps engineers move into — building an internal developer platform as a product, covering Kubernetes as substrate, IaC at scale, GitOps, golden paths, portals, policy, multi-tenancy and adoption.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  This path assumes two or more years running production infrastructure. It is the move DevOps engineers make when the bottleneck stops being the pipeline and starts being everyone else's pipeline.
+
+  The shift is uncomfortable and it is the entire job: **your users are engineers, and they can refuse you**. An internal platform nobody adopts is not a platform, it is a side project with a Kubernetes bill. That is why adoption is a phase rather than an afterthought, and why the portal comes after the golden paths — a catalogue of services nobody wants to use is a directory.
+
+  Write code, not just YAML. Phase three onward assumes you can build a controller, not only configure one.
+
+  Expect 8–11 months. Phase two is the longest for a reason: everything above it fails in ways you have to be able to debug.
+totalDuration:
+  value: 8-11 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-08"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $105,062
+    source: Salary.com Platform Engineer salary report, early career (1-2 years experience), United States
+    retrievedAt: "2026-08-08"
+  mid:
+    value: $130,978
+    source: Salary.com Platform Engineer salary report, mid-level (2-4 years experience), United States
+    retrievedAt: "2026-08-08"
+  senior:
+    value: $165,664
+    source: Salary.com Platform Engineer salary report, senior level (5-8 years experience), United States
+    retrievedAt: "2026-08-08"
+prerequisites:
+  - Two or more years running production systems as a DevOps or infrastructure engineer
+  - Working Kubernetes knowledge — you can deploy, debug and roll back a workload
+  - Fluency with at least one infrastructure-as-code tool and one CI system
+  - Comfort writing code in Go, Python or TypeScript, not just YAML
+phases:
+  - id: platform-thinking
+    title: Platform Thinking
+    description: A platform is a product, and its customers are engineers who can ignore it. This phase is about naming that customer, learning what they actually struggle with, and deciding what you will not build. Done when you have interviewed at least five engineers outside your team and written a one-page platform charter naming your users, the three problems you will solve first, and what stays out of scope.
+    duration: 3-4 weeks
+    skills:
+      - name: Platform as a Product
+        level: advanced
+        category: core
+      - name: Internal Customer Discovery
+        level: advanced
+        category: core
+      - name: Cognitive Load Analysis
+        level: advanced
+        category: core
+      - name: Team Topologies
+        level: intermediate
+        category: core
+      - name: Scope & Non-Goals
+        level: intermediate
+        category: core
+      - name: Platform Charter Writing
+        level: intermediate
+        category: core
+      - name: DORA Metrics
+        level: intermediate
+        category: core
+      - name: Developer Experience Research
+        level: advanced
+        category: core
+    projects:
+      - Interview five engineers from teams you do not sit with, and write down the top three things that slow them down in their words rather than yours
+      - Write a one-page platform charter naming your users, the first three problems you will solve, and an explicit list of things the platform will never do
+      - Map the full path from a developer's commit to production for one real service, timing each step — the waiting is usually longer than the working
+      - Measure your organisation's current DORA four keys from real data, not from a survey, and note which one you cannot compute yet
+      - Take one recurring support request your team answers by hand, and write down what it would cost to make it self-service instead
+      - Write the argument for why a platform team should exist here, in a form a director would forward — and include what it costs
+    resources:
+      - title: CNCF Platforms White Paper
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platforms/
+        provider: CNCF TAG App Delivery
+        free: true
+      - title: CNCF Platform Engineering Maturity Model
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/
+        provider: CNCF TAG App Delivery
+        free: true
+      - title: Team Topologies Key Concepts
+        type: documentation
+        url: https://teamtopologies.com/key-concepts
+        provider: Team Topologies
+        free: true
+      - title: DORA Software Delivery Performance Metrics
+        type: documentation
+        url: https://dora.dev/guides/dora-metrics-four-keys/
+        provider: DORA
+        free: true
+      - title: Platform Engineering on Kubernetes
+        type: book
+        provider: Mauricio Salatino
+        free: false
+        isbnAsin: "1617299324"
+        year: 2023
+        freeAlternative:
+          title: CNCF Platforms White Paper
+          url: https://tag-app-delivery.cncf.io/whitepapers/platforms/
+  - id: kubernetes-substrate
+    title: Kubernetes as a Substrate
+    description: Most platforms sit on Kubernetes, and platform engineers are on the operating side of it, not the deploying side. Control planes, extension points, the reconciliation loop, and what breaks a cluster other teams depend on. Done when you have written a controller that reconciles a custom resource you defined, and can explain what happens to it when the API server is briefly unavailable.
+    duration: 5-7 weeks
+    skills:
+      - name: Kubernetes Control Plane Internals
+        level: advanced
+        category: core
+      - name: Custom Resource Definitions
+        level: advanced
+        category: core
+      - name: Controllers & Reconciliation Loops
+        level: advanced
+        category: core
+      - name: Operator Pattern
+        level: advanced
+        category: tool
+      - name: Admission Control
+        level: advanced
+        category: core
+      - name: API Aggregation
+        level: intermediate
+        category: core
+      - name: Cluster Lifecycle & Upgrades
+        level: advanced
+        category: core
+      - name: Scheduling & Node Management
+        level: intermediate
+        category: core
+      - name: Helm & Kustomize
+        level: intermediate
+        category: tool
+    projects:
+      - Define a CRD for something your organisation provisions by hand, and write the controller that reconciles it
+      - Make your controller idempotent under repeated reconciliation, then prove it by deleting the underlying resource behind its back and watching it recover
+      - Upgrade a multi-node cluster across a minor version with workloads running, and record every deprecated API you had to fix first
+      - Write a validating admission webhook, then deliberately break it and document what happens to every deployment in the cluster
+      - Package one platform capability as a Helm chart with sane defaults, so a team gets a working install without reading the values file
+      - Compare a CRD against an aggregated API server for one use case, and write down why you chose the one you chose
+    resources:
+      - title: Kubernetes Custom Resources
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Operator Pattern
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes API Aggregation Layer
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
+        provider: Kubernetes
+        free: true
+      - title: Helm Documentation
+        type: documentation
+        url: https://helm.sh/docs/
+        provider: Helm
+        free: true
+      - title: "Kubernetes: Up and Running"
+        type: book
+        provider: Brendan Burns, Joe Beda, Kelsey Hightower, Lachlan Evenson
+        free: false
+        isbnAsin: 109811020X
+        year: 2022
+        freeAlternative:
+          title: Kubernetes Documentation — Concepts
+          url: https://kubernetes.io/docs/concepts/
+    prerequisites:
+      - platform-thinking
+  - id: infrastructure-as-code-at-scale
+    title: Infrastructure as Code at Scale
+    description: Writing Terraform is not the skill; designing modules fifty teams consume without forking them is. Composition, versioning, state boundaries, and control planes that provision infrastructure from a Kubernetes API. Done when a team you did not help provisioned real infrastructure through a module or composition you published, using only its documented inputs.
+    duration: 4-6 weeks
+    skills:
+      - name: Module Design & Composition
+        level: advanced
+        category: core
+      - name: Terraform at Scale
+        level: advanced
+        category: tool
+      - name: State & Blast Radius Boundaries
+        level: advanced
+        category: core
+      - name: Crossplane
+        level: advanced
+        category: tool
+      - name: Abstraction API Design
+        level: advanced
+        category: core
+      - name: Module Versioning & Release
+        level: intermediate
+        category: core
+      - name: Drift Detection & Reconciliation
+        level: advanced
+        category: core
+      - name: Infrastructure Testing
+        level: intermediate
+        category: core
+    projects:
+      - Publish a versioned module that provisions a complete service environment, then hand it to a team with nothing but its README and see what they ask you
+      - Split one monolithic state file into bounded states, and document what a mistake can now no longer destroy
+      - Build a Crossplane composition that exposes a single claim — "I need a database" — and hides the twelve resources behind it
+      - Design the abstraction API for one capability, deliberately leaving out an option people asked for, and write the reason you left it out
+      - Add automated tests to a module so a breaking change fails in CI rather than in a consumer's plan
+      - Detect and reconcile drift on a resource somebody changed by hand, and decide whether you revert it or adopt it
+    resources:
+      - title: Terraform Module Development
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/language/modules/develop
+        provider: HashiCorp
+        free: true
+      - title: Terraform Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/docs
+        provider: HashiCorp
+        free: true
+      - title: Crossplane Documentation
+        type: documentation
+        url: https://docs.crossplane.io/latest/
+        provider: Crossplane
+        free: true
+      - title: "Terraform: Up & Running"
+        type: book
+        provider: Yevgeniy Brikman
+        free: false
+        isbnAsin: "1098116747"
+        year: 2022
+        freeAlternative:
+          title: Terraform Documentation
+          url: https://developer.hashicorp.com/terraform/docs
+    prerequisites:
+      - kubernetes-substrate
+  - id: gitops-delivery
+    title: CI/CD & GitOps Delivery
+    description: Deployment becomes a property of a repository rather than a job someone runs. Pull-based reconciliation, environment promotion, secrets that never sit in Git, and rollbacks that are a revert. Done when a service deploys to production purely by merging to a branch, and you can point at the exact commit that produced what is running right now.
+    duration: 4-6 weeks
+    skills:
+      - name: GitOps Principles
+        level: advanced
+        category: core
+      - name: Argo CD or Flux
+        level: advanced
+        category: tool
+      - name: Environment Promotion
+        level: advanced
+        category: core
+      - name: Progressive Delivery
+        level: advanced
+        category: core
+      - name: Secrets Management in GitOps
+        level: advanced
+        category: core
+      - name: Pipeline Design & Reuse
+        level: intermediate
+        category: core
+      - name: Supply Chain Provenance
+        level: intermediate
+        category: core
+      - name: Rollback & Drift Correction
+        level: advanced
+        category: core
+    projects:
+      - Put a real service under GitOps reconciliation so the cluster converges on the repository without anyone running a deploy command
+      - Change a live resource with kubectl and watch the reconciler revert it — then write down which changes you deliberately let stand
+      - Build environment promotion from staging to production as a pull request between directories or branches, with the diff readable by a reviewer
+      - Deliver secrets to workloads without any secret material in Git, using sealed secrets or an external secrets operator, and document the recovery path
+      - Set up a canary rollout that aborts on a metric threshold rather than on somebody watching a graph, and prove it by shipping a deliberately bad build
+      - Write the reusable pipeline template three teams adopt unchanged, and count how many of them changed it anyway
+    resources:
+      - title: OpenGitOps Principles
+        type: documentation
+        url: https://opengitops.dev/
+        provider: OpenGitOps
+        free: true
+      - title: Argo CD Documentation
+        type: documentation
+        url: https://argo-cd.readthedocs.io/en/stable/
+        provider: Argo Project
+        free: true
+      - title: Flux Documentation
+        type: documentation
+        url: https://fluxcd.io/flux/
+        provider: Flux CD
+        free: true
+      - title: Argo Rollouts Documentation
+        type: documentation
+        url: https://argo-rollouts.readthedocs.io/en/stable/
+        provider: Argo Project
+        free: true
+    prerequisites:
+      - infrastructure-as-code-at-scale
+  - id: golden-paths
+    title: Golden Paths & Scaffolding
+    description: A golden path is the way of doing something that is so obviously easier that nobody argues. Templates, scaffolding, sane defaults, and a documented escape hatch for the team that genuinely needs to leave the path. Done when a new service was created from your template by someone you never spoke to, and reached production without a single exception request.
+    duration: 3-4 weeks
+    skills:
+      - name: Golden Path Design
+        level: advanced
+        category: core
+      - name: Service Scaffolding
+        level: advanced
+        category: core
+      - name: Opinionated Defaults
+        level: advanced
+        category: core
+      - name: Paved Road vs Escape Hatch
+        level: advanced
+        category: core
+      - name: Template Maintenance
+        level: intermediate
+        category: core
+      - name: Documentation as Interface
+        level: intermediate
+        category: core
+      - name: Time-to-First-Deploy
+        level: advanced
+        category: core
+    projects:
+      - Build a service template that produces a repository, a pipeline, a dashboard and a deployed staging environment from one form submission
+      - Measure time from 'I need a new service' to a running staging deploy before and after your template, and publish both numbers
+      - "Define the escape hatch: write exactly how a team leaves the golden path, what they take on by doing so, and who approves it"
+      - Update a template after ten services were already generated from it, and solve the harder half — getting the change into the ten
+      - Watch someone use your template without helping them, note every point they hesitated, and fix the three worst
+      - Write the golden path documentation as the interface itself, so the happy path needs no conversation with your team
+    resources:
+      - title: Backstage Software Templates
+        type: documentation
+        url: https://backstage.io/docs/features/software-templates/
+        provider: Backstage
+        free: true
+      - title: CNCF Platforms White Paper
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platforms/
+        provider: CNCF TAG App Delivery
+        free: true
+      - title: CNCF Platform Engineering Maturity Model
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/
+        provider: CNCF TAG App Delivery
+        free: true
+    prerequisites:
+      - gitops-delivery
+  - id: developer-portal
+    title: Developer Portals & Service Catalogue
+    description: The front door. A catalogue that answers who owns this, where its docs are and what it depends on — kept accurate because it is generated, not maintained by hand. Done when the catalogue answers an ownership question faster than asking in chat, and its entries update from code rather than from someone remembering to edit them.
+    duration: 3-4 weeks
+    skills:
+      - name: Backstage
+        level: advanced
+        category: tool
+      - name: Service Catalogue Modelling
+        level: advanced
+        category: core
+      - name: Ownership Metadata
+        level: advanced
+        category: core
+      - name: Catalogue Auto-discovery
+        level: advanced
+        category: core
+      - name: TechDocs & Docs as Code
+        level: intermediate
+        category: core
+      - name: Portal Plugin Development
+        level: intermediate
+        category: tool
+      - name: Portal Information Architecture
+        level: intermediate
+        category: core
+    projects:
+      - Stand up a developer portal and populate its catalogue by auto-discovery from repositories, not by hand-written entries
+      - Model ownership so every service resolves to a team that still exists — the orphans you find are the real finding
+      - Publish service documentation from the same repository as the code, so a docs change ships in the same pull request as the change it describes
+      - Write a portal plugin surfacing one thing engineers currently look up elsewhere, then check whether they stopped going elsewhere
+      - Wire the catalogue into your scaffolding so a new service registers itself at creation and nobody has to remember
+      - Race the portal against your chat channel on an ownership question, and record which was faster
+    resources:
+      - title: What is Backstage?
+        type: documentation
+        url: https://backstage.io/docs/overview/what-is-backstage
+        provider: Backstage
+        free: true
+      - title: Backstage Software Catalog
+        type: documentation
+        url: https://backstage.io/docs/features/software-catalog/
+        provider: Backstage
+        free: true
+      - title: Backstage Software Templates
+        type: documentation
+        url: https://backstage.io/docs/features/software-templates/
+        provider: Backstage
+        free: true
+    prerequisites:
+      - golden-paths
+  - id: policy-and-guardrails
+    title: Policy as Code & Guardrails
+    description: Guardrails let people move fast without a review queue, and a guardrail engineers route around has made things worse than no guardrail. Admission policy, provisioning controls, and rejection messages that say how to comply. Done when a policy you wrote blocked a real non-compliant change, the author fixed it from the error message alone, and you can state its false-positive rate.
+    duration: 3-4 weeks
+    skills:
+      - name: Policy as Code
+        level: advanced
+        category: core
+      - name: Open Policy Agent & Rego
+        level: advanced
+        category: tool
+      - name: Kyverno
+        level: advanced
+        category: tool
+      - name: Admission Policy Rollout
+        level: advanced
+        category: core
+      - name: Audit vs Enforce Modes
+        level: advanced
+        category: core
+      - name: Actionable Policy Messages
+        level: intermediate
+        category: core
+      - name: Exception Handling
+        level: intermediate
+        category: core
+      - name: Compliance Evidence
+        level: intermediate
+        category: core
+    projects:
+      - Write an admission policy that rejects workloads missing required ownership labels, and ship it in audit mode first
+      - Measure how much the policy would have blocked while in audit mode, then use that number to decide whether enforcement is safe
+      - Rewrite a policy rejection message so the author fixes the problem without contacting you — test it on someone who has never seen the policy
+      - Implement the same rule in both OPA and Kyverno, then write down which you would run in production here and why
+      - "Build the exception process: how a team gets a documented, time-limited waiver instead of quietly working around you"
+      - Generate compliance evidence automatically from policy results, so an audit question is a query rather than a fire drill
+    resources:
+      - title: Open Policy Agent Documentation
+        type: documentation
+        url: https://www.openpolicyagent.org/docs
+        provider: Open Policy Agent
+        free: true
+      - title: Kyverno Documentation
+        type: documentation
+        url: https://kyverno.io/docs/
+        provider: Kyverno
+        free: true
+      - title: Kubernetes RBAC Authorization
+        type: documentation
+        url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+        provider: Kubernetes
+        free: true
+    prerequisites:
+      - developer-portal
+  - id: platform-observability
+    title: Platform Observability
+    description: You have to observe the platform itself, not just what runs on it. Platform SLOs, tenant-visible signals, and telemetry teams get by default instead of building each time. Done when you can state your platform's own SLO, report last month's compliance against it, and show that a tenant service got working dashboards and alerts without its team instrumenting anything by hand.
+    duration: 4-5 weeks
+    skills:
+      - name: Platform SLOs
+        level: advanced
+        category: core
+      - name: Observability as a Default
+        level: advanced
+        category: core
+      - name: OpenTelemetry Auto-instrumentation
+        level: advanced
+        category: tool
+      - name: Multi-tenant Telemetry
+        level: advanced
+        category: core
+      - name: Dashboard Templating
+        level: intermediate
+        category: tool
+      - name: Telemetry Cost Control
+        level: intermediate
+        category: core
+      - name: Platform Incident Response
+        level: advanced
+        category: core
+      - name: Golden Signals for Platforms
+        level: intermediate
+        category: core
+    projects:
+      - Define and publish an SLO for one platform capability — deployment pipeline availability, provisioning latency — and report a month of compliance
+      - Make a new service arrive with dashboards and alerts already working, generated from its catalogue entry rather than from a copied JSON file
+      - Instrument the platform's own control loops, so you notice reconciliation falling behind before a tenant does
+      - Separate telemetry per tenant so one team's query load cannot degrade another team's dashboards, and prove it under load
+      - Write the platform incident runbook for the case where the platform is the outage — and note who tells fifty teams
+      - Cut platform telemetry spend without losing a signal you use, and write down the one you were tempted to drop and did not
+    resources:
+      - title: Grafana Dashboard Best Practices
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/best-practices/
+        provider: Grafana Labs
+        free: true
+      - title: OpenTelemetry Documentation
+        type: documentation
+        url: https://opentelemetry.io/docs/
+        provider: OpenTelemetry
+        free: true
+      - title: Implementing SLOs (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/implementing-slos/
+        provider: Google
+        free: true
+      - title: Prometheus Documentation
+        type: documentation
+        url: https://prometheus.io/docs/introduction/overview/
+        provider: Prometheus
+        free: true
+    prerequisites:
+      - policy-and-guardrails
+  - id: multi-tenancy
+    title: Multi-tenancy & Isolation
+    description: Fifty teams on shared infrastructure, none of them able to hurt the others. Namespaces, quotas, network policy, node isolation, and the honest decision about where soft isolation stops being enough. Done when you have run a deliberate noisy-neighbour test — one tenant consuming everything it can — and shown the others kept meeting their SLOs throughout.
+    duration: 4-5 weeks
+    skills:
+      - name: Multi-tenancy Models
+        level: advanced
+        category: core
+      - name: Namespace & Tenant Boundaries
+        level: advanced
+        category: core
+      - name: Resource Quotas & Limits
+        level: advanced
+        category: tool
+      - name: Network Policy
+        level: advanced
+        category: tool
+      - name: RBAC Design at Scale
+        level: advanced
+        category: core
+      - name: Noisy Neighbour Mitigation
+        level: advanced
+        category: core
+      - name: Cluster Sharding Strategy
+        level: advanced
+        category: core
+      - name: Tenant Cost Attribution
+        level: intermediate
+        category: core
+    projects:
+      - Run a noisy-neighbour test where one tenant consumes everything it is permitted to, and show the other tenants kept meeting their SLOs
+      - Design tenant onboarding as one automated action producing namespace, quota, RBAC and network policy together — never four tickets
+      - Apply default-deny network policy across a shared cluster, and document every legitimate flow you had to discover the hard way
+      - Write the decision record for shared cluster versus cluster-per-tenant here, with the cost of each and the trust assumption that decides it
+      - Set quotas from observed usage rather than from a round number, then track how often teams hit them and whether they were right to
+      - Attribute a shared cluster's cost down to tenant level, including idle capacity, and decide who pays for the slack
+    resources:
+      - title: Kubernetes Multi-tenancy
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/multi-tenancy/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Resource Quotas
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Network Policies
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes RBAC Authorization
+        type: documentation
+        url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+        provider: Kubernetes
+        free: true
+      - title: Kyverno Documentation
+        type: documentation
+        url: https://kyverno.io/docs/
+        provider: Kyverno
+        free: true
+    prerequisites:
+      - platform-observability
+  - id: adoption-and-product
+    title: Adoption & Platform as a Product
+    description: The only phase that decides whether any of the previous nine mattered. Adoption you had to chaperone is a demo, not a platform. Done when a team you have never worked with adopted your platform end to end without you in the room, and you can report an adoption percentage, a satisfaction signal and a deprecation you completed on schedule.
+    duration: 4-5 weeks
+    skills:
+      - name: Adoption Measurement
+        level: advanced
+        category: core
+      - name: Platform Roadmapping
+        level: advanced
+        category: core
+      - name: Internal Developer Marketing
+        level: advanced
+        category: core
+      - name: Deprecation & Migration Management
+        level: advanced
+        category: core
+      - name: Developer Satisfaction Surveys
+        level: intermediate
+        category: core
+      - name: Influence Without Authority
+        level: advanced
+        category: core
+      - name: Support Model & SLAs
+        level: intermediate
+        category: core
+      - name: Platform Maturity Assessment
+        level: advanced
+        category: core
+    projects:
+      - Publish an adoption metric — percentage of services on the golden path — and track it monthly after you stop actively promoting it
+      - Onboard a team you have never worked with using only your documentation, staying out of the room, and log every question they had to ask anyway
+      - Run a developer satisfaction survey, publish the results unedited including the bad ones, and change one roadmap item because of them
+      - Deprecate a platform capability on a published timeline and complete the migration, including the last three teams who ignored every notice
+      - Run a CNCF platform maturity assessment across the five aspects and turn the gaps into a prioritised six-month roadmap
+      - Write the platform's support model — what you respond to, how fast, and what teams own themselves — and hold to it for a quarter
+    resources:
+      - title: CNCF Platform Engineering Maturity Model
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/
+        provider: CNCF TAG App Delivery
+        free: true
+      - title: CNCF Platforms White Paper
+        type: documentation
+        url: https://tag-app-delivery.cncf.io/whitepapers/platforms/
+        provider: CNCF TAG App Delivery
+        free: true
+      - title: DORA Software Delivery Performance Metrics
+        type: documentation
+        url: https://dora.dev/guides/dora-metrics-four-keys/
+        provider: DORA
+        free: true
+      - title: Team Topologies Key Concepts
+        type: documentation
+        url: https://teamtopologies.com/key-concepts
+        provider: Team Topologies
+        free: true
+    prerequisites:
+      - multi-tenancy
+relatedRoadmaps:
+  - sre
+  - devops-engineer
+  - cloud-architect
+  - database-reliability-engineer
+relatedCertifications:
+  - cka
+  - ckad
+  - lfcs
+faq:
+  - question: What is a platform engineer, and how is it different from DevOps?
+    answer: A platform engineer builds an internal developer platform as a product, where the customers are engineers who can choose to ignore it. It is the move DevOps engineers make when the bottleneck stops being the pipeline itself and starts being everyone else's pipeline — the job shifts from running production systems to designing the paved road other teams use to reach production.
+  - question: What are the prerequisites for the Platform Engineer roadmap?
+    answer: You need two or more years running production systems as a DevOps or infrastructure engineer, working Kubernetes knowledge — deploying, debugging and rolling back a workload — and fluency with at least one infrastructure-as-code tool and one CI system. Comfort writing code in Go, Python or TypeScript is also assumed, since phase three onward requires building a controller rather than only configuring one.
+  - question: How long does the Platform Engineer roadmap take?
+    answer: Expect 8-11 months at around 10 hours a week, spread across ten phases. Phase two, Kubernetes as a Substrate, is the longest at 5-7 weeks, because everything built in later phases fails in ways you need to be able to debug at that layer.
+  - question: How much does a platform engineer earn?
+    answer: In the United States, entry-level platform engineers (1-2 years experience) earn around $105,062, mid-level (2-4 years) around $130,978, and senior (5-8 years) around $165,664, according to Salary.com's Platform Engineer salary report. Figures are sourced per level and reflect the US market specifically.
+  - question: Why does the developer portal come after golden paths in this roadmap, not before?
+    answer: The roadmap orders golden paths before the developer portal because a catalogue of services nobody wants to use is just a directory — the portal is the front door, but there needs to be somewhere worthwhile for it to lead. Adoption is likewise treated as its own final phase rather than an afterthought, since a platform nobody adopts is a side project with a Kubernetes bill, not a platform.
+  - question: What does the Policy as Code & Guardrails phase actually cover?
+    answer: It covers admission policy, provisioning controls and writing rejection messages that tell the author how to comply, using tools like Open Policy Agent and Kyverno. The phase is considered done when a policy you wrote has blocked a real non-compliant change, the author fixed it from the error message alone without contacting you, and you can state the policy's false-positive rate.

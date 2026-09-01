@@ -1,0 +1,17 @@
+{
+  "name": "@skillpilot/roadmaps",
+  "version": "1.0.0",
+  "description": "Open dataset of 11 infrastructure and AI engineering career roadmaps, with every salary figure sourced and dated.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "check-links": "node scripts/check-links.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "yaml": "^2.5.1"
+  },
+  "license": "CC-BY-SA-4.0"
+}

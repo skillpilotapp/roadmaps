@@ -1,0 +1,671 @@
+# Cloud Architect Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: cloud-architect
+title: Cloud Architect Roadmap
+description: A path into cloud architecture as the job it actually is — trade-off analysis, migration of systems you did not write, disaster recovery you have rehearsed, decision records, and influence without formal authority.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  Most cloud architecture writing describes greenfield systems. Real architects
+  spend their time on systems that already exist, that nobody fully understands,
+  and that cannot be switched off — which is why migration, disaster recovery you
+  have actually rehearsed, and the ability to persuade a team you do not manage
+  get as much room here as the design patterns do.
+totalDuration:
+  value: 8-11 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-10"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $159,276
+    source: Glassdoor Cloud Architect total pay estimate, 25th percentile (US, 1,420 salaries submitted)
+    retrievedAt: "2026-08-10"
+  mid:
+    value: $202,355
+    source: Glassdoor Cloud Architect total pay estimate (US average, 1,420 salaries submitted)
+    retrievedAt: "2026-08-10"
+  senior:
+    value: $260,623
+    source: Glassdoor Cloud Architect total pay estimate, 75th percentile (US, 1,420 salaries submitted)
+    retrievedAt: "2026-08-10"
+prerequisites:
+  - Two or more years building or operating systems in production
+  - Working knowledge of Linux, networking and HTTP services
+  - Comfort reading code in at least one language, even if you no longer write it daily
+phases:
+  - id: cloud-fundamentals-and-service-models
+    title: Cloud Fundamentals and Service Models
+    description: "Before designing anything, learn what you are actually buying: a rented failure domain with someone else's operational assumptions baked in. IaaS, PaaS and serverless differ less in features than in which failures become your problem. Done when you can take one workload and state, for each of the three models, what you stop being responsible for and what new constraint you accept in exchange."
+    duration: 3-4 weeks
+    skills:
+      - name: Shared Responsibility Model
+        level: intermediate
+        category: core
+      - name: IaaS, PaaS and Serverless Trade-offs
+        level: intermediate
+        category: core
+      - name: Regions, Zones and Failure Domains
+        level: intermediate
+        category: core
+      - name: Cloud Service Taxonomy
+        level: beginner
+        category: core
+      - name: Managed vs Self-hosted Analysis
+        level: intermediate
+        category: core
+      - name: Provider Pricing Models
+        level: intermediate
+        category: core
+      - name: Well-Architected Framework
+        level: intermediate
+        category: core
+    projects:
+      - Take one existing workload and write the same design three times — on VMs, on a managed platform, and serverless — with the operational burden each one removes and the constraint each one adds
+      - Map a provider's region and availability zone topology for the two regions you would actually use, and record which of your dependencies are zonal, regional or global
+      - Run a Well-Architected review against a system you did not design, and rank the findings by what would hurt first rather than by pillar
+      - Write the shared responsibility boundary for a specific managed database, naming three failures that remain yours after the provider takes over
+      - Price the same workload under on-demand, committed-use and spot pricing, and state the utilisation point where each becomes the cheapest
+    resources:
+      - title: AWS Well-Architected Framework
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html
+        provider: AWS
+        free: true
+      - title: AWS Shared Responsibility Model
+        type: documentation
+        url: https://aws.amazon.com/compliance/shared-responsibility-model/
+        provider: AWS
+        free: true
+      - title: Azure Well-Architected Framework
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/well-architected/
+        provider: Microsoft
+        free: true
+      - title: Google Cloud Architecture Framework
+        type: documentation
+        url: https://cloud.google.com/architecture/framework
+        provider: Google Cloud
+        free: true
+      - title: Regions and Availability Zones
+        type: documentation
+        url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
+        provider: AWS
+        free: true
+      - title: Fundamentals of Software Architecture
+        type: book
+        provider: Mark Richards, Neal Ford
+        free: false
+        isbnAsin: "1098175514"
+        year: 2025
+        freeAlternative:
+          title: AWS Prescriptive Guidance — Architecture Decision Records
+          url: https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
+  - id: compute-and-networking-design
+    title: Compute and Networking Design
+    description: Networking is where cloud designs fail quietly and expensively. Addressing decisions made in week one constrain the architecture for years, because renumbering a live VPC is close to impossible. Done when you have designed an address plan for three environments that can absorb a corporate VPN and a second region without overlapping, and can defend every subnet boundary in it.
+    duration: 4-6 weeks
+    skills:
+      - name: VPC and Subnet Design
+        level: advanced
+        category: core
+      - name: IP Address Planning
+        level: advanced
+        category: core
+      - name: Routing and Egress Control
+        level: advanced
+        category: core
+      - name: Load Balancing Strategy
+        level: intermediate
+        category: core
+      - name: Compute Sizing and Families
+        level: intermediate
+        category: core
+      - name: Container and Serverless Placement
+        level: intermediate
+        category: core
+      - name: Hybrid Connectivity
+        level: advanced
+        category: core
+      - name: DNS Architecture
+        level: intermediate
+        category: core
+    projects:
+      - Produce an IP address plan for dev, staging and production that leaves room for a second region and a corporate VPN, and justify every CIDR boundary
+      - Build a three-tier network with public, private and data subnets, then prove the data tier cannot reach the internet by testing it rather than by reading the route table
+      - Compare a layer 7 and a layer 4 load balancer for one real workload, measuring the latency difference rather than quoting the documentation
+      - Design egress for a private subnet three ways — NAT gateway, VPC endpoints, proxy — and price each at your actual traffic volume
+      - Take a monolith and write the placement decision for each component across VMs, containers and functions, with the reason each one landed where it did
+      - Document a hybrid connectivity design for an office network, including what breaks during a failover and who notices first
+    resources:
+      - title: Amazon VPC User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+        provider: AWS
+        free: true
+      - title: Build a Modern Application on AWS
+        type: tutorial
+        url: https://aws.amazon.com/getting-started/hands-on/build-modern-app-fargate-lambda-dynamodb-python/
+        provider: AWS
+        free: true
+      - title: Azure Virtual Network Documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/virtual-network/
+        provider: Microsoft
+        free: true
+      - title: Google Cloud VPC Documentation
+        type: documentation
+        url: https://cloud.google.com/vpc/docs/vpc
+        provider: Google Cloud
+        free: true
+      - title: Elastic Load Balancing Documentation
+        type: documentation
+        url: https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html
+        provider: AWS
+        free: true
+      - title: Amazon Route 53 Developer Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html
+        provider: AWS
+        free: true
+  - id: storage-and-data-architecture
+    title: Storage and Data Architecture
+    description: "Choosing a data store is the least reversible decision an architect makes: compute can be rewritten in a sprint, but a data model that no longer fits takes a migration project. Done when you can justify a store choice for a real workload from its access pattern, consistency need and growth curve, and say what it would cost to move off it later."
+    duration: 4-5 weeks
+    skills:
+      - name: Object, Block and File Storage
+        level: intermediate
+        category: core
+      - name: Relational vs Non-relational Selection
+        level: advanced
+        category: core
+      - name: Consistency and Replication Models
+        level: advanced
+        category: core
+      - name: Access Pattern Modelling
+        level: advanced
+        category: core
+      - name: Caching Strategy
+        level: intermediate
+        category: core
+      - name: Storage Tiering and Lifecycle
+        level: intermediate
+        category: core
+      - name: Data Migration Paths
+        level: advanced
+        category: core
+    projects:
+      - Write the access patterns for one application first, then pick its data store from those patterns, and record which candidate you rejected and why
+      - Design an S3 lifecycle policy for a real retention requirement and calculate the annual saving against storing everything in the hot tier
+      - Add a cache to a read-heavy workload, measure the hit rate under realistic traffic, and document the staleness the design now tolerates
+      - Model the same dataset relationally and in a document store, and write the query that is trivial in one and painful in the other
+      - Estimate the cost and downtime of migrating one production dataset to a different engine, including the dual-write period
+    resources:
+      - title: Amazon S3 User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html
+        provider: AWS
+        free: true
+      - title: DynamoDB Data Modeling
+        type: documentation
+        url: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html
+        provider: AWS
+        free: true
+      - title: Amazon EBS Volume Types
+        type: documentation
+        url: https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html
+        provider: AWS
+        free: true
+      - title: Google Cloud Storage Classes
+        type: documentation
+        url: https://cloud.google.com/storage/docs/storage-classes
+        provider: Google Cloud
+        free: true
+      - title: Designing Data-Intensive Applications
+        type: book
+        provider: Martin Kleppmann
+        free: false
+        isbnAsin: "1449373321"
+        year: 2017
+  - id: identity-security-and-compliance
+    title: Identity, Security and Compliance
+    description: In cloud architecture identity is the perimeter, and most breaches are a permissions design failure rather than an exploit. The architect's job is the account topology and the trust boundaries, not the individual policy document. Done when you have designed a multi-account structure with guardrails that make the insecure action difficult by default rather than merely forbidden by policy.
+    duration: 5-6 weeks
+    skills:
+      - name: IAM Policy and Role Design
+        level: advanced
+        category: core
+      - name: Multi-account Topology
+        level: advanced
+        category: core
+      - name: Least Privilege in Practice
+        level: advanced
+        category: core
+      - name: Encryption and Key Management
+        level: advanced
+        category: core
+      - name: Federation and SSO
+        level: intermediate
+        category: core
+      - name: Compliance Controls
+        level: intermediate
+        category: core
+      - name: Guardrails and Service Control Policies
+        level: advanced
+        category: core
+      - name: Secrets Management
+        level: intermediate
+        category: core
+    projects:
+      - Design an account structure separating production, non-production and security tooling, with the service control policies that enforce the separation
+      - Take an over-permissioned role, rebuild it from observed usage logs, and record what broke when you removed the extra permissions
+      - Implement a key management design with rotation, and document who can decrypt what and who can grant that ability
+      - Write the control mapping for one compliance requirement, naming the specific cloud control that satisfies each line
+      - Federate a directory into cloud roles and prove that removing a user upstream revokes their access within a stated time
+      - Audit a running account for public exposure and produce a prioritised remediation list ordered by blast radius
+    resources:
+      - title: AWS IAM User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html
+        provider: AWS
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: AWS Organizations Service Control Policies
+        type: documentation
+        url: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html
+        provider: AWS
+        free: true
+      - title: AWS Key Management Service Documentation
+        type: documentation
+        url: https://docs.aws.amazon.com/kms/latest/developerguide/overview.html
+        provider: AWS
+        free: true
+      - title: Microsoft Entra ID Documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/entra/identity/
+        provider: Microsoft
+        free: true
+      - title: Practical Cloud Security
+        type: book
+        provider: Chris Dotson
+        free: false
+        isbnAsin: "1098148177"
+        year: 2023
+        freeAlternative:
+          title: AWS Well-Architected Security Pillar
+          url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+  - id: high-availability-and-disaster-recovery
+    title: High Availability and Disaster Recovery
+    description: Every system has a disaster recovery plan; most have never run it, which means they have a document rather than a capability. The architect's contribution is turning vague availability ambitions into an RTO and RPO someone will fund. Done when you have executed a failover in a non-production environment and the measured recovery time is written next to the one you promised.
+    duration: 4-5 weeks
+    skills:
+      - name: RTO and RPO Definition
+        level: advanced
+        category: core
+      - name: Multi-AZ and Multi-region Patterns
+        level: advanced
+        category: core
+      - name: DR Strategy Selection
+        level: advanced
+        category: core
+      - name: Failover Design and Testing
+        level: advanced
+        category: core
+      - name: Backup and Restore Verification
+        level: intermediate
+        category: core
+      - name: Single Point of Failure Analysis
+        level: advanced
+        category: core
+      - name: Graceful Degradation
+        level: advanced
+        category: core
+    projects:
+      - Write RTO and RPO for three tiers of one system and get a non-engineer to agree the numbers are worth their cost
+      - Compare backup-and-restore, pilot light, warm standby and active-active for the same workload, pricing each and stating the recovery time each buys
+      - Execute a region failover in a test environment and record the real recovery time against the target you published
+      - Restore a production backup into a clean environment and time it — a backup that has never been restored is a hypothesis
+      - Map single points of failure in an existing architecture, including the ones outside the cloud account such as DNS registrar and CI system
+      - Design a degraded mode for one service that keeps its core function working when its main dependency is unavailable
+    resources:
+      - title: AWS Well-Architected Reliability Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: Disaster Recovery of Workloads on AWS
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html
+        provider: AWS
+        free: true
+      - title: Azure Reliability Documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/reliability/
+        provider: Microsoft
+        free: true
+      - title: Google SRE Book — Managing Critical State
+        type: documentation
+        url: https://sre.google/sre-book/managing-critical-state/
+        provider: Google
+        free: true
+      - title: Amazon Route 53 Health Checks and Failover
+        type: documentation
+        url: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html
+        provider: AWS
+        free: true
+  - id: cost-and-performance-tradeoffs
+    title: Cost and Performance Trade-offs
+    description: An architecture nobody can afford is a failed architecture, and cost is the constraint most designs discover only after the first full month of billing. This phase turns cost from a finance report into a design input. Done when you can present two designs for the same requirement with their monthly cost, and recommend one on grounds a finance stakeholder finds legible.
+    duration: 3-4 weeks
+    skills:
+      - name: Cost Modelling Before Build
+        level: advanced
+        category: core
+      - name: Commitment and Spot Purchasing
+        level: intermediate
+        category: core
+      - name: Rightsizing and Autoscaling
+        level: intermediate
+        category: core
+      - name: Data Transfer Cost Analysis
+        level: advanced
+        category: core
+      - name: Performance Benchmarking
+        level: intermediate
+        category: core
+      - name: Cost Attribution and Tagging
+        level: intermediate
+        category: core
+      - name: Build vs Buy Analysis
+        level: advanced
+        category: core
+    projects:
+      - Model the monthly cost of a design before building it, then compare the estimate against the first real bill and explain the gap
+      - Find the data transfer charges in an existing bill and trace each one to the architectural decision that created it
+      - Benchmark two instance families on the same workload and calculate cost per unit of work rather than cost per hour
+      - Design a tagging scheme that lets every line of a bill be attributed to a team, and test it against a month of real spend
+      - Write a build-versus-buy analysis for one managed service, costing the engineering time the self-hosted option consumes
+    resources:
+      - title: AWS Well-Architected Cost Optimization Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: AWS Pricing Calculator
+        type: documentation
+        url: https://calculator.aws/
+        provider: AWS
+        free: true
+      - title: The FinOps Framework
+        type: documentation
+        url: https://www.finops.org/framework/
+        provider: FinOps Foundation
+        free: true
+      - title: AWS Cost Explorer Documentation
+        type: documentation
+        url: https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html
+        provider: AWS
+        free: true
+      - title: Cloud FinOps
+        type: book
+        provider: J. R. Storment, Mike Fuller
+        free: false
+        isbnAsin: "1492098353"
+        year: 2023
+        freeAlternative:
+          title: The FinOps Framework
+          url: https://www.finops.org/framework/
+  - id: migration-and-modernisation
+    title: Migration and Modernisation
+    description: "Most cloud architecture work is not greenfield: it is moving something that already runs, that nobody fully understands, and that cannot stop. The seven migration strategies matter less than knowing which applies to each application and why. Done when you have produced a migration plan for a real system with its cutover sequence, its rollback point and the strategy chosen per component."
+    duration: 5-6 weeks
+    skills:
+      - name: Migration Strategy Selection
+        level: advanced
+        category: core
+      - name: Application Discovery and Dependency Mapping
+        level: advanced
+        category: core
+      - name: Strangler Fig Pattern
+        level: advanced
+        category: core
+      - name: Data Migration and Dual Writes
+        level: advanced
+        category: core
+      - name: Cutover and Rollback Planning
+        level: advanced
+        category: core
+      - name: Legacy Constraint Analysis
+        level: intermediate
+        category: core
+      - name: Modernisation Sequencing
+        level: advanced
+        category: core
+    projects:
+      - Take an application you did not write, map its real dependencies including the undocumented ones, and mark which block a move
+      - Assign a migration strategy to each component of one system and write the reason each was not simply rehosted
+      - Design a strangler fig migration for a monolith, naming the first slice to extract and how traffic gets routed during the transition
+      - Write a cutover runbook with a rollback point at each step, and identify the step after which rollback stops being possible
+      - Plan a data migration with a dual-write period, including how you verify both stores agree before switching reads
+      - Estimate a migration in engineering weeks and record which assumption would hurt most if it were wrong
+    resources:
+      - title: AWS Migration Strategies — the 7 Rs
+        type: documentation
+        url: https://docs.aws.amazon.com/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html
+        provider: AWS
+        free: true
+      - title: Strangler Fig Pattern
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig
+        provider: Microsoft
+        free: true
+      - title: Cloud Adoption Framework for Azure
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/
+        provider: Microsoft
+        free: true
+      - title: Google Cloud Migration Center Documentation
+        type: documentation
+        url: https://cloud.google.com/migration-center/docs
+        provider: Google Cloud
+        free: true
+      - title: AWS Database Migration Service User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html
+        provider: AWS
+        free: true
+  - id: multi-cloud-and-hybrid
+    title: Multi-Cloud and Hybrid
+    description: Multi-cloud is demanded more often than it is justified, and the architect who cannot argue against it when it is wrong will build an expensive lowest-common-denominator platform. The honest position is that it solves specific problems — regulatory, acquisition, genuine vendor risk — at a real operational cost. Done when you can write the case for and against multi-cloud for one organisation and recommend a position you would defend to its board.
+    duration: 3-4 weeks
+    skills:
+      - name: Multi-cloud Justification Analysis
+        level: advanced
+        category: core
+      - name: Portability vs Managed Service Trade-off
+        level: advanced
+        category: core
+      - name: Hybrid Architecture Patterns
+        level: advanced
+        category: core
+      - name: Cross-cloud Networking
+        level: advanced
+        category: core
+      - name: Vendor Lock-in Assessment
+        level: advanced
+        category: core
+      - name: Data Residency and Sovereignty
+        level: intermediate
+        category: core
+    projects:
+      - Write both sides of a multi-cloud proposal for one organisation, then state your recommendation and the evidence that decided it
+      - Cost the operational overhead of running one workload on two providers, including the training and on-call burden
+      - Quantify lock-in for a specific managed service as the engineering weeks needed to leave it, not as an adjective
+      - Design a hybrid architecture with a genuine on-premises constraint such as a device, a licence or a data residency rule
+      - Map data residency requirements to specific regions and record what those constraints forbid architecturally
+    resources:
+      - title: AWS Hybrid Cloud Architectures
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/hybrid-connectivity/hybrid-connectivity.html
+        provider: AWS
+        free: true
+      - title: Azure Arc Documentation
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/azure-arc/
+        provider: Microsoft
+        free: true
+      - title: Cross-Cloud Network for Distributed Applications
+        type: documentation
+        url: https://cloud.google.com/architecture/ccn-distributed-apps-design
+        provider: Google Cloud
+        free: true
+      - title: CNCF Cloud Native Landscape
+        type: documentation
+        url: https://landscape.cncf.io/
+        provider: CNCF
+        free: true
+  - id: architecture-decision-records
+    title: Architecture Decision Records
+    description: An architecture is the set of decisions that were expensive to change, and most of them get made in conversations nobody wrote down. Six months later the team relitigates a choice because the constraint that forced it is forgotten. Done when a decision you recorded is read by someone who was not in the room and they can explain why the rejected option was rejected.
+    duration: 2-3 weeks
+    skills:
+      - name: Writing Decision Records
+        level: intermediate
+        category: core
+      - name: Trade-off Articulation
+        level: advanced
+        category: core
+      - name: Documenting Rejected Options
+        level: advanced
+        category: core
+      - name: Architecture Diagramming
+        level: intermediate
+        category: core
+      - name: Fitness Functions
+        level: advanced
+        category: core
+      - name: Technical Writing for Architects
+        level: intermediate
+        category: core
+    projects:
+      - Write three decision records for choices already made in a system you know, reconstructing the constraints that applied at the time
+      - Document a decision including the option you rejected, and have a colleague who disagreed review whether you represented their case fairly
+      - Produce a C4 diagram set for one system and test it by asking a new joiner to trace a request through it unaided
+      - Define one fitness function that fails a build when an architectural constraint is violated, and watch it catch a real violation
+      - Revisit a decision record after a change of circumstances and write the follow-up that supersedes it rather than editing the original
+    resources:
+      - title: Architecture Decision Records
+        type: documentation
+        url: https://github.blog/engineering/why-write-adrs/
+        provider: GitHub
+        free: true
+      - title: The C4 Model for Visualising Software Architecture
+        type: documentation
+        url: https://c4model.com/
+        provider: Simon Brown
+        free: true
+      - title: Architectural Decision Records Organisation
+        type: documentation
+        url: https://adr.github.io/
+        provider: ADR
+        free: true
+      - title: AWS Prescriptive Guidance — Architecture Decision Records
+        type: documentation
+        url: https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
+        provider: AWS
+        free: true
+      - title: Fundamentals of Software Architecture
+        type: book
+        provider: Mark Richards, Neal Ford
+        free: false
+        isbnAsin: "1098175514"
+        year: 2025
+        freeAlternative:
+          title: AWS Prescriptive Guidance — Architecture Decision Records
+          url: https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
+  - id: influence-and-stakeholder-architecture
+    title: Influence and Stakeholder Architecture
+    description: The architect usually has no authority over the teams who must implement the design, so the work is persuasion backed by evidence. A technically correct design that no team adopts has failed as completely as a wrong one. Done when a team implements a design you proposed but could not mandate, and you can name the argument that changed their mind.
+    duration: 3-4 weeks
+    skills:
+      - name: Influence Without Authority
+        level: advanced
+        category: core
+      - name: Stakeholder Communication
+        level: advanced
+        category: core
+      - name: Presenting Trade-offs to Executives
+        level: advanced
+        category: core
+      - name: Architecture Review Facilitation
+        level: advanced
+        category: core
+      - name: Technical Debt Negotiation
+        level: advanced
+        category: core
+      - name: Mentoring Engineers
+        level: intermediate
+        category: core
+      - name: Handling Disagreement
+        level: advanced
+        category: core
+    projects:
+      - Present one architecture two ways — to engineers and to a budget holder — and note which objections only appeared in the second version
+      - Facilitate a review where you are not the author, and leave with the author still committed to their design or genuinely convinced to change it
+      - Turn one piece of technical debt into a funded work item by expressing it as risk and cost rather than as untidiness
+      - Propose a design to a team you cannot direct, and record what actually persuaded them or why they declined
+      - Write the one-page version of a complex design for someone who will spend ninety seconds on it
+    resources:
+      - title: Google SRE Workbook — Incident Response
+        type: documentation
+        url: https://sre.google/workbook/incident-response/
+        provider: Google
+        free: true
+      - title: Amazon's Leadership Principles
+        type: documentation
+        url: https://www.amazon.jobs/content/en/our-workplace/leadership-principles
+        provider: Amazon
+        free: true
+      - title: Team Topologies — Key Concepts
+        type: documentation
+        url: https://teamtopologies.com/key-concepts
+        provider: Team Topologies
+        free: true
+      - title: The Phoenix Project
+        type: book
+        provider: Gene Kim, Kevin Behr, George Spafford
+        free: false
+        isbnAsin: "1942788290"
+        year: 2018
+        freeAlternative:
+          title: "The Three Ways: The Principles Underpinning DevOps"
+          url: https://itrevolution.com/articles/the-three-ways-principles-underpinning-devops/
+relatedRoadmaps:
+  - finops-engineer
+  - cloud-security-engineer
+  - sre
+  - platform-engineer
+  - database-reliability-engineer
+relatedCertifications:
+  - aws-solutions-architect-associate
+  - az-104
+  - cka
+  - ccsp
+faq:
+  - question: How long does it take to become a cloud architect?
+    answer: The full roadmap runs 8-11 months at around 10 hours a week, according to SkillPilot's editorial estimate. It is deliberately not a beginner path — it assumes two or more years of experience building or operating systems in production, plus working knowledge of Linux, networking and HTTP services.
+  - question: How much does a cloud architect earn?
+    answer: In the United States, Glassdoor's total pay estimates (based on 1,420 salaries submitted) place entry-level compensation around $159,276 at the 25th percentile, a mid-level average of $202,355, and senior compensation around $260,623 at the 75th percentile. These are total pay figures rather than base salary alone.
+  - question: What does the Cloud Architect roadmap actually cover?
+    answer: It moves from cloud fundamentals and service models through networking, storage and identity, into high availability and disaster recovery, cost trade-offs, and migration of systems you did not build. The later phases turn to architecture decision records and influence without formal authority, because most of the work is persuading teams you cannot mandate.
+  - question: Do I need prior experience before starting this roadmap?
+    answer: Yes. The roadmap expects two or more years building or operating production systems, working knowledge of Linux, networking and HTTP services, and comfort reading code in at least one language even if you no longer write it daily. It is built as an advanced-level path rather than an introduction to cloud computing.
+  - question: Why does the roadmap spend so much time on disaster recovery and migration instead of just design patterns?
+    answer: "Because most cloud architecture work is not greenfield: it is moving something that already runs, that nobody fully understands, and that cannot stop, and every system needs a disaster recovery plan that has actually been rehearsed rather than just documented. The roadmap has you execute a real failover and produce a migration plan with a cutover sequence and rollback point, rather than only reading about the seven migration strategies."
+  - question: Is being technically right enough to succeed as a cloud architect?
+    answer: No — the roadmap treats influence as a core skill because architects usually have no authority over the teams who must implement their designs, so a technically correct design that no team adopts has failed just as completely as a wrong one. The final phase is built around presenting trade-offs, facilitating reviews, and negotiating technical debt as risk and cost rather than as untidiness.

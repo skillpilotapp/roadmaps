@@ -1,0 +1,846 @@
+# Site Reliability Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: sre
+title: Site Reliability Engineer Roadmap
+description: A path from DevOps fundamentals into the specialized discipline of site reliability engineering, covering SLOs, observability, incident response, data reliability, and capacity planning.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  This path assumes you have run production systems and want the discipline that makes reliability a decision rather than a reflex. If you already carry a pager, phases one and four are where the vocabulary you use daily gets precise.
+
+  The whole subject rests on one idea: **reliability is a target you choose, not a maximum you chase**. An SLO set at what the system currently does guarantees no work is ever safe, because any change looks like a regression. Set it from what users need and you get a budget to spend.
+
+  Phase order matters more here than elsewhere. Instrumentation before alerting, because you cannot alert on a signal you do not have; incidents before postmortems, because a postmortem process with no incidents to feed it is a template.
+
+  Expect 8–11 months. Phase eight is the wall — stateful systems are where "just redeploy it" stops being an answer.
+totalDuration:
+  value: 8-11 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-08"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $95,000 - $161,000
+    source: Glassdoor Site Reliability Engineer salary estimate, up to 1 year experience (US)
+    retrievedAt: "2026-08-04"
+  mid:
+    value: $172,508
+    source: Glassdoor Site Reliability Engineer salary estimate (overall average, US)
+    retrievedAt: "2026-08-04"
+  senior:
+    value: $185,489
+    source: Glassdoor Senior Site Reliability Engineer salary estimate (average, US)
+    retrievedAt: "2026-08-04"
+prerequisites:
+  - Working knowledge of Linux and the command line
+  - Basic cloud infrastructure experience (VMs, networking)
+  - Comfort reading and writing code in at least one language
+stages:
+  - name: Define reliability
+    from: 0
+    to: 3
+  - name: Run it in production
+    from: 3
+    to: 6
+  - name: Learn from failure
+    from: 6
+    to: 7
+  - name: Hold it at scale
+    from: 7
+    to: 10
+phases:
+  - id: reliability-foundations
+    title: Reliability Foundations
+    description: The vocabulary that makes every later conversation precise. Done when you can write an SLO for a service you did not build, defend the target against "why not higher?", and say what happens when the budget runs out. Targets come from what users need, not from what the system currently does — setting the SLO at current performance guarantees no work is ever safe.
+    duration: 3-4 weeks
+    skills:
+      - name: SLI Selection
+        level: advanced
+        category: core
+      - name: SLO Design
+        level: advanced
+        category: core
+      - name: Error Budgets & Burn Rate
+        level: advanced
+        category: core
+      - name: SLA vs SLO Distinction
+        level: intermediate
+        category: core
+      - name: Availability Arithmetic
+        level: intermediate
+        category: core
+      - name: Risk & Tradeoff Analysis
+        level: intermediate
+        category: core
+      - name: Reliability Economics
+        level: intermediate
+        category: core
+      - name: Stakeholder Negotiation
+        level: intermediate
+        category: core
+    projects:
+      - Define SLIs and SLOs for a checkout API, including a written error-budget policy stating exactly what stops when the budget is exhausted and who decides
+      - Take a service you did not build and write its SLO from the outside, then defend the number against both "why not higher?" and "why not lower?"
+      - Calculate the permitted downtime for 99%, 99.9%, 99.95% and 99.99% and write down what each would actually cost to defend
+      - Find a service whose current performance was quietly adopted as its target, and write the argument for what the target should be instead
+      - Write the one-page error-budget policy you would actually take to a product manager, in language that survives contact with someone who does not care about percentiles
+      - Pick a real outage from a public postmortem and work out what it cost in error budget — then say whether the SLO was set correctly
+    resources:
+      - title: Google SRE Book (free online)
+        type: book
+        url: https://sre.google/sre-book/table-of-contents/
+        provider: Google
+        free: true
+      - title: Google SRE Workbook
+        type: book
+        url: https://sre.google/workbook/table-of-contents/
+        provider: Google
+        free: true
+      - title: Service Level Objectives (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/service-level-objectives/
+        provider: Google
+        free: true
+      - title: Implementing SLOs (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/implementing-slos/
+        provider: Google
+        free: true
+      - title: Embracing Risk (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/embracing-risk/
+        provider: Google
+        free: true
+      - title: Simplicity (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/simplicity/
+        provider: Google
+        free: true
+      - title: Site Reliability Engineering
+        type: book
+        provider: Betsy Beyer, Chris Jones, Jennifer Petoff, Niall Richard Murphy
+        free: false
+        isbnAsin: 149192912X
+        year: 2016
+        freeAlternative:
+          title: Site Reliability Engineering (full text, free online)
+          url: https://sre.google/sre-book/table-of-contents/
+  - id: instrumentation-metrics
+    title: Instrumentation & Metrics
+    description: "An SLO with no instrumentation is a wish. This phase is about producing the signal: what to measure, how to name it, and what it costs to keep. Done when a service you instrumented can answer a question you had not thought of when you instrumented it. Averages hide the users you are failing — if you only learn one thing here, make it percentiles."
+    duration: 4-6 weeks
+    skills:
+      - name: Metrics & Instrumentation
+        level: advanced
+        category: core
+      - name: Prometheus & PromQL
+        level: advanced
+        category: tool
+      - name: OpenTelemetry
+        level: advanced
+        category: tool
+      - name: Histograms & Percentiles
+        level: advanced
+        category: core
+      - name: Metric Naming Conventions
+        level: intermediate
+        category: core
+      - name: Cardinality Management
+        level: advanced
+        category: core
+      - name: Grafana & Dashboard Design
+        level: advanced
+        category: tool
+      - name: The Four Golden Signals
+        level: intermediate
+        category: core
+    projects:
+      - Instrument a service with the four golden signals — latency, traffic, errors, saturation — using OpenTelemetry rather than a vendor SDK
+      - Build a dashboard an on-call engineer can read at 3am without you, then test that claim by handing it to someone else and saying nothing
+      - Replace an average-latency panel with a histogram-backed p50/p95/p99 view and write down which users the average was hiding
+      - Deliberately blow up metric cardinality in a test environment, watch what it costs, and then fix it
+      - Write the metric naming convention for a service and apply it retroactively to everything already emitting
+      - Compute an SLO compliance figure directly from your own metrics, and reconcile it against what your provider's dashboard claims
+    resources:
+      - title: Prometheus Documentation
+        type: documentation
+        url: https://prometheus.io/docs/introduction/overview/
+        provider: Prometheus
+        free: true
+      - title: Prometheus Metric & Label Naming
+        type: documentation
+        url: https://prometheus.io/docs/practices/naming/
+        provider: Prometheus
+        free: true
+      - title: Prometheus Histograms & Summaries
+        type: documentation
+        url: https://prometheus.io/docs/practices/histograms/
+        provider: Prometheus
+        free: true
+      - title: Prometheus Instrumentation Practices
+        type: documentation
+        url: https://prometheus.io/docs/practices/instrumentation/
+        provider: Prometheus
+        free: true
+      - title: PromQL Querying Basics
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/basics/
+        provider: Prometheus
+        free: true
+      - title: OpenTelemetry Metrics Concepts
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/metrics/
+        provider: OpenTelemetry
+        free: true
+      - title: Monitoring Distributed Systems (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/monitoring-distributed-systems/
+        provider: Google
+        free: true
+      - title: PromLabs PromQL Cheat Sheet
+        type: tutorial
+        url: https://promlabs.com/promql-cheat-sheet/
+        provider: PromLabs
+        free: true
+      - title: Grafana Dashboard Best Practices
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/best-practices/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Fundamentals
+        type: tutorial
+        url: https://grafana.com/tutorials/grafana-fundamentals/
+        provider: Grafana Labs
+        free: true
+    prerequisites:
+      - reliability-foundations
+  - id: tracing-logging
+    title: Tracing, Logging & Debugging Production
+    description: Metrics tell you something is wrong; traces and logs tell you where and why. Done when you can follow one request across service boundaries in a single trace and answer a question about last week from telemetry alone — no SSH, no log files on disk. Monitoring answers questions you knew to ask; this phase is what lets you ask new ones mid-incident.
+    duration: 4-6 weeks
+    skills:
+      - name: Distributed Tracing
+        level: advanced
+        category: core
+      - name: Context Propagation
+        level: advanced
+        category: core
+      - name: Structured Logging
+        level: advanced
+        category: core
+      - name: Log Aggregation & Retention
+        level: intermediate
+        category: tool
+      - name: Semantic Conventions
+        level: intermediate
+        category: core
+      - name: Sampling Strategies
+        level: advanced
+        category: core
+      - name: Systematic Troubleshooting
+        level: advanced
+        category: core
+      - name: Telemetry Cost Control
+        level: intermediate
+        category: core
+    projects:
+      - Instrument a multi-service application so one request can be followed end to end in a single trace, including across an async queue boundary
+      - Take an incident you have already resolved and re-derive its cause using only traces and logs — then note every step where you wanted to SSH somewhere
+      - Convert a service's plaintext logs to structured events with consistent field names, and delete the fields nobody queried in six months
+      - Implement tail-based sampling and prove you still captured the slow requests you cared about
+      - Cut a telemetry bill in half without losing the ability to debug — write down what you gave up and why it was safe
+      - Correlate a trace, its logs and its metrics for a single failing request, so a responder can move between all three without copying identifiers by hand
+    resources:
+      - title: OpenTelemetry Documentation
+        type: documentation
+        url: https://opentelemetry.io/docs/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Traces Concepts
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/traces/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Semantic Conventions
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/semantic-conventions/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Collector
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/
+        provider: OpenTelemetry
+        free: true
+      - title: Jaeger Documentation
+        type: documentation
+        url: https://www.jaegertracing.io/docs/latest/
+        provider: Jaeger
+        free: true
+      - title: Grafana Loki Documentation
+        type: documentation
+        url: https://grafana.com/docs/loki/latest/
+        provider: Grafana Labs
+        free: true
+      - title: Effective Troubleshooting (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/effective-troubleshooting/
+        provider: Google
+        free: true
+      - title: The Production Environment at Google (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/production-environment/
+        provider: Google
+        free: true
+    prerequisites:
+      - instrumentation-metrics
+  - id: alerting-on-slos
+    title: Alerting on SLOs & On-Call Health
+    description: The bridge between telemetry and a human being woken up. Done when every page in your rotation is actionable and you can defend each one, and when you have deleted an alert someone else wrote. An alert that fires without a clear action trains people to ignore alerts — alert fatigue is not a personality flaw, it is a design defect.
+    duration: 3-4 weeks
+    skills:
+      - name: Alert Design
+        level: advanced
+        category: core
+      - name: Burn-rate Alerting
+        level: advanced
+        category: core
+      - name: Multi-window Multi-burn-rate
+        level: advanced
+        category: core
+      - name: Symptom vs Cause Alerting
+        level: advanced
+        category: core
+      - name: Alert Fatigue Management
+        level: advanced
+        category: core
+      - name: On-Call Rotation Design
+        level: intermediate
+        category: core
+      - name: Escalation Policies
+        level: intermediate
+        category: core
+      - name: Runbook Authoring
+        level: intermediate
+        category: core
+    projects:
+      - Replace a static threshold alert with a multi-window burn-rate alert and explain what each window is designed to catch
+      - Audit an alerting setup and cut false positives by at least half, proving no real incident would have been missed
+      - "Review three months of pages: how many were actionable, and what would you delete?"
+      - Write a runbook for one service, then have someone unfamiliar with it follow the runbook during a simulated incident — the gaps they hit are the real output
+      - Write an on-call rotation policy covering escalation, handoff and burnout rules for a four-person team
+      - Convert a cause-based alert ("disk is 80% full") into a symptom-based one ("users are seeing errors") and argue which you would rather be woken by
+    resources:
+      - title: Alerting on SLOs (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/alerting-on-slos/
+        provider: Google
+        free: true
+      - title: Practical Alerting (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/practical-alerting/
+        provider: Google
+        free: true
+      - title: Being On-Call (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/being-on-call/
+        provider: Google
+        free: true
+      - title: PagerDuty Incident Response Documentation
+        type: documentation
+        url: https://response.pagerduty.com/
+        provider: PagerDuty
+        free: true
+      - title: Prometheus Alerting Rules
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/basics/
+        provider: Prometheus
+        free: true
+    prerequisites:
+      - tracing-logging
+  - id: automation-toil
+    title: Automation & Toil Reduction
+    description: Toil is manual, repetitive, automatable work that scales with the service. Done when you measured it before automating and can state the hours reclaimed, and your automation has a documented failure mode that does not require you personally to be awake. Automating before measuring builds tooling for problems you assumed rather than problems you have.
+    duration: 4-6 weeks
+    skills:
+      - name: Toil Measurement
+        level: advanced
+        category: core
+      - name: Terraform
+        level: advanced
+        category: tool
+      - name: Kubernetes Operators
+        level: intermediate
+        category: tool
+      - name: Automated Remediation
+        level: advanced
+        category: core
+      - name: Runbook Automation
+        level: intermediate
+        category: core
+      - name: Chaos Engineering
+        level: intermediate
+        category: core
+      - name: Load & Stress Testing
+        level: intermediate
+        category: tool
+      - name: Failure Mode Analysis
+        level: advanced
+        category: core
+      - name: Progressive Delivery
+        level: advanced
+        category: core
+    projects:
+      - Track where your operational time actually goes for two weeks, then rank the toil by hours before automating anything
+      - Write a self-healing automation for one specific failure mode, with audit logging and a documented way to disable it in a hurry
+      - Run a controlled chaos experiment against staging — terminate a pod under load — and document blast radius and recovery time
+      - Automate the top item from your toil ranking, then measure the hours actually reclaimed and compare against what you predicted
+      - Write the failure mode analysis for your own automation, answering what happens when it misfires at 3am
+      - Build a canary deployment that automatically rolls back on an SLO burn-rate signal rather than on a human noticing
+    resources:
+      - title: Terraform Documentation
+        type: documentation
+        url: https://developer.hashicorp.com/terraform/docs
+        provider: HashiCorp
+        free: true
+      - title: Eliminating Toil (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/eliminating-toil/
+        provider: Google
+        free: true
+      - title: Canarying Releases (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/canarying-releases/
+        provider: Google
+        free: true
+      - title: Release Engineering (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/release-engineering/
+        provider: Google
+        free: true
+      - title: Chaos Engineering Principles
+        type: documentation
+        url: https://principlesofchaos.org/
+        provider: Chaos Community
+        free: true
+      - title: Kubernetes Operator Pattern
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
+        provider: Kubernetes
+        free: true
+      - title: k6 Load Testing Documentation
+        type: documentation
+        url: https://grafana.com/docs/k6/latest/
+        provider: Grafana Labs
+        free: true
+      - title: Software Engineering in SRE (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/software-engineering-in-sre/
+        provider: Google
+        free: true
+    prerequisites:
+      - alerting-on-slos
+  - id: incident-response
+    title: Incident Response
+    description: "What you do while the system is broken and people are watching. Done when you have run an incident as commander without touching a terminal — the commander who starts debugging stops coordinating. Roles beat heroics: an incident with a named commander, a scribe and a comms lead resolves faster than one with five engineers all fixing the same thing."
+    duration: 3-4 weeks
+    skills:
+      - name: Incident Command
+        level: advanced
+        category: core
+      - name: Severity Classification
+        level: intermediate
+        category: core
+      - name: Incident Communication
+        level: advanced
+        category: core
+      - name: Stakeholder Updates
+        level: intermediate
+        category: core
+      - name: Mitigation Before Diagnosis
+        level: advanced
+        category: core
+      - name: Debugging Under Pressure
+        level: advanced
+        category: core
+      - name: Incident Roles & Handoff
+        level: intermediate
+        category: core
+    projects:
+      - Run a tabletop simulation with assigned incident commander and scribe roles, and hold the commander to coordinating rather than debugging
+      - Define severity levels for your service, with a concrete example of each, so classification does not get argued about during an incident
+      - Write the stakeholder update template for a live incident — the one that says what is broken and what to expect next without promising a fix time
+      - "Practise mitigating before diagnosing: roll back, drain, or fail over first, and note how much faster users recovered than root cause was found"
+      - Run an incident handoff across a shift boundary and document what the incoming commander needed that was not written down
+    resources:
+      - title: Managing Incidents (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/managing-incidents/
+        provider: Google
+        free: true
+      - title: Emergency Response (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/emergency-response/
+        provider: Google
+        free: true
+      - title: Incident Response (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/incident-response/
+        provider: Google
+        free: true
+      - title: PagerDuty Incident Response Documentation
+        type: documentation
+        url: https://response.pagerduty.com/
+        provider: PagerDuty
+        free: true
+    prerequisites:
+      - automation-toil
+  - id: incident-learning
+    title: Postmortems & Organisational Learning
+    description: "Where an outage stops being a loss. Done when you have run a postmortem that produced action items someone actually completed — an unowned action item is a wish with a due date. The document explains what made the failure possible, never who typed the command: a blameful postmortem teaches everyone present to report less next time."
+    duration: 2-3 weeks
+    skills:
+      - name: Blameless Postmortems
+        level: advanced
+        category: core
+      - name: Root Cause & Contributing Factors
+        level: advanced
+        category: core
+      - name: Action Item Follow-through
+        level: advanced
+        category: core
+      - name: Incident Metrics & Trends
+        level: intermediate
+        category: core
+      - name: Writing for Non-Engineers
+        level: intermediate
+        category: core
+      - name: Psychological Safety
+        level: advanced
+        category: core
+      - name: Knowledge Sharing
+        level: intermediate
+        category: core
+    projects:
+      - Produce a full postmortem within 48 hours of a simulated incident, with owners and dates on every action item
+      - Rewrite a blameful postmortem into a blameless one and note exactly what changed in the findings, not just the tone
+      - Go back to postmortems from six months ago and check which action items were actually completed — the completion rate is the real health metric
+      - "Analyse a quarter of incidents for patterns: which contributing factor shows up repeatedly, and what would fix the class rather than the instance?"
+      - Write the public-facing version of an incident report for customers, saying what happened without either hiding it or drowning them in internals
+      - Run a postmortem review meeting where the author is not the most senior person in the room, and note what that changed
+    resources:
+      - title: Postmortem Culture (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/postmortem-culture/
+        provider: Google
+        free: true
+      - title: Postmortem Culture (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/postmortem-culture/
+        provider: Google
+        free: true
+      - title: Google Postmortem Example
+        type: documentation
+        url: https://sre.google/sre-book/example-postmortem/
+        provider: Google
+        free: true
+      - title: PagerDuty Postmortem Guide
+        type: documentation
+        url: https://postmortems.pagerduty.com/
+        provider: PagerDuty
+        free: true
+      - title: Postmortem Templates Collection
+        type: documentation
+        url: https://github.com/dastergon/postmortem-templates
+        provider: Pavlos Ratis
+        free: true
+    prerequisites:
+      - incident-response
+  - id: data-reliability
+    title: Data & Stateful Systems Reliability
+    description: "Stateless services are the easy half. Done when you have restored a database from backup into a clean environment and recorded the real recovery time — a backup nobody has restored is a hypothesis, not a backup. Data has a property compute does not: you can lose it permanently, so the failure modes here are the ones that end companies."
+    duration: 4-6 weeks
+    skills:
+      - name: Replication & Consistency Models
+        level: advanced
+        category: core
+      - name: Backup & Restore Verification
+        level: advanced
+        category: core
+      - name: RTO & RPO Definition
+        level: advanced
+        category: core
+      - name: Zero-downtime Migrations
+        level: advanced
+        category: core
+      - name: Data Integrity & Corruption
+        level: advanced
+        category: core
+      - name: Database Failover
+        level: advanced
+        category: core
+      - name: Connection Pooling & Saturation
+        level: intermediate
+        category: core
+      - name: Stateful Workloads on Kubernetes
+        level: intermediate
+        category: tool
+    projects:
+      - Restore a production-sized database from backups into a clean environment and record the real recovery time, not the estimated one
+      - Run a schema migration on a live table with no downtime, using expand-and-contract, and document the rollback path at each step
+      - Trigger a database failover under write load and measure exactly how much data and how many seconds were lost
+      - Define RTO and RPO for one stateful service, then test whether your current setup actually meets them — most do not
+      - Detect a deliberately introduced data corruption using checksums or reconciliation, and write the runbook for how it would be caught in production
+      - Exhaust a connection pool under load and document what the application did — the failure mode is rarely the one people expect
+    resources:
+      - title: Managing Critical State (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/managing-critical-state/
+        provider: Google
+        free: true
+      - title: Data Integrity (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/data-integrity/
+        provider: Google
+        free: true
+      - title: PostgreSQL High Availability & Replication
+        type: documentation
+        url: https://www.postgresql.org/docs/current/high-availability.html
+        provider: PostgreSQL
+        free: true
+      - title: Jepsen Distributed Systems Analyses
+        type: documentation
+        url: https://jepsen.io/analyses
+        provider: Jepsen
+        free: true
+      - title: Patterns of Distributed Systems
+        type: documentation
+        url: https://martinfowler.com/articles/patterns-of-distributed-systems/
+        provider: Martin Fowler
+        free: true
+      - title: Google Cloud DR Planning Guide
+        type: documentation
+        url: https://docs.cloud.google.com/architecture/dr-scenarios-planning-guide
+        provider: Google Cloud
+        free: true
+      - title: Cloud SQL Backups — Types, Retention & Restore
+        type: documentation
+        url: https://docs.cloud.google.com/sql/docs/postgres/backup-recovery/backups
+        provider: Google Cloud
+        free: true
+      - title: Designing Data-Intensive Applications
+        type: book
+        provider: Martin Kleppmann
+        free: false
+        isbnAsin: "1449373321"
+        year: 2017
+    prerequisites:
+      - incident-learning
+  - id: capacity-and-cost
+    title: Capacity Planning & Cost Efficiency
+    description: Reliability you cannot afford is not reliability. Done when you have forecast demand, sized infrastructure from that forecast rather than from habit, and cut spend without moving your SLO. Overprovisioning hides design problems and bills you monthly for the privilege — the goal is headroom you chose deliberately, not headroom you inherited.
+    duration: 3-4 weeks
+    skills:
+      - name: Capacity Planning
+        level: advanced
+        category: core
+      - name: Demand Forecasting
+        level: advanced
+        category: core
+      - name: Load Shedding
+        level: advanced
+        category: core
+      - name: Autoscaling Design
+        level: advanced
+        category: core
+      - name: Resource Limits & Requests
+        level: intermediate
+        category: tool
+      - name: Cost Attribution & FinOps
+        level: intermediate
+        category: core
+      - name: Performance Bottleneck Analysis
+        level: advanced
+        category: core
+      - name: Queueing & Backpressure
+        level: advanced
+        category: core
+    projects:
+      - Run a capacity exercise forecasting infrastructure for 3x traffic growth over six months, showing the arithmetic rather than a guess
+      - Load-test a service to the point of failure and record which resource ran out first — it is rarely the one you sized for
+      - Implement load shedding so the service degrades predictably under overload instead of collapsing, and prove it with a load test
+      - Cut infrastructure spend by 20% on one service without changing its SLO, and document what headroom you gave up
+      - Right-size Kubernetes requests and limits from observed usage rather than from the defaults someone copied, and measure the reclaimed capacity
+      - Tune an autoscaler until it responds to a real traffic spike without flapping — then write down the tradeoff you settled on
+    resources:
+      - title: Handling Overload (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/handling-overload/
+        provider: Google
+        free: true
+      - title: Managing Load (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/managing-load/
+        provider: Google
+        free: true
+      - title: Non-Abstract Large System Design (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/non-abstract-design/
+        provider: Google
+        free: true
+      - title: "AWS Builders' Library: Using Load Shedding to Avoid Overload"
+        type: documentation
+        url: https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/
+        provider: AWS
+        free: true
+      - title: "AWS Builders' Library: Avoiding Insurmountable Queue Backlogs"
+        type: documentation
+        url: https://aws.amazon.com/builders-library/avoiding-insurmountable-queue-backlogs/
+        provider: AWS
+        free: true
+      - title: Kubernetes Resource Management
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Horizontal Pod Autoscaling
+        type: documentation
+        url: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+        provider: Kubernetes
+        free: true
+      - title: What is FinOps?
+        type: documentation
+        url: https://www.finops.org/introduction/what-is-finops/
+        provider: FinOps Foundation
+        free: true
+      - title: AWS Well-Architected Cost Optimization Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: OpenCost Documentation
+        type: documentation
+        url: https://opencost.io/docs/
+        provider: OpenCost
+        free: true
+    prerequisites:
+      - data-reliability
+  - id: platform-scale
+    title: Reliability at Platform Scale
+    description: The multiplier. Making one service reliable is engineering; making it easy for fifty teams to run reliable services is what changes an organisation. Done when a team you do not sit with adopted something you built without you walking them through it — adoption you had to chaperone is a demo, not a platform.
+    duration: 5-7 weeks
+    skills:
+      - name: Multi-Region Architecture
+        level: advanced
+        category: core
+      - name: Dependency Mapping
+        level: advanced
+        category: core
+      - name: Disaster Recovery
+        level: advanced
+        category: core
+      - name: Production Readiness Reviews
+        level: advanced
+        category: core
+      - name: Reliability as a Platform Service
+        level: advanced
+        category: core
+      - name: Graceful Degradation
+        level: advanced
+        category: core
+      - name: Circuit Breakers & Bulkheads
+        level: advanced
+        category: core
+      - name: Technical Influence Without Authority
+        level: intermediate
+        category: core
+      - name: Cascading Failure Prevention
+        level: advanced
+        category: core
+    projects:
+      - Design a multi-region failover for a stateful service with RTO and RPO targets, then actually test the failover rather than only documenting it
+      - Map dependencies across a five-plus service system, identify the single points of failure, and fix the highest-risk one
+      - Write a production readiness review checklist and run it against a service that is already live — what it fails is the point
+      - Build a reliability capability other teams consume as a service, such as a default dashboard or SLO template they get for free
+      - Implement graceful degradation somewhere, so the system sheds a non-critical feature under load instead of failing whole
+      - Add circuit breakers with timeouts and jittered retries to a service-to-service call, then prove the retry storm you prevented was real
+    resources:
+      - title: Addressing Cascading Failures (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/addressing-cascading-failures/
+        provider: Google
+        free: true
+      - title: Production Readiness Reviews (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/evolving-sre-engagement-model/
+        provider: Google
+        free: true
+      - title: Datacenter Load Balancing (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/load-balancing-datacenter/
+        provider: Google
+        free: true
+      - title: AWS Disaster Recovery Whitepaper
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html
+        provider: AWS
+        free: true
+      - title: AWS Fault Isolation Boundaries
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/abstract-and-introduction.html
+        provider: AWS
+        free: true
+      - title: "AWS Builders' Library: Timeouts, Retries and Backoff with Jitter"
+        type: documentation
+        url: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
+        provider: AWS
+        free: true
+      - title: "AWS Builders' Library: Workload Isolation Using Shuffle Sharding"
+        type: documentation
+        url: https://aws.amazon.com/builders-library/workload-isolation-using-shuffle-sharding/
+        provider: AWS
+        free: true
+      - title: Circuit Breaker Pattern
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker
+        provider: Microsoft
+        free: true
+      - title: AWS Well-Architected Reliability Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html
+        provider: AWS
+        free: true
+    prerequisites:
+      - capacity-and-cost
+jobReality:
+  dayToDay: "Less firefighting than the job's reputation suggests, and more writing. A normal week is reviewing other teams' launch plans against their error budgets, extending automation so a manual runbook step stops needing a human, and arguing about whether a proposed SLO reflects what users notice. On-call is the exception rather than the shape of the role: a healthy rotation is quiet, and a rotation that is not quiet is the problem you are being paid to fix. The uncomfortable part is that most of your influence is exercised over teams you do not manage, through a budget number they agreed to before anything broke."
+  interview: "Three recognisable rounds. A debugging or incident exercise where you are handed a misbehaving system and watched for how you narrow the problem — the reasoning is being scored, not the answer. A systems design round pitched at failure rather than throughput: what happens when this dependency is slow, what does the client do, how do you know before your users tell you. And a behavioural round built almost entirely on real incidents, where the expected answer names what you got wrong and what changed afterwards; a story with no mistake in it reads as a story that was rehearsed. Expect SLO and error-budget vocabulary to be probed for whether you have set one, not whether you can define one."
+  entryPaths: Almost nobody starts here — the prerequisites say Linux, cloud and code for a reason. The three common origins are backend engineers who kept getting pulled into production problems and found they preferred them, systems administrators or ops engineers formalising what they already do, and DevOps engineers moving from building pipelines toward owning service behaviour. If you are on the DevOps engineer path, phases one and four here are the specialisation. Coming from the data side, database reliability engineering shares this roadmap's phase eight and diverges after it. What transfers from any of them is production instinct; what does not is the assumption that reliability is a maximum rather than a target.
+  progression: The ladder forks rather than continuing straight. Staff and principal SREs stay technical and widen their blast radius, owning reliability standards across an organisation instead of services — which is phase ten as a full-time job. The second fork is platform or infrastructure engineering, where the product becomes the thing other engineers build on. The third is management of an SRE org, which trades the debugging for headcount and on-call sustainability. Salary data on this page stops at senior because that is where public estimates stop being reliable, not because the ladder does.
+  failureModes: "Two, and both are structural rather than technical. The first is joining an organisation that wanted a rebranded operations team: if nobody will let you spend an error budget, or every incident review ends with a name rather than a change, the title is the only part of the job you actually got. Ask in the interview who last blocked a launch and what happened. The second is on-call that never gets better, which is the same failure seen from underneath — pages that are not actionable, a rotation too thin to absorb one bad week, and no time budgeted to fix any of it. Burnout here is not a resilience problem, it is an unspent budget."
+relatedRoadmaps:
+  - devops-engineer
+  - database-reliability-engineer
+  - observability-engineer
+  - cloud-architect
+relatedCertifications:
+  - cka
+  - aws-solutions-architect-associate
+  - lfcs
+faq:
+  - question: How long does it take to become an SRE, and what should I know first?
+    answer: The full path runs 8-11 months at around 10 hours a week across ten phases. You should already have working knowledge of Linux and the command line, some basic cloud infrastructure experience with VMs and networking, and be comfortable reading and writing code in at least one language before starting.
+  - question: What does an SRE roadmap actually cover?
+    answer: "It moves from reliability foundations — SLIs, SLOs and error budgets — into instrumentation with metrics, then tracing and logging, alerting, automation and toil reduction, incident response, postmortems, data and stateful systems reliability, capacity planning, and finally reliability at platform scale. Phase order matters: instrumentation comes before alerting because you cannot alert on a signal you do not have, and incidents come before postmortems because a postmortem process with no incidents to feed it is only a template."
+  - question: How much does a site reliability engineer earn?
+    answer: In the United States, entry-level SRE pay ranges from about $95,000 to $161,000 for candidates with up to a year of experience, according to Glassdoor. The overall average sits around $172,508, and senior SREs average about $185,489.
+  - question: What do SRE interviews ask?
+    answer: Three rounds are near-universal. A debugging or incident exercise where you are handed a misbehaving system and scored on how you narrow the problem rather than on reaching the answer. A systems design round pitched at failure rather than throughput — what happens when a dependency is slow, and how you find out before users tell you. And a behavioural round built on real incidents, where naming what you got wrong and what changed afterwards is the expected answer. SLO and error-budget vocabulary gets probed for whether you have actually set one, not whether you can define it.
+  - question: How do you become an SRE, and what job do most people come from?
+    answer: Almost nobody starts here directly. The three common origins are backend engineers who kept being pulled into production problems and found they preferred them, systems administrators and ops engineers formalising work they already do, and DevOps engineers moving from building pipelines toward owning service behaviour. What transfers is production instinct; what does not is the habit of treating reliability as a maximum to chase rather than a target you choose. The roadmap assumes Linux, basic cloud infrastructure and comfort reading code before phase one.
+  - question: What comes after senior SRE?
+    answer: The ladder forks rather than continuing straight. Staff and principal SREs stay technical and own reliability standards across an organisation instead of individual services, which is this roadmap's tenth phase as a full-time job. The second fork is platform or infrastructure engineering, where the product becomes what other engineers build on. The third is managing an SRE organisation, trading debugging for headcount and on-call sustainability. Public salary estimates stop at senior because that is where the data thins, not because the ladder ends.
+  - question: Why do people leave SRE jobs?
+    answer: "Usually for one structural reason with two faces. The first is joining a team that wanted a rebranded operations function — if nobody will let you spend an error budget, or incident reviews end with a name rather than a change, the title is the only part of the role you got. The second is on-call that never improves: pages that are not actionable, a rotation too thin to absorb one bad week, and no time budgeted to fix either. Burnout in this role is rarely a resilience problem; it is an unspent error budget."
+  - question: Which phase of the SRE path is hardest, and why?
+    answer: Data and stateful systems reliability is described as the wall in this roadmap, because stateless services are the easy half of the job. It only counts as done once you have restored a database from backup into a clean environment and recorded the real recovery time, since a backup nobody has restored is a hypothesis, not a backup.

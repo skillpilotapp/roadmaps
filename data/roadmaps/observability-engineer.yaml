@@ -1,0 +1,797 @@
+# Observability Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: observability-engineer
+title: Observability Engineer Roadmap
+description: A path into observability as a craft of its own — wide events, signal correlation, telemetry cost, collector pipelines, high-cardinality analysis, continuous profiling, and running observability as a platform other teams consume.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  This path assumes you have shipped services and used a metrics or logging tool, but have never owned the telemetry itself. It is a craft distinct from SRE: an SRE decides what reliability to target, an observability engineer builds the system that can answer why it missed.
+
+  The premise, and the reason the ordering looks unusual: **you cannot ask a question of data you already aggregated away**. A metric with the cardinality stripped out cannot tell you which customer is affected. So wide events come early, and dashboards do not come at all — they answer questions you already knew to ask.
+
+  Cost is phase five rather than an appendix, because telemetry is the one system whose bill scales with how well it works.
+
+  Expect 6–8 months. Phase seven is where the mental model clicks or does not.
+totalDuration:
+  value: 6-8 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-08"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $135,441
+    source: Glassdoor Observability Engineer total pay estimate, 25th percentile (US, 27 salaries submitted)
+    retrievedAt: "2026-08-08"
+  mid:
+    value: $164,046
+    source: Glassdoor Observability Engineer total pay estimate (US average, 27 salaries submitted)
+    retrievedAt: "2026-08-08"
+  senior:
+    value: $202,686
+    source: Glassdoor Observability Engineer total pay estimate, 75th percentile (US, 27 salaries submitted)
+    retrievedAt: "2026-08-08"
+prerequisites:
+  - Working knowledge of Linux, containers and HTTP services
+  - Comfort reading and writing code in at least one language
+  - Some exposure to a metrics or logging tool in production
+phases:
+  - id: observability-vs-monitoring
+    title: Observability vs Monitoring
+    description: Monitoring answers questions you wrote down in advance. Observability is the property that lets you answer one nobody anticipated, without shipping new code first. Done when you take a live service, ask three questions its dashboards were never built for, and record which ones its telemetry can already answer. The unanswerable ones define the rest of this roadmap.
+    duration: 2-3 weeks
+    skills:
+      - name: Observability vs Monitoring
+        level: intermediate
+        category: core
+      - name: Cardinality & Dimensionality
+        level: advanced
+        category: core
+      - name: Unknown-unknowns Debugging
+        level: advanced
+        category: core
+      - name: Signal Taxonomy
+        level: intermediate
+        category: core
+      - name: Telemetry Data Models
+        level: intermediate
+        category: core
+      - name: Question-driven Design
+        level: advanced
+        category: core
+      - name: Debugging from First Principles
+        level: advanced
+        category: core
+    projects:
+      - Take a service you did not build, write down three questions its dashboards cannot answer, and classify each as missing signal, missing dimension or missing correlation
+      - Reproduce a bug that only affects one customer, and record every point where you had to add code or SSH somewhere to make progress
+      - Write the one-page distinction between monitoring and observability you would give a sceptical engineering manager, without using the word platform
+      - Take one existing dashboard and list what it would take to slice every panel by customer, region and build version — the cost estimate is the deliverable
+      - Catalogue every telemetry signal a single service emits today, with its data model, its owner and whether anyone queried it in the last quarter
+      - Find a past incident whose diagnosis needed a code deploy to add a log line, and write what dimension would have made the deploy unnecessary
+    resources:
+      - title: What is OpenTelemetry?
+        type: documentation
+        url: https://opentelemetry.io/docs/what-is-opentelemetry/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Observability Primer
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/observability-primer/
+        provider: OpenTelemetry
+        free: true
+      - title: Monitoring Distributed Systems (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/monitoring-distributed-systems/
+        provider: Google
+        free: true
+      - title: Monitoring (SRE Workbook chapter)
+        type: documentation
+        url: https://sre.google/workbook/monitoring/
+        provider: Google
+        free: true
+      - title: Effective Troubleshooting (SRE Book chapter)
+        type: documentation
+        url: https://sre.google/sre-book/effective-troubleshooting/
+        provider: Google
+        free: true
+      - title: OpenTelemetry Signals Overview
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/logs/
+        provider: OpenTelemetry
+        free: true
+      - title: Observability Engineering
+        type: book
+        provider: Charity Majors, Liz Fong-Jones, George Miranda, Austin Parker
+        free: false
+        isbnAsin: "1098179927"
+        year: 2026
+        freeAlternative:
+          title: OpenTelemetry Observability Primer
+          url: https://opentelemetry.io/docs/concepts/observability-primer/
+  - id: wide-events
+    title: Wide Events as the Unit of Telemetry
+    description: "The craft's central idea: emit one wide, richly dimensioned event per unit of work instead of scattering the story across counters and log lines. Done when a single service emits events carrying at least thirty attributes each, and you can answer a new question by filtering on a dimension rather than by deploying. Pre-aggregated metrics discard exactly the outliers you will be asked about."
+    duration: 4-5 weeks
+    skills:
+      - name: Wide Event Design
+        level: advanced
+        category: core
+      - name: Attribute Modelling
+        level: advanced
+        category: core
+      - name: OpenTelemetry SDKs
+        level: advanced
+        category: tool
+      - name: Semantic Conventions
+        level: advanced
+        category: core
+      - name: Structured Logging
+        level: advanced
+        category: core
+      - name: Auto vs Manual Instrumentation
+        level: advanced
+        category: core
+      - name: Instrumentation Libraries
+        level: intermediate
+        category: tool
+      - name: Aggregation Loss
+        level: advanced
+        category: core
+    projects:
+      - Instrument one service to emit a single wide event per request carrying build version, customer tier, region, feature flags and downstream timings
+      - Take a question your metrics cannot answer, answer it from wide events instead, and write down which aggregation had destroyed the information
+      - Adopt OpenTelemetry semantic conventions across a service and list every custom attribute you kept, with the reason each one is not covered by the spec
+      - Add zero-code auto-instrumentation to a service, then measure what it captured and what it missed against a hand-instrumented path
+      - Write and enforce the attribute naming schema for a codebase, including which attributes are forbidden because they are unbounded identifiers
+      - Convert one service's plaintext logs into structured events joined to their trace context, then delete every log line the new events made redundant
+    resources:
+      - title: OpenTelemetry Instrumentation Concepts
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/instrumentation/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Instrumentation Libraries
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/instrumentation/libraries/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Zero-code Instrumentation
+        type: documentation
+        url: https://opentelemetry.io/docs/zero-code/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Semantic Conventions
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/semantic-conventions/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Semantic Conventions Specification
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/semconv/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Language SDKs
+        type: documentation
+        url: https://opentelemetry.io/docs/languages/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Logs Specification
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/otel/logs/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Demo Application
+        type: tutorial
+        url: https://opentelemetry.io/docs/demo/
+        provider: OpenTelemetry
+        free: true
+    prerequisites:
+      - observability-vs-monitoring
+  - id: context-propagation
+    title: Context Propagation Across Boundaries
+    description: Wide events only compose into a story if they share a trace context, and context is what breaks first at every boundary you did not write. Done when one request keeps its trace context across an async queue, a thread pool and a third-party SDK, and you can name the exact library that dropped it when it broke. Baggage is how a dimension known at the edge reaches a service ten hops down.
+    duration: 3-4 weeks
+    skills:
+      - name: Context Propagation
+        level: advanced
+        category: core
+      - name: W3C Trace Context
+        level: advanced
+        category: core
+      - name: Baggage Propagation
+        level: advanced
+        category: core
+      - name: Async & Queue Boundaries
+        level: advanced
+        category: core
+      - name: Span Design & Nesting
+        level: advanced
+        category: core
+      - name: Cross-language Interop
+        level: intermediate
+        category: core
+      - name: Broken Trace Debugging
+        level: advanced
+        category: core
+      - name: OTLP Protocol
+        level: intermediate
+        category: tool
+    projects:
+      - Propagate trace context through a message queue so a producer span and its consumer span appear in one trace, and document the header you had to carry by hand
+      - Break context propagation deliberately in a thread pool, observe the orphaned spans, then fix it and write the diagnostic that identified the gap
+      - Use baggage to carry a customer tier attribute from the edge gateway to a service four hops downstream, and query events by it at the far end
+      - Trace one request across two services written in different languages, and record every place the two SDKs disagreed about span naming
+      - Audit a service's span hierarchy and cut the spans that carry no decision value — depth without information makes traces slower to read, not richer
+      - Instrument a call through a third-party client library that does not propagate context, and write the wrapper that makes it behave
+    resources:
+      - title: OpenTelemetry Context Propagation
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/context-propagation/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Traces Concepts
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/traces/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Baggage
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/baggage/
+        provider: OpenTelemetry
+        free: true
+      - title: W3C Trace Context Specification
+        type: documentation
+        url: https://www.w3.org/TR/trace-context/
+        provider: W3C
+        free: true
+      - title: OpenTelemetry Trace API Specification
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/otel/trace/api/
+        provider: OpenTelemetry
+        free: true
+      - title: OTLP Protocol Specification
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/otel/protocol/
+        provider: OpenTelemetry
+        free: true
+      - title: Jaeger Architecture
+        type: documentation
+        url: https://www.jaegertracing.io/docs/latest/architecture/
+        provider: Jaeger
+        free: true
+    prerequisites:
+      - wide-events
+  - id: correlation
+    title: Signal Correlation
+    description: "Three tools holding three signals is three tools, not observability. This phase is the joins: exemplars from a metric into a trace, a trace into its events, a profile into the span that produced it. Done when a responder moves from a latency spike to the exact slow trace to its logs without copying an identifier by hand, and you can name every field that makes each hop possible."
+    duration: 3-4 weeks
+    skills:
+      - name: Metric-to-Trace Exemplars
+        level: advanced
+        category: core
+      - name: Trace-to-Log Correlation
+        level: advanced
+        category: core
+      - name: Resource Attributes
+        level: advanced
+        category: core
+      - name: Identifier Consistency
+        level: advanced
+        category: core
+      - name: Grafana Data Source Links
+        level: intermediate
+        category: tool
+      - name: Exploratory Workflows
+        level: advanced
+        category: core
+      - name: Investigation Ergonomics
+        level: advanced
+        category: core
+    projects:
+      - Wire exemplars from a histogram metric into traces so clicking a p99 bucket lands on a real slow request
+      - Configure trace-to-log correlation so every span links to the log lines it emitted, then time a responder doing the hop with and without it
+      - Standardise resource attributes — service, version, environment, instance — across every signal, and find the service that was silently naming itself two different things
+      - "Run a timed investigation drill: from an alert to a named root cause, counting every manual copy-paste of an identifier as a defect to fix"
+      - Build the single exploration view an on-call responder starts from, then hand it to someone unfamiliar and watch where they get stuck
+      - Correlate a deployment marker with a latency change, so a responder can see which build introduced the regression without asking anyone
+    resources:
+      - title: Grafana Explore
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/visualizations/explore/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Tempo Data Source Configuration
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/datasources/tempo/configure-tempo-data-source/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Loki Data Source
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/datasources/loki/
+        provider: Grafana Labs
+        free: true
+      - title: Using Exemplars in Grafana Mimir
+        type: documentation
+        url: https://grafana.com/docs/mimir/latest/manage/use-exemplars/
+        provider: Grafana Labs
+        free: true
+      - title: Send OpenTelemetry Data to Loki
+        type: documentation
+        url: https://grafana.com/docs/loki/latest/send-data/otel/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Dashboard Best Practices
+        type: documentation
+        url: https://grafana.com/docs/grafana/latest/visualizations/dashboards/build-dashboards/best-practices/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Tempo Documentation
+        type: documentation
+        url: https://grafana.com/docs/tempo/latest/
+        provider: Grafana Labs
+        free: true
+    prerequisites:
+      - context-propagation
+  - id: telemetry-cost
+    title: Telemetry Cost as a Design Constraint
+    description: Every attribute you add has a price, and observability budgets are cut by finance, not by engineers. This phase makes cost a first-class input rather than a quarterly surprise. Done when you can state the cost per million events for your own pipeline, attribute the bill to the services generating it, and cut it by a third while naming exactly which question you gave up answering.
+    duration: 2-3 weeks
+    skills:
+      - name: Telemetry Cost Modelling
+        level: advanced
+        category: core
+      - name: Cost per Signal Attribution
+        level: advanced
+        category: core
+      - name: Retention Tiering
+        level: advanced
+        category: core
+      - name: Cardinality Budgets
+        level: advanced
+        category: core
+      - name: Storage & Ingest Economics
+        level: advanced
+        category: core
+      - name: Vendor Pricing Models
+        level: intermediate
+        category: core
+      - name: Value-per-Byte Analysis
+        level: advanced
+        category: core
+    projects:
+      - Calculate the cost per million events for your own telemetry pipeline, broken down into ingest, storage and query
+      - Attribute a month of telemetry spend to the services that generated it, and take the top spender its own number
+      - Cut telemetry cost by a third and document the exact question you can no longer answer — an unnamed loss means you did not measure the tradeoff
+      - Set a cardinality budget per service, enforce it, and record what the first team to breach it was actually trying to do
+      - Implement tiered retention so recent data is queryable and older data is cheap, then test that a three-month-old investigation is still possible
+      - Model the same telemetry volume under two vendors' pricing and write the one-page comparison, including what each pricing model quietly incentivises
+    resources:
+      - title: Prometheus Storage
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/storage/
+        provider: Prometheus
+        free: true
+      - title: Grafana Loki Retention
+        type: documentation
+        url: https://grafana.com/docs/loki/latest/operations/storage/retention/
+        provider: Grafana Labs
+        free: true
+      - title: Prometheus Metric & Label Naming
+        type: documentation
+        url: https://prometheus.io/docs/practices/naming/
+        provider: Prometheus
+        free: true
+      - title: Prometheus Data Model
+        type: documentation
+        url: https://prometheus.io/docs/concepts/data_model/
+        provider: Prometheus
+        free: true
+      - title: Grafana Mimir Documentation
+        type: documentation
+        url: https://grafana.com/docs/mimir/latest/
+        provider: Grafana Labs
+        free: true
+      - title: Prometheus Remote Write Tuning
+        type: documentation
+        url: https://prometheus.io/docs/practices/remote_write/
+        provider: Prometheus
+        free: true
+    prerequisites:
+      - correlation
+  - id: sampling
+    title: Sampling Strategies
+    description: Sampling is how you keep the interesting telemetry and drop the rest, and getting it wrong deletes the evidence for the incident you have not had yet. Done when you run tail-based sampling in production and can prove, against a held-out full-fidelity window, that every slow and every failed request survived. Head sampling is cheap and decides before it knows whether the request was interesting.
+    duration: 3-4 weeks
+    skills:
+      - name: Head vs Tail Sampling
+        level: advanced
+        category: core
+      - name: Tail Sampling Policies
+        level: advanced
+        category: tool
+      - name: Sampling Bias Analysis
+        level: advanced
+        category: core
+      - name: Statistical Reweighting
+        level: advanced
+        category: core
+      - name: Consistent Sampling Decisions
+        level: advanced
+        category: core
+      - name: Error & Latency Preservation
+        level: advanced
+        category: core
+      - name: Sampling Verification
+        level: advanced
+        category: core
+    projects:
+      - Implement tail-based sampling with separate policies for errors, slow requests and a baseline of successes, and document each policy's intent
+      - Run full fidelity and your sampling configuration side by side for a day, then prove no error trace and no p99 request was lost
+      - Reweight sampled counts back to true traffic volume and reconcile the estimate against an unsampled counter
+      - Find a sampling configuration that silently drops one customer's traffic entirely, and write the check that would have caught it
+      - Make sampling decisions consistent across services so a trace is never half kept, and demonstrate a partial trace before and after
+      - Compare the cost and the fidelity of head and tail sampling on the same workload, and write which you would run and under what volume you would switch
+    resources:
+      - title: OpenTelemetry Sampling Concepts
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/sampling/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Tail Sampling Processor
+        type: documentation
+        url: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/tailsamplingprocessor/README.md
+        provider: OpenTelemetry
+        free: true
+      - title: Jaeger Sampling Documentation
+        type: documentation
+        url: https://www.jaegertracing.io/docs/latest/sampling/
+        provider: Jaeger
+        free: true
+      - title: OpenTelemetry Filter Processor
+        type: documentation
+        url: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/filterprocessor/README.md
+        provider: OpenTelemetry
+        free: true
+      - title: Prometheus Histograms & Summaries
+        type: documentation
+        url: https://prometheus.io/docs/practices/histograms/
+        provider: Prometheus
+        free: true
+    prerequisites:
+      - telemetry-cost
+  - id: query-and-analysis
+    title: Query & High-Cardinality Analysis
+    description: "Telemetry you cannot interrogate quickly is an archive. This phase is the analytical craft: slicing by high-cardinality dimensions until an anomaly resolves into a population. Done when you take an unexplained latency spike and identify the shared attribute of the affected requests through query alone, in under fifteen minutes, with no prior hypothesis about the cause."
+    duration: 3-4 weeks
+    skills:
+      - name: PromQL
+        level: advanced
+        category: tool
+      - name: LogQL
+        level: advanced
+        category: tool
+      - name: TraceQL
+        level: advanced
+        category: tool
+      - name: High-Cardinality Slicing
+        level: advanced
+        category: core
+      - name: Outlier & Population Analysis
+        level: advanced
+        category: core
+      - name: Percentiles & Distributions
+        level: advanced
+        category: core
+      - name: Query Performance Tuning
+        level: intermediate
+        category: core
+      - name: Hypothesis-free Investigation
+        level: advanced
+        category: core
+    projects:
+      - Take an unexplained latency spike and find the shared attribute of the affected requests by iterative slicing, timing yourself from alert to answer
+      - Write the ten PromQL, LogQL and TraceQL queries an on-call engineer actually needs, and store them where they are found under pressure rather than in a wiki
+      - Find a case where the median improved while the p99 degraded, and identify the population hiding behind the average
+      - Rewrite a query that times out on a month of data until it returns in seconds, and document which part of the data layout made the difference
+      - Diagnose an incident using only query, no dashboards, and record which panels you never needed — those are candidates for deletion
+      - Build a saved analysis that segments errors by build version and customer tier simultaneously, so a bad release is visible before anyone reports it
+    resources:
+      - title: PromQL Querying Basics
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/basics/
+        provider: Prometheus
+        free: true
+      - title: PromQL Functions
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/functions/
+        provider: Prometheus
+        free: true
+      - title: PromQL Operators
+        type: documentation
+        url: https://prometheus.io/docs/prometheus/latest/querying/operators/
+        provider: Prometheus
+        free: true
+      - title: LogQL Log Queries
+        type: documentation
+        url: https://grafana.com/docs/loki/latest/query/log_queries/
+        provider: Grafana Labs
+        free: true
+      - title: Grafana Loki Query Documentation
+        type: documentation
+        url: https://grafana.com/docs/loki/latest/query/
+        provider: Grafana Labs
+        free: true
+      - title: TraceQL Query Language
+        type: documentation
+        url: https://grafana.com/docs/tempo/latest/traceql/
+        provider: Grafana Labs
+        free: true
+      - title: Prometheus Recording & Alerting Rules
+        type: documentation
+        url: https://prometheus.io/docs/practices/rules/
+        provider: Prometheus
+        free: true
+    prerequisites:
+      - sampling
+  - id: telemetry-pipelines
+    title: Telemetry Pipelines & Collectors
+    description: The layer between what applications emit and where it lands, and the thing that turns telemetry from a per-service decision into infrastructure. Done when you run a collector fleet that receives, transforms, redacts and routes telemetry to more than one backend, survives a backend outage without losing data, and reports on its own health. A pipeline you cannot observe is a blind spot on the observability team.
+    duration: 4-5 weeks
+    skills:
+      - name: OpenTelemetry Collector
+        level: advanced
+        category: tool
+      - name: Receivers, Processors & Exporters
+        level: advanced
+        category: tool
+      - name: Pipeline Topology Design
+        level: advanced
+        category: core
+      - name: Telemetry Transformation
+        level: advanced
+        category: tool
+      - name: PII Redaction & Scrubbing
+        level: advanced
+        category: core
+      - name: Backpressure & Buffering
+        level: advanced
+        category: core
+      - name: Collector Scaling & HA
+        level: advanced
+        category: core
+      - name: Pipeline Self-observability
+        level: advanced
+        category: core
+    projects:
+      - Deploy the OpenTelemetry Collector in both agent and gateway roles, and write down which processing belongs at each tier and why
+      - Route the same telemetry stream to two backends at once, then cut one over to a new vendor without touching a single application
+      - Write a transform pipeline that redacts PII from attributes before export, and verify it against a payload deliberately seeded with test identifiers
+      - Kill a backend under load and measure exactly how much telemetry the collector's queue and retry saved — the number is usually not what the defaults imply
+      - Scale a collector fleet to handle a 10x ingest burst, and document which resource saturated first
+      - Instrument the collector itself, so an on-call engineer can tell telemetry loss from a genuine drop in traffic
+    resources:
+      - title: OpenTelemetry Collector
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/
+        provider: OpenTelemetry
+        free: true
+      - title: Collector Configuration
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/configuration/
+        provider: OpenTelemetry
+        free: true
+      - title: Collector Deployment Patterns
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/deployment/
+        provider: OpenTelemetry
+        free: true
+      - title: Scaling the Collector
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/scaling/
+        provider: OpenTelemetry
+        free: true
+      - title: Transforming Telemetry
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/transforming-telemetry/
+        provider: OpenTelemetry
+        free: true
+      - title: Collector Internal Telemetry
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/internal-telemetry/
+        provider: OpenTelemetry
+        free: true
+      - title: Collector Troubleshooting
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/troubleshooting/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Transform Processor
+        type: documentation
+        url: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/transformprocessor/README.md
+        provider: OpenTelemetry
+        free: true
+      - title: Building a Custom Collector Distribution
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/extend/ocb/
+        provider: OpenTelemetry
+        free: true
+      - title: Grafana Alloy Documentation
+        type: documentation
+        url: https://grafana.com/docs/alloy/latest/
+        provider: Grafana Labs
+        free: true
+      - title: Vector Documentation
+        type: documentation
+        url: https://vector.dev/docs/
+        provider: Datadog
+        free: true
+      - title: OpenTelemetry Collector Security
+        type: documentation
+        url: https://opentelemetry.io/docs/security/
+        provider: OpenTelemetry
+        free: true
+    prerequisites:
+      - query-and-analysis
+  - id: observability-platform
+    title: Observability as a Platform Service
+    description: The multiplier, and where this role stops being a specialism and becomes infrastructure. Done when a team you do not sit with instruments a new service to your standard on their own, using your defaults, without asking you a question. Adoption you had to chaperone is a demo. Governance that only says no produces shadow telemetry pipelines you find out about on the invoice.
+    duration: 2-3 weeks
+    skills:
+      - name: Observability as a Platform
+        level: advanced
+        category: core
+      - name: Golden Path Instrumentation
+        level: advanced
+        category: core
+      - name: OpenTelemetry Operator
+        level: advanced
+        category: tool
+      - name: Telemetry Governance
+        level: advanced
+        category: core
+      - name: Self-service Onboarding
+        level: advanced
+        category: core
+      - name: Multi-tenancy & Isolation
+        level: advanced
+        category: core
+      - name: Internal Developer Enablement
+        level: advanced
+        category: core
+      - name: Influence Without Authority
+        level: intermediate
+        category: core
+    projects:
+      - Publish an instrumentation golden path — an SDK wrapper and a default collector config — and count teams who adopt it without you in the room
+      - Deploy the OpenTelemetry Operator so new workloads are instrumented by annotation rather than by a code change in each repository
+      - Write the telemetry governance policy covering attribute naming, retention and cardinality limits, then measure how often teams request exceptions
+      - Run a multi-tenant backend where one team's cardinality explosion cannot degrade another team's queries, and prove it with a deliberate blast
+      - Onboard a new service end to end using only your documentation, with someone else driving — the questions they ask are the real backlog
+      - Report platform-level adoption to leadership as a small set of KPIs, each with the query behind it so nobody recalculates by hand
+    resources:
+      - title: OpenTelemetry Kubernetes Operator
+        type: documentation
+        url: https://opentelemetry.io/docs/kubernetes/operator/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Collector Architecture
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/architecture/
+        provider: OpenTelemetry
+        free: true
+      - title: Kubernetes Logging Architecture
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/cluster-administration/logging/
+        provider: Kubernetes
+        free: true
+      - title: Building Custom Collector Components
+        type: documentation
+        url: https://opentelemetry.io/docs/collector/extend/custom-component/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry at the CNCF
+        type: documentation
+        url: https://www.cncf.io/projects/opentelemetry/
+        provider: CNCF
+        free: true
+      - title: Grafana Mimir Documentation
+        type: documentation
+        url: https://grafana.com/docs/mimir/latest/
+        provider: Grafana Labs
+        free: true
+    prerequisites:
+      - telemetry-pipelines
+  - id: continuous-profiling
+    title: Continuous Profiling
+    description: The signal almost nobody has. Traces tell you which service was slow; profiles tell you which line of code burned the CPU while it was. Done when profiling runs continuously in production at acceptable overhead and you have used a flame graph to find a hot path that traces alone had only narrowed to a service. Profiling on demand finds nothing, because you enable it after the interesting minute has passed.
+    duration: 2-3 weeks
+    skills:
+      - name: Continuous Profiling
+        level: advanced
+        category: core
+      - name: Flame Graph Analysis
+        level: advanced
+        category: core
+      - name: CPU & Memory Profiling
+        level: advanced
+        category: core
+      - name: eBPF-based Profilers
+        level: advanced
+        category: tool
+      - name: Grafana Pyroscope
+        level: advanced
+        category: tool
+      - name: Profile-to-Trace Correlation
+        level: advanced
+        category: core
+      - name: Profiling Overhead Management
+        level: advanced
+        category: core
+    projects:
+      - Run continuous CPU profiling in production for a week and measure the actual overhead against the claimed figure
+      - Use a flame graph to find a hot path traces had only narrowed to a service, and quantify the CPU reclaimed after fixing it
+      - Correlate a profile with the span that produced it, so a slow trace links to the function that made it slow
+      - Track allocation profiles across a release and identify a memory regression before it became an out-of-memory incident
+      - Deploy an eBPF-based profiler that requires no application changes, and compare its resolution against in-process profiling on the same workload
+      - Write the guidance a product team needs to read a flame graph without you — then test it by asking one to diagnose a seeded regression
+    resources:
+      - title: Grafana Pyroscope Documentation
+        type: documentation
+        url: https://grafana.com/docs/pyroscope/latest/
+        provider: Grafana Labs
+        free: true
+      - title: Pyroscope Introduction
+        type: documentation
+        url: https://grafana.com/docs/pyroscope/latest/introduction/
+        provider: Grafana Labs
+        free: true
+      - title: Configure the Pyroscope Client
+        type: documentation
+        url: https://grafana.com/docs/pyroscope/latest/configure-client/
+        provider: Grafana Labs
+        free: true
+      - title: View & Analyze Profile Data
+        type: documentation
+        url: https://grafana.com/docs/pyroscope/latest/view-and-analyze-profile-data/
+        provider: Grafana Labs
+        free: true
+      - title: OpenTelemetry Profiles Signal
+        type: documentation
+        url: https://opentelemetry.io/docs/concepts/signals/profiles/
+        provider: OpenTelemetry
+        free: true
+      - title: OpenTelemetry Profiles Specification
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/otel/profiles/
+        provider: OpenTelemetry
+        free: true
+      - title: Grafana Pyroscope Source & Examples
+        type: documentation
+        url: https://github.com/grafana/pyroscope
+        provider: Grafana Labs
+        free: true
+    prerequisites:
+      - observability-platform
+relatedRoadmaps:
+  - sre
+  - devops-engineer
+  - platform-engineer
+  - database-reliability-engineer
+relatedCertifications:
+  - prometheus-certified-associate
+  - cka
+faq:
+  - question: How is observability engineering different from SRE?
+    answer: "The two roles split the same problem differently: an SRE decides what reliability to target, while an observability engineer builds the system that can answer why a target was missed. This path assumes you have already shipped services and used a metrics or logging tool, but have never owned the telemetry itself as a craft of its own."
+  - question: What does the observability engineer roadmap actually cover?
+    answer: "It runs from the distinction between monitoring and observability through wide events, context propagation, signal correlation, telemetry cost, sampling, query and high-cardinality analysis, collector pipelines, running observability as a platform, and continuous profiling. The ordering is deliberate: wide events come early because you cannot ask a question of data you already aggregated away, and dashboards do not get their own phase because they only answer questions you already knew to ask."
+  - question: Why does the roadmap put wide events before dashboards?
+    answer: A pre-aggregated metric discards exactly the outliers you will later be asked about, so the roadmap teaches emitting one wide, richly dimensioned event per unit of work instead of scattering the story across counters and log lines. The mark of success is being able to answer a new question by filtering on a dimension rather than by shipping new code.
+  - question: How long does it take to become an observability engineer, and how much does it pay?
+    answer: SkillPilot's editorial estimate is 6-8 months at 10 hours a week. In the United States, Glassdoor's Observability Engineer total pay data (27 salaries submitted) puts entry pay around $135,441, the average around $164,046, and senior pay around $202,686.
+  - question: Why is telemetry cost treated as its own phase instead of an afterthought?
+    answer: Every attribute added to telemetry has a price, and observability budgets get cut by finance rather than by engineers, so the roadmap makes cost a first-class design input rather than a quarterly surprise. Being done with this phase means you can state the cost per million events for your own pipeline, attribute the bill to the services generating it, and cut it by a third while naming exactly which question you gave up answering.
+  - question: What do I need to know before starting this roadmap?
+    answer: You need working knowledge of Linux, containers and HTTP services, comfort reading and writing code in at least one language, and some prior exposure to a metrics or logging tool running in production. It is pitched as an advanced-level path, not an entry point into engineering generally.

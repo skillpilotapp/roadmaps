@@ -1,0 +1,19 @@
+# Cited links are checked on a schedule, not on every push: a link that died
+# overnight is not a reason to fail somebody's pull request.
+name: check-links
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm run check-links

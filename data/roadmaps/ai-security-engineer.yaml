@@ -1,0 +1,867 @@
+# AI Security Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: ai-security-engineer
+title: AI Security Engineer Roadmap
+description: A defensive security path for engineers who secure LLM and agent systems, covering AI threat modelling, prompt injection defence, supply chain integrity, agent permissions, guardrails, governance and incident response.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  This path assumes you know application security fundamentals and have called an LLM API. It is defensive work: securing systems your organisation is shipping, usually faster than anyone can review them.
+
+  One property breaks the tools you already trust: **the instruction and the data arrive in the same channel**. There is no prepared statement for a prompt. Input validation as you know it does not apply, because the payload is natural language and the parser is a model that was built to be helpful.
+
+  So the ordering follows blast radius rather than novelty. Prompt injection first because it is the delivery mechanism for most of the rest, and agent security before RAG because an agent with tools can act on what it was tricked into believing.
+
+  Expect 7–9 months. Phase five is where the threat model stops being theoretical.
+totalDuration:
+  value: 7-9 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-08"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $140,357
+    source: "Glassdoor Security Engineer salary estimate, 25th percentile (US, n=6,355) — proxy: the AI-specific title has too few reported salaries to publish"
+    retrievedAt: "2026-08-08"
+  mid:
+    value: $172,800
+    source: "Glassdoor Security Engineer salary estimate (overall average, US, n=6,355) — proxy: measures Security Engineer, not AI Security Engineer"
+    retrievedAt: "2026-08-08"
+  senior:
+    value: $213,409
+    source: "Glassdoor Senior Security Engineer salary estimate (average, US, n=1,664) — proxy: measures Senior Security Engineer, not AI Security Engineer"
+    retrievedAt: "2026-08-08"
+prerequisites:
+  - Working knowledge of application security fundamentals (authn, authz, input validation)
+  - Practical experience calling an LLM API and reading its responses
+  - Comfort reading and writing code in at least one language, ideally Python
+  - Familiarity with cloud infrastructure and CI/CD
+phases:
+  - id: ai-threat-landscape
+    title: AI Threat Landscape
+    description: "Classical appsec assumes code decides and data is inert. An LLM erases that line: the text it reads becomes the instructions it follows, so there is no parser to harden. Done when you have written a threat model for one AI system you own, mapped its risks onto the OWASP LLM Top 10 and MITRE ATLAS, and can name the controls that do not transfer from your existing appsec programme."
+    duration: 3-4 weeks
+    skills:
+      - name: AI Threat Modelling
+        level: advanced
+        category: core
+      - name: OWASP LLM Top 10
+        level: advanced
+        category: core
+      - name: MITRE ATLAS
+        level: advanced
+        category: core
+      - name: Trust Boundary Analysis
+        level: advanced
+        category: core
+      - name: Attack Surface Mapping
+        level: advanced
+        category: core
+      - name: Risk Classification
+        level: intermediate
+        category: core
+      - name: Security Architecture Review
+        level: advanced
+        category: core
+      - name: Non-determinism as a Security Property
+        level: advanced
+        category: core
+    projects:
+      - Write a full threat model for one AI system you own or maintain, marking every point where untrusted text reaches the model as a trust boundary
+      - Map your system's risks onto the OWASP LLM Top 10 2026 and record which entries genuinely do not apply, with the reason for each
+      - Take your existing appsec checklist and mark every control that stops working when the input is natural language — that list is the scope of this roadmap
+      - Build an inventory of every model, prompt and data source your organisation runs in production, including the ones nobody registered
+      - Pick three ATLAS case studies and write, for each, whether your own architecture would have detected it — and what signal would have shown it
+      - "Rank your inventory by blast radius rather than by model size: which system could take the most destructive action if it were manipulated?"
+    resources:
+      - title: OWASP GenAI LLM Top 10 2026
+        type: documentation
+        url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+        provider: OWASP
+        free: true
+      - title: OWASP Top 10 for LLM & GenAI (initiative hub)
+        type: documentation
+        url: https://genai.owasp.org/initiative/owasp-top-10-for-llm-and-genai/
+        provider: OWASP
+        free: true
+      - title: MITRE ATLAS
+        type: documentation
+        url: https://atlas.mitre.org/
+        provider: MITRE
+        free: true
+      - title: MITRE ATLAS Data (tactics, techniques, case studies)
+        type: documentation
+        url: https://github.com/mitre-atlas/atlas-data
+        provider: MITRE
+        free: true
+      - title: NIST AI Risk Management Framework
+        type: documentation
+        url: https://www.nist.gov/itl/ai-risk-management-framework
+        provider: NIST
+        free: true
+      - title: Google Secure AI Framework (SAIF)
+        type: documentation
+        url: https://saif.google/
+        provider: Google
+        free: true
+      - title: SAIF Risks Catalogue
+        type: documentation
+        url: https://saif.google/secure-ai-framework/risks
+        provider: Google
+        free: true
+      - title: OWASP Threat Modeling Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: OWASP AI Security & Privacy Guide
+        type: documentation
+        url: https://owasp.org/www-project-ai-security-and-privacy-guide/
+        provider: OWASP
+        free: true
+      - title: "AWS: Generative AI Security Scoping Matrix"
+        type: documentation
+        url: https://aws.amazon.com/blogs/security/securing-generative-ai-an-introduction-to-the-generative-ai-security-scoping-matrix/
+        provider: AWS
+        free: true
+  - id: prompt-injection-defence
+    title: Prompt Injection Defence
+    description: The signature failure of the field, and the one with no complete fix. Untrusted content reaching the context window is treated as instruction, and indirect injection through a retrieved document or tool output is the variant teams miss. Done when you can defend a system you own with layered controls and state honestly what your defences still do not stop.
+    duration: 3-4 weeks
+    skills:
+      - name: Prompt Injection Defence
+        level: advanced
+        category: core
+      - name: Indirect Injection via Content
+        level: advanced
+        category: core
+      - name: Input & Output Segregation
+        level: advanced
+        category: core
+      - name: Instruction Hierarchy Design
+        level: advanced
+        category: core
+      - name: Content Provenance & Tainting
+        level: advanced
+        category: core
+      - name: Output Validation
+        level: advanced
+        category: core
+      - name: Defence in Depth
+        level: advanced
+        category: core
+      - name: Residual Risk Documentation
+        level: intermediate
+        category: core
+    projects:
+      - Build a test corpus of injection-shaped inputs for a system you own, and track what fraction your current defences catch as a single baseline number
+      - Layer three independent controls — input handling, privilege limits, output validation — and measure each one's contribution separately
+      - Demonstrate indirect injection against your own retrieval pipeline by planting a document you control, then design the mitigation
+      - Mark retrieved and tool-returned content as untrusted throughout your pipeline, so its provenance survives all the way to the model call
+      - Treat model output as untrusted input to whatever consumes it, and add validation at that boundary rather than trusting the model
+      - "Write the residual risk statement for your system: what your defences do not stop, and what compensating control covers it"
+    resources:
+      - title: OWASP LLM Prompt Injection Prevention Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: OWASP GenAI LLM Top 10 2026
+        type: documentation
+        url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+        provider: OWASP
+        free: true
+      - title: Anthropic — Mitigate Jailbreaks & Prompt Injections
+        type: documentation
+        url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks
+        provider: Anthropic
+        free: true
+      - title: OpenAI Safety Best Practices
+        type: documentation
+        url: https://developers.openai.com/api/docs/guides/safety-best-practices
+        provider: OpenAI
+        free: true
+      - title: "Not What You've Signed Up For: Indirect Prompt Injection (paper)"
+        type: documentation
+        url: https://arxiv.org/abs/2302.12173
+        provider: arXiv
+        free: true
+      - title: Prompt Injection — Ongoing Analysis
+        type: documentation
+        url: https://simonwillison.net/tags/prompt-injection/
+        provider: Simon Willison
+        free: true
+      - title: OWASP Output Handling — Improper Output Handling Guidance
+        type: documentation
+        url: https://genai.owasp.org/llm-top-10/
+        provider: OWASP
+        free: true
+      - title: OWASP SSRF Prevention Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+    prerequisites:
+      - ai-threat-landscape
+  - id: data-supply-chain
+    title: Data Poisoning & Model Supply Chain
+    description: Every third-party model and dataset is code you did not write, executing with your privileges. Serialised model formats can carry arbitrary execution, and a poisoned fine-tuning set installs behaviour no code review will find. Done when you can prove the provenance of every model artefact in your pipeline and have blocked one unsigned or unscanned artefact from reaching production.
+    duration: 3-4 weeks
+    skills:
+      - name: Model Supply Chain Security
+        level: advanced
+        category: core
+      - name: Data Poisoning Defence
+        level: advanced
+        category: core
+      - name: Artefact Provenance & Signing
+        level: advanced
+        category: core
+      - name: Model Scanning
+        level: advanced
+        category: tool
+      - name: Serialisation Risk
+        level: advanced
+        category: core
+      - name: AI Bill of Materials
+        level: intermediate
+        category: core
+      - name: Training Data Governance
+        level: advanced
+        category: core
+      - name: Secure ML Pipelines
+        level: advanced
+        category: core
+    projects:
+      - Build an AI bill of materials for one production system, listing every model, dataset, adapter and their licences and origins
+      - Scan every third-party model artefact you run for unsafe serialisation, and convert what you can to a safe-by-construction format
+      - Add signature verification to your model deployment pipeline so an unsigned artefact fails the build rather than shipping
+      - Trace one fine-tuning dataset to its origin and write down who could have modified it, at which step, without you knowing
+      - Add integrity checks and access controls to your training data store, then verify them by attempting an unauthorised write yourself
+      - Introduce a benign marker into a training set you own, then confirm your pipeline's validation catches it before the model is trained
+    resources:
+      - title: Hugging Face Hub Security
+        type: documentation
+        url: https://huggingface.co/docs/hub/en/security
+        provider: Hugging Face
+        free: true
+      - title: Pickle Serialisation Risk & Safetensors
+        type: documentation
+        url: https://huggingface.co/docs/hub/en/security-pickle
+        provider: Hugging Face
+        free: true
+      - title: ModelScan — Model Artefact Scanner
+        type: documentation
+        url: https://github.com/protectai/modelscan
+        provider: Protect AI
+        free: true
+      - title: SLSA Supply Chain Framework
+        type: documentation
+        url: https://slsa.dev/spec/v1.0/about
+        provider: OpenSSF
+        free: true
+      - title: Sigstore Documentation
+        type: documentation
+        url: https://docs.sigstore.dev/
+        provider: Sigstore
+        free: true
+      - title: "NIST SP 800-218A: Secure Software Development for Generative AI"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/218/a/final
+        provider: NIST
+        free: true
+      - title: OWASP Machine Learning Security Top 10
+        type: documentation
+        url: https://owasp.org/www-project-machine-learning-security-top-10/
+        provider: OWASP
+        free: true
+      - title: SAIF Controls
+        type: documentation
+        url: https://saif.google/secure-ai-framework/controls
+        provider: Google
+        free: true
+    prerequisites:
+      - prompt-injection-defence
+  - id: model-inference-exposure
+    title: Model & Inference Exposure
+    description: What a served model leaks simply by answering. System prompts surface, training data can be memorised and recovered, and query access alone can approximate a proprietary model. Done when you have measured what one of your own deployed models discloses under sustained querying, and shipped a rate, logging or output control that reduces it — with the before-and-after figure.
+    duration: 3-4 weeks
+    skills:
+      - name: Sensitive Information Disclosure
+        level: advanced
+        category: core
+      - name: System Prompt Leakage Defence
+        level: advanced
+        category: core
+      - name: Training Data Memorisation
+        level: advanced
+        category: core
+      - name: Model Extraction Defence
+        level: advanced
+        category: core
+      - name: Inference-time Rate Controls
+        level: advanced
+        category: core
+      - name: PII Detection & Redaction
+        level: advanced
+        category: core
+      - name: Unbounded Consumption Defence
+        level: intermediate
+        category: core
+      - name: Privacy-preserving Design
+        level: intermediate
+        category: core
+    projects:
+      - Query one of your own deployed models until you can characterise what it discloses about its system prompt, then treat that prompt as public and re-secure what depended on its secrecy
+      - Add PII detection and redaction on both the inbound and outbound path, and measure the false-positive rate before you enable blocking
+      - Design rate and quota controls that make sustained extraction querying expensive, and confirm normal users never hit them
+      - Test whether a model you fine-tuned reproduces verbatim strings from its training set, and document what you changed if it did
+      - Add cost and token ceilings per caller so a single client cannot exhaust your inference budget — then verify by load-testing your own endpoint
+      - Audit what your inference logs retain, and cut any field that stores user content longer than your privacy policy allows
+    resources:
+      - title: OWASP GenAI LLM Top 10 2026
+        type: documentation
+        url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+        provider: OWASP
+        free: true
+      - title: MITRE ATLAS
+        type: documentation
+        url: https://atlas.mitre.org/
+        provider: MITRE
+        free: true
+      - title: NIST Privacy Framework
+        type: documentation
+        url: https://www.nist.gov/privacy-framework
+        provider: NIST
+        free: true
+      - title: Azure AI Content Filtering
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter
+        provider: Microsoft
+        free: true
+      - title: Google Cloud Model Armor Overview
+        type: documentation
+        url: https://docs.cloud.google.com/model-armor/overview
+        provider: Google Cloud
+        free: true
+      - title: OpenAI Moderation Guide
+        type: documentation
+        url: https://developers.openai.com/api/docs/guides/moderation
+        provider: OpenAI
+        free: true
+      - title: SAIF Risks Catalogue
+        type: documentation
+        url: https://saif.google/secure-ai-framework/risks
+        provider: Google
+        free: true
+    prerequisites:
+      - data-supply-chain
+  - id: agent-security
+    title: Agent Security & Excessive Agency
+    description: An agent turns a wrong answer into a wrong action. Tools, credentials and autonomy convert a text failure into a database write or an outbound payment, which is why excessive agency climbed the 2026 list. Done when every tool your agent holds runs under least privilege, destructive actions require confirmation, and you have proved a revoked permission fails closed.
+    duration: 4-5 weeks
+    skills:
+      - name: Least-Privilege Tool Design
+        level: advanced
+        category: core
+      - name: Agent Permission Boundaries
+        level: advanced
+        category: core
+      - name: Human-in-the-Loop Controls
+        level: advanced
+        category: core
+      - name: Blast Radius Limitation
+        level: advanced
+        category: core
+      - name: Sandboxing & Isolation
+        level: advanced
+        category: tool
+      - name: Credential Scoping & Secrets
+        level: advanced
+        category: core
+      - name: Multi-agent Trust
+        level: advanced
+        category: core
+      - name: Action Audit Logging
+        level: advanced
+        category: core
+    projects:
+      - Enumerate every tool and credential an agent you own can reach, then cut each one to the narrowest scope that still works
+      - Add explicit human confirmation for destructive or irreversible actions, and define in writing which actions qualify
+      - Revoke one permission and verify the agent fails closed with a clear error rather than silently degrading or improvising
+      - Run agent tool execution inside a sandbox with no ambient network or filesystem access, and document what broke when you removed it
+      - Log every tool call an agent makes with its arguments and outcome, so an investigator can reconstruct a session without the agent's help
+      - Threat-model an agent that reads from one system and writes to another, and identify where injected content could steer the write
+    resources:
+      - title: "OWASP: Agentic AI — Threats and Mitigations"
+        type: documentation
+        url: https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/
+        provider: OWASP
+        free: true
+      - title: "OWASP: Securing Agentic Applications Guide"
+        type: documentation
+        url: https://genai.owasp.org/resource/securing-agentic-applications-guide-1-0/
+        provider: OWASP
+        free: true
+      - title: "OWASP: Multi-Agentic System Threat Modeling Guide"
+        type: documentation
+        url: https://genai.owasp.org/resource/multi-agentic-system-threat-modeling-guide/
+        provider: OWASP
+        free: true
+      - title: Anthropic — Building Effective Agents
+        type: documentation
+        url: https://www.anthropic.com/engineering/building-effective-agents
+        provider: Anthropic
+        free: true
+      - title: Model Context Protocol Documentation
+        type: documentation
+        url: https://modelcontextprotocol.io/
+        provider: Anthropic
+        free: true
+      - title: Google Agentic Security Framework
+        type: documentation
+        url: https://cloud.google.com/transform/google-agentic-security-framework
+        provider: Google Cloud
+        free: true
+      - title: OWASP Authorization Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: OWASP Secrets Management Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: SPIFFE — Workload Identity
+        type: documentation
+        url: https://spiffe.io/docs/latest/spiffe-about/overview/
+        provider: SPIFFE
+        free: true
+      - title: Kubernetes Security Concepts
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/
+        provider: Kubernetes
+        free: true
+    prerequisites:
+      - model-inference-exposure
+  - id: rag-data-boundary
+    title: RAG & Data Boundary Security
+    description: Retrieval makes the vector store part of your attack surface and your access-control problem. Embeddings ignore the permissions of the documents they came from, so the default failure is a user retrieving content they were never allowed to read. Done when retrieval in a system you own enforces per-user authorisation at query time, proved by a test where two users ask the same question and get different documents.
+    duration: 3-4 weeks
+    skills:
+      - name: Retrieval Access Control
+        level: advanced
+        category: core
+      - name: Vector Store Security
+        level: advanced
+        category: core
+      - name: Document-level Permissions
+        level: advanced
+        category: core
+      - name: Embedding Weaknesses
+        level: advanced
+        category: core
+      - name: Multi-tenant Isolation
+        level: advanced
+        category: core
+      - name: Knowledge Base Poisoning Defence
+        level: advanced
+        category: core
+      - name: Data Classification
+        level: intermediate
+        category: core
+      - name: Ingestion Pipeline Validation
+        level: advanced
+        category: core
+    projects:
+      - Enforce per-user authorisation at retrieval time, then prove it by having two users with different entitlements ask the same question
+      - Audit an existing vector store for documents whose source permissions were lost at ingestion — the count is usually not zero
+      - Implement tenant isolation in a shared vector store and verify a query from one tenant cannot surface another's chunks
+      - Add validation and provenance tracking to your ingestion pipeline so an untrusted document cannot enter the index unlabelled
+      - Plant a document containing injected instructions in a test index you own, and confirm your downstream controls neutralise it
+      - Classify the content in one knowledge base by sensitivity, and route the most sensitive class through stricter retrieval and logging
+    resources:
+      - title: OWASP GenAI LLM Top 10 2026
+        type: documentation
+        url: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+        provider: OWASP
+        free: true
+      - title: OWASP Top 10 for LLM Applications 2025 (LLM08 Vector & Embedding Weaknesses)
+        type: documentation
+        url: https://genai.owasp.org/llm-top-10/
+        provider: OWASP
+        free: true
+      - title: OWASP Authorization Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: OWASP LLM Prompt Injection Prevention Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: Google Cloud Model Armor Overview
+        type: documentation
+        url: https://docs.cloud.google.com/model-armor/overview
+        provider: Google Cloud
+        free: true
+      - title: SAIF Controls
+        type: documentation
+        url: https://saif.google/secure-ai-framework/controls
+        provider: Google
+        free: true
+      - title: Azure Well-Architected — AI Application Design
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/well-architected/ai/application-design
+        provider: Microsoft
+        free: true
+    prerequisites:
+      - agent-security
+  - id: red-teaming
+    title: Red Teaming Your Own AI Systems
+    description: Adversarial evaluation as an authorised, repeatable engineering practice on systems you own. The output is not a list of clever tricks but a regression suite that fails a build. Done when an automated adversarial run executes in CI against a system you are authorised to test, and a change that weakens a defence breaks the pipeline rather than reaching production.
+    duration: 3-4 weeks
+    skills:
+      - name: Adversarial Evaluation Design
+        level: advanced
+        category: core
+      - name: Authorisation & Rules of Engagement
+        level: advanced
+        category: core
+      - name: Automated Red-Team Tooling
+        level: advanced
+        category: tool
+      - name: Security Regression Testing
+        level: advanced
+        category: core
+      - name: Coverage Measurement
+        level: advanced
+        category: core
+      - name: Finding Triage & Severity
+        level: advanced
+        category: core
+      - name: Reporting to Engineering
+        level: intermediate
+        category: core
+      - name: Continuous Assurance
+        level: advanced
+        category: core
+    projects:
+      - "Write rules of engagement before testing anything: what is in scope, who authorised it, what you stop for, and where findings are stored"
+      - Run an automated adversarial scanner against a system you own and triage every finding by severity rather than by novelty
+      - Convert your findings into a regression suite that runs in CI, so a defence that regresses fails the build
+      - Measure coverage across the OWASP LLM Top 10 categories and publish the gaps — the categories you cannot test yet are the honest result
+      - Write the findings report engineering will actually act on, leading with the fix rather than the demonstration
+      - Re-run the full suite after remediation and report the delta, so the security work has a number attached rather than a claim
+    resources:
+      - title: "OWASP: GenAI Red Teaming Guide"
+        type: documentation
+        url: https://genai.owasp.org/resource/genai-red-teaming-guide/
+        provider: OWASP
+        free: true
+      - title: Microsoft AI Red Teaming Guidance
+        type: documentation
+        url: https://learn.microsoft.com/en-us/security/ai-red-team/
+        provider: Microsoft
+        free: true
+      - title: PyRIT — Python Risk Identification Toolkit
+        type: documentation
+        url: https://azure.github.io/PyRIT/
+        provider: Microsoft
+        free: true
+      - title: garak — LLM Vulnerability Scanner
+        type: documentation
+        url: https://github.com/NVIDIA/garak
+        provider: NVIDIA
+        free: true
+      - title: garak Documentation
+        type: documentation
+        url: https://docs.garak.ai/garak
+        provider: NVIDIA
+        free: true
+      - title: promptfoo Red Teaming Documentation
+        type: documentation
+        url: https://www.promptfoo.dev/docs/red-team/
+        provider: promptfoo
+        free: true
+      - title: "Microsoft: Lessons from Red Teaming 100 Generative AI Products"
+        type: documentation
+        url: https://www.microsoft.com/en-us/security/blog/2025/01/13/3-takeaways-from-red-teaming-100-generative-ai-products/
+        provider: Microsoft
+        free: true
+      - title: Anthropic — Develop Tests & Evaluations
+        type: documentation
+        url: https://platform.claude.com/docs/en/test-and-evaluate/develop-tests
+        provider: Anthropic
+        free: true
+    prerequisites:
+      - rag-data-boundary
+  - id: guardrails-runtime
+    title: Guardrails & Runtime Defence
+    description: The controls that run on every request in production, where latency and false positives are real costs. A filter that blocks 2% of legitimate traffic gets switched off within a week, so tuning is the engineering. Done when a guardrail you built runs on live traffic with measured precision and recall, and you can state its latency cost per request.
+    duration: 3-4 weeks
+    skills:
+      - name: Guardrail Architecture
+        level: advanced
+        category: core
+      - name: Input & Output Filtering
+        level: advanced
+        category: core
+      - name: Classifier Tuning
+        level: advanced
+        category: core
+      - name: False Positive Management
+        level: advanced
+        category: core
+      - name: Latency Budgeting
+        level: advanced
+        category: core
+      - name: Fail-safe vs Fail-open Design
+        level: advanced
+        category: core
+      - name: Policy Enforcement Points
+        level: advanced
+        category: core
+      - name: Guardrail Evaluation
+        level: advanced
+        category: core
+    projects:
+      - Deploy a guardrail on live traffic and report its precision and recall against a labelled set you built first
+      - Measure the latency your guardrail adds per request, and decide explicitly whether it fails open or closed when it times out
+      - Tune a filter until legitimate traffic passes reliably, and record how many real requests the untuned version would have blocked
+      - Place enforcement points on both the inbound and outbound path, and show which class of failure each one catches
+      - Compare a managed guardrail service against your own implementation on the same labelled set, and justify the choice you keep
+      - "Build the escape hatch: a documented, audited way to disable a guardrail in an incident without a deploy"
+    resources:
+      - title: AWS Bedrock Guardrails
+        type: documentation
+        url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html
+        provider: AWS
+        free: true
+      - title: Bedrock Guardrails Components
+        type: documentation
+        url: https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html
+        provider: AWS
+        free: true
+      - title: Google Cloud Model Armor Overview
+        type: documentation
+        url: https://docs.cloud.google.com/model-armor/overview
+        provider: Google Cloud
+        free: true
+      - title: Azure AI Content Filtering
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/foundry-classic/foundry-models/concepts/content-filter
+        provider: Microsoft
+        free: true
+      - title: OpenAI Moderation Guide
+        type: documentation
+        url: https://developers.openai.com/api/docs/guides/moderation
+        provider: OpenAI
+        free: true
+      - title: Anthropic — Mitigate Jailbreaks & Prompt Injections
+        type: documentation
+        url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks
+        provider: Anthropic
+        free: true
+      - title: Anthropic — Reduce Hallucinations
+        type: documentation
+        url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations
+        provider: Anthropic
+        free: true
+      - title: SAIF Controls
+        type: documentation
+        url: https://saif.google/secure-ai-framework/controls
+        provider: Google
+        free: true
+    prerequisites:
+      - red-teaming
+  - id: governance-compliance
+    title: Governance & Compliance
+    description: Where security work becomes something an auditor and a regulator can read. The EU AI Act attaches obligations to risk tier, and NIST AI RMF gives the vocabulary most programmes are assessed against. Done when you have classified one AI system against the EU AI Act's risk tiers, mapped your controls to NIST AI RMF functions, and named the gaps with owners.
+    duration: 2-3 weeks
+    skills:
+      - name: NIST AI RMF Application
+        level: advanced
+        category: core
+      - name: EU AI Act Risk Tiering
+        level: advanced
+        category: core
+      - name: Control Mapping & Evidence
+        level: advanced
+        category: core
+      - name: AI System Documentation
+        level: intermediate
+        category: core
+      - name: Audit Readiness
+        level: intermediate
+        category: core
+      - name: Policy Authoring
+        level: intermediate
+        category: core
+      - name: Cross-functional Governance
+        level: intermediate
+        category: core
+      - name: Third-party AI Risk Assessment
+        level: advanced
+        category: core
+    projects:
+      - Classify one AI system against the EU AI Act risk tiers and write the justification you would defend to a regulator
+      - Map your existing controls to the NIST AI RMF Govern, Map, Measure and Manage functions, and list every gap with a named owner
+      - Assemble the evidence pack for one system — model cards, evaluations, approvals — as an auditor would ask for it
+      - Write the acceptable-use policy for AI systems at your organisation, in language a non-engineer will follow
+      - Build the third-party AI vendor assessment questionnaire you would send before approving a new model provider
+      - Run a governance review with legal and product, and record which of your technical controls they could not evaluate — that gap is a documentation defect
+    resources:
+      - title: NIST AI Risk Management Framework
+        type: documentation
+        url: https://www.nist.gov/itl/ai-risk-management-framework
+        provider: NIST
+        free: true
+      - title: "NIST AI 100-1: AI RMF 1.0 (full text)"
+        type: documentation
+        url: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf
+        provider: NIST
+        free: true
+      - title: "NIST AI 600-1: Generative AI Profile"
+        type: documentation
+        url: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+        provider: NIST
+        free: true
+      - title: NIST AI RMF Playbook
+        type: documentation
+        url: https://airc.nist.gov/airmf-resources/playbook/
+        provider: NIST
+        free: true
+      - title: EU AI Act — Official Journal Text
+        type: documentation
+        url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401689
+        provider: European Union
+        free: true
+      - title: EU AI Act Explorer
+        type: documentation
+        url: https://artificialintelligenceact.eu/ai-act-explorer/
+        provider: Future of Life Institute
+        free: true
+      - title: EU AI Act High-Level Summary
+        type: documentation
+        url: https://artificialintelligenceact.eu/high-level-summary/
+        provider: Future of Life Institute
+        free: true
+      - title: European Commission — Regulatory Framework for AI
+        type: documentation
+        url: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
+        provider: European Commission
+        free: true
+      - title: "OWASP: LLM & GenAI Security Center of Excellence Guide"
+        type: documentation
+        url: https://genai.owasp.org/resource/llm-and-generative-ai-security-center-of-excellence-guide/
+        provider: OWASP
+        free: true
+      - title: "NIST SP 800-53 Rev. 5: Security & Privacy Controls"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+        provider: NIST
+        free: true
+    prerequisites:
+      - guardrails-runtime
+  - id: ai-incident-response
+    title: Incident Response for AI Systems
+    description: "What you do once it has already happened. AI incidents resist the usual playbook: there is no stack trace, the behaviour may not reproduce, and the logs you need are ones nobody thought to keep. Done when you have run a tabletop for an AI-specific incident on a system you own and closed at least one telemetry gap it exposed."
+    duration: 3-4 weeks
+    skills:
+      - name: AI Incident Response
+        level: advanced
+        category: core
+      - name: Forensic Logging for LLMs
+        level: advanced
+        category: core
+      - name: Non-reproducible Investigation
+        level: advanced
+        category: core
+      - name: Detection Engineering
+        level: advanced
+        category: core
+      - name: Containment & Model Rollback
+        level: advanced
+        category: core
+      - name: Blameless Postmortems
+        level: intermediate
+        category: core
+      - name: Disclosure & Communication
+        level: intermediate
+        category: core
+      - name: Abuse Monitoring
+        level: advanced
+        category: core
+    projects:
+      - Run a tabletop for an AI-specific incident on a system you own, and record every question the responders could not answer from telemetry
+      - Close one telemetry gap the tabletop exposed — log the prompt, retrieval set and tool calls needed to reconstruct a session
+      - Write the containment playbook for a compromised model or prompt, including how to roll back a model version under load
+      - Build a detection that fires on anomalous agent behaviour, such as an unusual tool-call sequence, and tune out the false positives
+      - Investigate an incident that will not reproduce, and write the finding honestly in terms of likelihood rather than certainty
+      - Draft the disclosure template for an AI incident affecting users, saying what happened without either minimising it or over-explaining internals
+    resources:
+      - title: "NIST SP 800-61r3: Incident Response Recommendations"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+        provider: NIST
+        free: true
+      - title: NIST SP 800-61r3 (full text)
+        type: documentation
+        url: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r3.pdf
+        provider: NIST
+        free: true
+      - title: PagerDuty Incident Response Documentation
+        type: documentation
+        url: https://response.pagerduty.com/
+        provider: PagerDuty
+        free: true
+      - title: PagerDuty Postmortem Guide
+        type: documentation
+        url: https://postmortems.pagerduty.com/
+        provider: PagerDuty
+        free: true
+      - title: OWASP Logging Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: MITRE ATLAS
+        type: documentation
+        url: https://atlas.mitre.org/
+        provider: MITRE
+        free: true
+      - title: OpenTelemetry GenAI Semantic Conventions
+        type: documentation
+        url: https://opentelemetry.io/docs/specs/semconv/gen-ai/
+        provider: OpenTelemetry
+        free: true
+      - title: SAIF Risks Catalogue
+        type: documentation
+        url: https://saif.google/secure-ai-framework/risks
+        provider: Google
+        free: true
+    prerequisites:
+      - governance-compliance
+relatedRoadmaps:
+  - ai-agents-engineer
+  - sre
+relatedCertifications:
+  - iapp-aigp
+  - ccsp
+faq:
+  - question: What makes AI security different from regular application security?
+    answer: "One property breaks the tools you already trust: the instruction and the data arrive in the same channel, so there is no prepared statement for a prompt. Input validation as you know it does not apply, because the payload is natural language and the parser is a model built to be helpful. Taking your existing appsec checklist and marking every control that stops working when the input is natural language is literally the first project in the roadmap."
+  - question: How long does this AI security engineer roadmap take?
+    answer: Budget 7-9 months at around 10 hours a week, spread across ten phases from threat landscape through incident response. Phase five, agent security, is where the threat model stops being theoretical because tools, credentials and autonomy turn a wrong answer into a wrong action.
+  - question: Why does the roadmap cover prompt injection before agent security or RAG?
+    answer: The ordering follows blast radius rather than novelty. Prompt injection comes first because it is the delivery mechanism for most of the other risks, and agent security is covered before RAG because an agent holding tools can act on what it was tricked into believing, which raises the stakes of an injection considerably.
+  - question: What salary can an AI security engineer expect?
+    answer: Using Security Engineer salary data as a proxy (the AI-specific title has too few reported salaries to publish on its own), entry-level sits around $140,357, the overall average is about $172,800, and senior roles average around $213,409 in the US market. These are Glassdoor estimates for the broader Security Engineer title, not a title-matched AI Security Engineer figure.
+  - question: What do I need to know before starting this roadmap?
+    answer: You should already have working knowledge of application security fundamentals such as authentication, authorization and input validation, plus practical experience calling an LLM API and reading its responses. Comfort reading and writing code in at least one language, ideally Python, and familiarity with cloud infrastructure and CI/CD round out the prerequisites.
+  - question: Why is guardrail tuning treated as real engineering work in this roadmap?
+    answer: "Guardrails run on every request in production, where latency and false positives are real costs, and a filter that blocks 2% of legitimate traffic gets switched off within a week. The roadmap treats tuning as the core skill: a guardrail is only done when it runs on live traffic with measured precision and recall, and you can state its latency cost per request."

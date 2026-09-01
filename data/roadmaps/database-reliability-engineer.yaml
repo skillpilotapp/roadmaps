@@ -1,0 +1,651 @@
+# Database Reliability Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: database-reliability-engineer
+title: Database Reliability Engineer Roadmap
+description: A path into database reliability engineering — replication and consistency, restores you have actually verified, zero-downtime schema migrations, corruption detection, databases on Kubernetes, and RTO and RPO as a contract.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  Search for this role and you mostly find job listings, not a path into it — the
+  page candidates are looking for barely exists. This roadmap treats the database
+  as a production system with an owner rather than as a dependency someone else
+  maintains: restores that are verified on a schedule, migrations that ship
+  without downtime, and corruption caught by a check rather than by a customer.
+totalDuration:
+  value: 8-11 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-10"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $129,281
+    source: Glassdoor Database Reliability Engineer total pay estimate, 25th percentile (US, 24 salaries submitted)
+    retrievedAt: "2026-08-10"
+  mid:
+    value: $156,093
+    source: Glassdoor Database Reliability Engineer total pay estimate (US average, 24 salaries submitted)
+    retrievedAt: "2026-08-10"
+  senior:
+    value: $190,972
+    source: Glassdoor Database Reliability Engineer total pay estimate, 75th percentile (US, 24 salaries submitted)
+    retrievedAt: "2026-08-10"
+prerequisites:
+  - Confident SQL, including joins, indexes and reading a query plan
+  - Working knowledge of Linux, filesystems and networking
+  - Some production experience operating a service, in any role
+phases:
+  - id: database-fundamentals-for-operators
+    title: Database Fundamentals for Operators
+    description: "Operating a database means understanding what happens below the query: how pages reach disk, why the write-ahead log exists, and what a transaction actually guarantees. Without that model every incident is a mystery. Done when you can trace a single INSERT from client connection through WAL to durable storage, and explain which step is lost if the process is killed at each point."
+    duration: 4-5 weeks
+    skills:
+      - name: Storage Engines and Page Layout
+        level: intermediate
+        category: core
+      - name: Write-Ahead Logging
+        level: advanced
+        category: core
+      - name: ACID and Isolation Levels
+        level: advanced
+        category: core
+      - name: MVCC and Vacuum
+        level: advanced
+        category: core
+      - name: Index Internals
+        level: advanced
+        category: core
+      - name: Query Planning
+        level: intermediate
+        category: core
+      - name: Connection Handling
+        level: intermediate
+        category: core
+    projects:
+      - Trace one INSERT from connection to durable storage and record what is lost if the process dies at each stage
+      - Reproduce a phantom read and a non-repeatable read on purpose, then fix each by changing only the isolation level
+      - Force a table bloat scenario, observe what vacuum reclaims and what it does not, and record the disk numbers
+      - Take a slow query, read its plan, and make it fast by changing the index rather than the SQL
+      - Exhaust a connection pool deliberately and record what the application error looks like from the user's side
+    resources:
+      - title: PostgreSQL Internals — Write-Ahead Logging
+        type: documentation
+        url: https://www.postgresql.org/docs/current/wal-intro.html
+        provider: PostgreSQL
+        free: true
+      - title: PostgreSQL Transaction Isolation
+        type: documentation
+        url: https://www.postgresql.org/docs/current/transaction-iso.html
+        provider: PostgreSQL
+        free: true
+      - title: Use The Index, Luke — SQL Indexing
+        type: tutorial
+        url: https://use-the-index-luke.com/
+        provider: Markus Winand
+        free: true
+      - title: MySQL InnoDB Storage Engine
+        type: documentation
+        url: https://dev.mysql.com/doc/refman/8.4/en/innodb-storage-engine.html
+        provider: Oracle
+        free: true
+      - title: PostgreSQL Routine Vacuuming
+        type: documentation
+        url: https://www.postgresql.org/docs/current/routine-vacuuming.html
+        provider: PostgreSQL
+        free: true
+      - title: Designing Data-Intensive Applications
+        type: book
+        provider: Martin Kleppmann
+        free: false
+        isbnAsin: "1449373321"
+        year: 2017
+  - id: replication-and-consistency
+    title: Replication and Consistency
+    description: "Replication is how databases survive hardware failure and also how they silently serve stale data. The distinction between synchronous and asynchronous is not a configuration detail: it decides whether a failover can lose committed transactions. Done when you have measured replication lag under write load and can state exactly how much data your topology loses if the primary dies right now."
+    duration: 4-6 weeks
+    skills:
+      - name: Synchronous vs Asynchronous Replication
+        level: advanced
+        category: core
+      - name: Streaming and Logical Replication
+        level: advanced
+        category: core
+      - name: Replication Lag Measurement
+        level: advanced
+        category: core
+      - name: Read Replica Routing
+        level: intermediate
+        category: core
+      - name: Quorum and Consensus
+        level: advanced
+        category: core
+      - name: Split-brain Prevention
+        level: advanced
+        category: core
+      - name: Cross-region Replication
+        level: advanced
+        category: core
+    projects:
+      - Build a primary with two replicas, then measure lag under sustained write load rather than at idle
+      - Calculate your topology's real data loss window on primary failure, and verify it by killing the primary mid-write
+      - Route reads to a replica and find a user-visible bug caused by reading your own stale write
+      - Set up logical replication between two different major versions and record which DDL changes it refuses to carry
+      - Induce a network partition between primary and replica and document what each side believes about the other
+      - Compare synchronous replication's latency cost against its durability gain, with numbers from your own hardware
+    resources:
+      - title: PostgreSQL High Availability and Replication
+        type: documentation
+        url: https://www.postgresql.org/docs/current/high-availability.html
+        provider: PostgreSQL
+        free: true
+      - title: PostgreSQL Logical Replication
+        type: documentation
+        url: https://www.postgresql.org/docs/current/logical-replication.html
+        provider: PostgreSQL
+        free: true
+      - title: MySQL Replication Documentation
+        type: documentation
+        url: https://dev.mysql.com/doc/refman/8.4/en/replication.html
+        provider: Oracle
+        free: true
+      - title: Jepsen — Distributed Systems Safety Analysis
+        type: documentation
+        url: https://jepsen.io/analyses
+        provider: Jepsen
+        free: true
+      - title: Raft Consensus Algorithm
+        type: documentation
+        url: https://raft.github.io/
+        provider: Raft
+        free: true
+  - id: backup-and-restore-verification
+    title: Backup and Restore Verification
+    description: A backup that has never been restored is a hypothesis, and the moment you discover it was wrong is the worst possible moment. This phase treats the restore, not the backup, as the deliverable. Done when a restore runs automatically on a schedule, its duration is recorded as a metric, and someone is alerted when a restore fails rather than when a backup does.
+    duration: 3-4 weeks
+    skills:
+      - name: Physical and Logical Backups
+        level: intermediate
+        category: core
+      - name: Point-in-Time Recovery
+        level: advanced
+        category: core
+      - name: Automated Restore Testing
+        level: advanced
+        category: core
+      - name: Backup Retention Design
+        level: intermediate
+        category: core
+      - name: Restore Time Measurement
+        level: advanced
+        category: core
+      - name: Backup Encryption and Access
+        level: intermediate
+        category: core
+    projects:
+      - Restore a production-sized backup into a clean environment and publish the real restore time next to the promised one
+      - Perform a point-in-time recovery to a timestamp thirty seconds before a deliberate destructive statement
+      - Automate a nightly restore into a throwaway environment, with an alert that fires on restore failure rather than backup failure
+      - Design a retention policy against a real regulatory or business requirement and cost it at your current data growth
+      - Corrupt a backup file on purpose and confirm your verification step detects it before you need the backup
+    resources:
+      - title: PostgreSQL Backup and Restore
+        type: documentation
+        url: https://www.postgresql.org/docs/current/backup.html
+        provider: PostgreSQL
+        free: true
+      - title: PostgreSQL Continuous Archiving and PITR
+        type: documentation
+        url: https://www.postgresql.org/docs/current/continuous-archiving.html
+        provider: PostgreSQL
+        free: true
+      - title: pgBackRest Documentation
+        type: documentation
+        url: https://pgbackrest.org/user-guide.html
+        provider: pgBackRest
+        free: true
+      - title: Percona XtraBackup Documentation
+        type: documentation
+        url: https://docs.percona.com/percona-xtrabackup/8.0/index.html
+        provider: Percona
+        free: true
+      - title: Google SRE Book — Data Integrity
+        type: documentation
+        url: https://sre.google/sre-book/data-integrity/
+        provider: Google
+        free: true
+  - id: high-availability-and-failover
+    title: High Availability and Failover
+    description: Automatic failover is a promise that the system will make a correct decision during the worst five minutes of the quarter, and untested automation usually makes it worse. Done when you have triggered a failover in anger — killing the primary without warning the tooling — and the cluster converged on a single writer with the data loss you predicted, not more.
+    duration: 4-5 weeks
+    skills:
+      - name: Failover Automation
+        level: advanced
+        category: core
+      - name: Leader Election and Fencing
+        level: advanced
+        category: core
+      - name: Connection Pooling and Proxies
+        level: advanced
+        category: core
+      - name: Health Checking Design
+        level: advanced
+        category: core
+      - name: Switchover vs Failover
+        level: intermediate
+        category: core
+      - name: Client Reconnection Behaviour
+        level: advanced
+        category: core
+      - name: Failover Testing in Production
+        level: advanced
+        category: core
+    projects:
+      - Kill a primary without warning the failover tooling and record the time to a single healthy writer
+      - Configure fencing and prove that the demoted primary cannot accept a write after being isolated
+      - Put a connection pooler in front of a cluster and measure how many client errors a failover produces with and without it
+      - Write a health check that distinguishes a slow database from a dead one, and test it against both conditions
+      - Perform a planned switchover during working hours with zero failed writes, and document the sequence that made it safe
+      - Test what your application does when the database is read-only for ninety seconds
+    resources:
+      - title: Patroni Documentation
+        type: documentation
+        url: https://patroni.readthedocs.io/en/latest/
+        provider: Patroni
+        free: true
+      - title: PgBouncer Documentation
+        type: documentation
+        url: https://www.pgbouncer.org/usage.html
+        provider: PgBouncer
+        free: true
+      - title: Orchestrator — MySQL Replication Management
+        type: documentation
+        url: https://github.com/openark/orchestrator/blob/master/docs/toc.md
+        provider: openark
+        free: true
+      - title: Amazon RDS Multi-AZ Deployments
+        type: documentation
+        url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html
+        provider: AWS
+        free: true
+      - title: Google SRE Book — Addressing Cascading Failures
+        type: documentation
+        url: https://sre.google/sre-book/addressing-cascading-failures/
+        provider: Google
+        free: true
+  - id: performance-and-query-optimisation
+    title: Performance and Query Optimisation
+    description: "Most database performance work is not tuning the server: it is finding the three queries responsible for most of the load and fixing them. The skill is measurement discipline, because intuition about what is slow is reliably wrong. Done when you have found the top queries by total time rather than by worst case, and made a measured improvement to the one that mattered."
+    duration: 4-5 weeks
+    skills:
+      - name: Query Plan Analysis
+        level: advanced
+        category: core
+      - name: Index Design and Maintenance
+        level: advanced
+        category: core
+      - name: Workload Profiling
+        level: advanced
+        category: core
+      - name: Lock Contention Diagnosis
+        level: advanced
+        category: core
+      - name: Configuration Tuning
+        level: intermediate
+        category: core
+      - name: Partitioning Strategy
+        level: advanced
+        category: core
+      - name: Cache Hit Ratio Analysis
+        level: intermediate
+        category: core
+    projects:
+      - Rank queries by total accumulated time rather than worst single execution, and fix the one at the top
+      - Find an unused index in a production-like database, prove it is unused, and measure the write throughput gained by dropping it
+      - Reproduce a lock contention incident, identify the blocking chain, and record how you would have found it under pressure
+      - Partition a large table and measure both the query improvement and the new maintenance burden it created
+      - Change one memory-related configuration parameter and prove the effect with before-and-after measurements
+      - Build a query performance dashboard that would let an on-call engineer identify a regression in under two minutes
+    resources:
+      - title: PostgreSQL EXPLAIN Documentation
+        type: documentation
+        url: https://www.postgresql.org/docs/current/using-explain.html
+        provider: PostgreSQL
+        free: true
+      - title: pg_stat_statements
+        type: documentation
+        url: https://www.postgresql.org/docs/current/pgstatstatements.html
+        provider: PostgreSQL
+        free: true
+      - title: MySQL Optimization Documentation
+        type: documentation
+        url: https://dev.mysql.com/doc/refman/8.4/en/optimization.html
+        provider: Oracle
+        free: true
+      - title: PostgreSQL Monitoring Statistics
+        type: documentation
+        url: https://www.postgresql.org/docs/current/monitoring-stats.html
+        provider: PostgreSQL
+        free: true
+      - title: Use The Index, Luke — Execution Plans
+        type: tutorial
+        url: https://use-the-index-luke.com/sql/explain-plan
+        provider: Markus Winand
+        free: true
+  - id: schema-migrations-without-downtime
+    title: Schema Migrations Without Downtime
+    description: A schema change is a deployment that can lock a table and take the site down, and the naive version of the migration is usually the dangerous one. Expand-and-contract turns one risky change into several safe ones. Done when you have shipped a column rename across a running system with no downtime, using separate deployments to add, backfill, switch and remove.
+    duration: 3-4 weeks
+    skills:
+      - name: Expand and Contract Pattern
+        level: advanced
+        category: core
+      - name: Online Schema Change Tools
+        level: advanced
+        category: core
+      - name: Backfill Strategy
+        level: advanced
+        category: core
+      - name: Lock Analysis for DDL
+        level: advanced
+        category: core
+      - name: Migration Rollback Design
+        level: advanced
+        category: core
+      - name: Application and Schema Version Skew
+        level: advanced
+        category: core
+    projects:
+      - Rename a column in a live system using four separate deployments, with the application working correctly after each one
+      - Backfill a hundred million rows in batches without pushing replication lag past your alert threshold
+      - Identify which DDL statements take an exclusive lock on your database version, and test the two you were unsure about
+      - Run an online schema change tool against a large table and measure its overhead against a direct ALTER
+      - Design a migration that can be rolled back after deployment, and state the point at which rollback stops being possible
+    resources:
+      - title: PostgreSQL ALTER TABLE — Locking Notes
+        type: documentation
+        url: https://www.postgresql.org/docs/current/sql-altertable.html
+        provider: PostgreSQL
+        free: true
+      - title: gh-ost — GitHub's Online Schema Migration Tool
+        type: documentation
+        url: https://github.com/github/gh-ost/blob/master/doc/cheatsheet.md
+        provider: GitHub
+        free: true
+      - title: pt-online-schema-change
+        type: documentation
+        url: https://docs.percona.com/percona-toolkit/pt-online-schema-change.html
+        provider: Percona
+        free: true
+      - title: MySQL Online DDL Operations
+        type: documentation
+        url: https://dev.mysql.com/doc/refman/8.4/en/innodb-online-ddl-operations.html
+        provider: Oracle
+        free: true
+      - title: Strangler Fig Pattern
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig
+        provider: Microsoft
+        free: true
+  - id: capacity-and-connection-management
+    title: Capacity and Connection Management
+    description: Databases fail on connections and IOPS long before they run out of CPU, and the failure mode is a thundering herd of application retries making it worse. Done when you can state your database's maximum sustainable connection count and write throughput from measurement rather than from the vendor's datasheet, and have an alert that fires before either is reached.
+    duration: 3-4 weeks
+    skills:
+      - name: Connection Pool Sizing
+        level: advanced
+        category: core
+      - name: IOPS and Throughput Planning
+        level: advanced
+        category: core
+      - name: Growth Forecasting
+        level: intermediate
+        category: core
+      - name: Load Testing Databases
+        level: advanced
+        category: core
+      - name: Retry and Backoff Design
+        level: advanced
+        category: core
+      - name: Resource Saturation Alerting
+        level: intermediate
+        category: core
+    projects:
+      - Load test until the database degrades and record which resource saturated first — it is rarely the one you expected
+      - Size a connection pool from measurement, then prove the number by testing above and below it
+      - Forecast storage and IOPS growth twelve months out from real data, and state which assumption breaks the forecast
+      - Reproduce a retry storm and fix it with jittered backoff, measuring recovery time before and after
+      - Write saturation alerts that fire with enough lead time to act, and verify the lead time by triggering one
+    resources:
+      - title: PostgreSQL Resource Consumption Configuration
+        type: documentation
+        url: https://www.postgresql.org/docs/current/runtime-config-resource.html
+        provider: PostgreSQL
+        free: true
+      - title: pgbench Documentation
+        type: documentation
+        url: https://www.postgresql.org/docs/current/pgbench.html
+        provider: PostgreSQL
+        free: true
+      - title: AWS Architecture Blog — Exponential Backoff and Jitter
+        type: documentation
+        url: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
+        provider: AWS
+        free: true
+      - title: Amazon EBS Volume Performance
+        type: documentation
+        url: https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html
+        provider: AWS
+        free: true
+      - title: Google SRE Workbook — Managing Load
+        type: documentation
+        url: https://sre.google/workbook/managing-load/
+        provider: Google
+        free: true
+  - id: data-integrity-and-corruption-detection
+    title: Data Integrity and Corruption Detection
+    description: "Corruption is the failure mode that does not page anyone: it spreads into backups while every dashboard stays green, and gets discovered months later by a customer. Done when a checksum or consistency check runs on a schedule against real data, and you have seen it detect a fault you introduced deliberately rather than trusting that it would."
+    duration: 3-4 weeks
+    skills:
+      - name: Checksums and Page Verification
+        level: advanced
+        category: core
+      - name: Logical Consistency Checking
+        level: advanced
+        category: core
+      - name: Constraint and Foreign Key Design
+        level: intermediate
+        category: core
+      - name: Replica Divergence Detection
+        level: advanced
+        category: core
+      - name: Silent Corruption Response
+        level: advanced
+        category: core
+      - name: Audit Trails
+        level: intermediate
+        category: core
+    projects:
+      - Enable page checksums, corrupt a page deliberately, and confirm the database detects it rather than serving the bad data
+      - Compare a primary and replica row by row and find the divergence you introduced on purpose
+      - Write a scheduled logical consistency check for an invariant your schema cannot express as a constraint
+      - Trace how a corrupted page would propagate into your backups, and state how far back you would need to go
+      - Add constraints to a table that permits invalid states today, and record how many existing rows violate them
+    resources:
+      - title: PostgreSQL Data Checksums
+        type: documentation
+        url: https://www.postgresql.org/docs/current/checksums.html
+        provider: PostgreSQL
+        free: true
+      - title: amcheck — PostgreSQL Index and Heap Verification
+        type: documentation
+        url: https://www.postgresql.org/docs/current/amcheck.html
+        provider: PostgreSQL
+        free: true
+      - title: pt-table-checksum
+        type: documentation
+        url: https://docs.percona.com/percona-toolkit/pt-table-checksum.html
+        provider: Percona
+        free: true
+      - title: Google SRE Book — Data Integrity
+        type: documentation
+        url: https://sre.google/sre-book/data-integrity/
+        provider: Google
+        free: true
+      - title: PostgreSQL Constraints
+        type: documentation
+        url: https://www.postgresql.org/docs/current/ddl-constraints.html
+        provider: PostgreSQL
+        free: true
+  - id: databases-on-kubernetes
+    title: Databases on Kubernetes
+    description: Running stateful workloads on an orchestrator designed to reschedule things freely is the hardest operational problem in this roadmap, and the honest answer is sometimes not to. Done when you have run a database on Kubernetes through a node failure and a rolling upgrade without data loss, and can argue in writing when a managed service would have been the better call.
+    duration: 4-5 weeks
+    skills:
+      - name: StatefulSets and Persistent Volumes
+        level: advanced
+        category: core
+      - name: Database Operators
+        level: advanced
+        category: core
+      - name: Storage Classes and IOPS on Kubernetes
+        level: advanced
+        category: core
+      - name: Pod Disruption Budgets
+        level: intermediate
+        category: core
+      - name: Backup in a Kubernetes Context
+        level: advanced
+        category: core
+      - name: Managed vs Self-hosted Decision
+        level: advanced
+        category: core
+    projects:
+      - Deploy a replicated database with an operator, then delete the primary pod and record what the operator did and how long it took
+      - Drain a node running a database pod and measure the disruption from the client's point of view
+      - Configure pod disruption budgets that survive a cluster upgrade, and verify by performing one
+      - Benchmark the same database on a persistent volume and on local storage, and record the durability trade-off
+      - Write the decision record for self-hosting versus a managed service, costed in engineering hours per month
+    resources:
+      - title: Kubernetes StatefulSets
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Persistent Volumes
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+        provider: Kubernetes
+        free: true
+      - title: CloudNativePG Documentation
+        type: documentation
+        url: https://cloudnative-pg.io/documentation/current/
+        provider: CloudNativePG
+        free: true
+      - title: Kubernetes Pod Disruption Budgets
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+        provider: Kubernetes
+        free: true
+      - title: "Kubernetes: Up and Running"
+        type: book
+        provider: Brendan Burns, Joe Beda, Kelsey Hightower, Lachlan Evenson
+        free: false
+        isbnAsin: 109811020X
+        year: 2022
+        freeAlternative:
+          title: Kubernetes Documentation — Concepts
+          url: https://kubernetes.io/docs/concepts/
+  - id: data-reliability-at-scale
+    title: Data Reliability at Scale
+    description: "At scale the job stops being one database and becomes a fleet plus the humans who depend on it: RTO and RPO become contracts other teams design against, and self-service beats being a bottleneck. Done when a team other than yours provisions a compliant database without you in the loop, and an incident is handled using a runbook someone else wrote."
+    duration: 4-5 weeks
+    skills:
+      - name: RTO and RPO as Contracts
+        level: advanced
+        category: core
+      - name: Fleet Management and Automation
+        level: advanced
+        category: core
+      - name: Self-service Provisioning
+        level: advanced
+        category: core
+      - name: Database SLOs
+        level: advanced
+        category: core
+      - name: Incident Response for Data
+        level: advanced
+        category: core
+      - name: Runbook Authorship
+        level: intermediate
+        category: core
+      - name: Sharding and Horizontal Scale
+        level: advanced
+        category: core
+    projects:
+      - Publish RTO and RPO per tier and get a dependent team to design against those numbers rather than assume zero
+      - Automate provisioning so another team can create a compliant database without you, then watch them use it unaided
+      - Define database SLOs that reflect what users experience rather than what is easy to measure, and report a month against them
+      - Write a runbook for the most likely data incident and have someone else execute it in a drill while you stay silent
+      - Design a sharding strategy for a table that has outgrown one machine, including how a resharding operation would run
+      - Run a game day on a data-loss scenario and record which step of the response was slowest
+    resources:
+      - title: Google SRE Workbook — Implementing SLOs
+        type: documentation
+        url: https://sre.google/workbook/implementing-slos/
+        provider: Google
+        free: true
+      - title: Google SRE Book — Postmortem Culture
+        type: documentation
+        url: https://sre.google/sre-book/postmortem-culture/
+        provider: Google
+        free: true
+      - title: Vitess Documentation
+        type: documentation
+        url: https://vitess.io/docs/
+        provider: Vitess
+        free: true
+      - title: Citus — Distributed PostgreSQL
+        type: documentation
+        url: https://docs.citusdata.com/en/stable/
+        provider: Citus
+        free: true
+      - title: Database Reliability Engineering
+        type: book
+        provider: Laine Campbell, Charity Majors
+        free: false
+        isbnAsin: "1491925949"
+        year: 2017
+        freeAlternative:
+          title: Google SRE Book — Data Integrity
+          url: https://sre.google/sre-book/data-integrity/
+      - title: Site Reliability Engineering
+        type: book
+        provider: Betsy Beyer, Chris Jones, Jennifer Petoff, Niall Richard Murphy
+        free: false
+        isbnAsin: 149192912X
+        year: 2016
+        freeAlternative:
+          title: Site Reliability Engineering (full text, free online)
+          url: https://sre.google/sre-book/table-of-contents/
+relatedRoadmaps:
+  - sre
+  - cloud-architect
+  - platform-engineer
+  - devops-engineer
+relatedCertifications:
+  - aws-solutions-architect-associate
+  - cka
+  - lfcs
+faq:
+  - question: What does the Database Reliability Engineer roadmap actually cover?
+    answer: It covers replication and consistency, restores you have actually verified, zero-downtime schema migrations, corruption detection, running databases on Kubernetes, and treating RTO and RPO as a contract. The roadmap treats the database as a production system with an owner rather than as a dependency someone else maintains, across ten phases from storage internals through fleet-scale reliability.
+  - question: How long does it take to complete this roadmap?
+    answer: SkillPilot's editorial estimate is 8-11 months at 10 hours a week, split across ten phases ranging from 3-4 weeks to 4-6 weeks each. The longest phase is Replication and Consistency; the shortest phases, at 3-4 weeks, cover backup and restore verification, schema migrations, capacity management, and corruption detection.
+  - question: How much does a Database Reliability Engineer earn?
+    answer: In the United States, Glassdoor's total pay estimates put entry-level pay at $129,281 (25th percentile), the mid-level average at $156,093, and senior pay at $190,972 (75th percentile), based on 24 salaries submitted and retrieved 2026-08-10. These are total pay figures, not base salary alone.
+  - question: What do I need to know before starting this roadmap?
+    answer: You need confident SQL — including joins, indexes and reading a query plan — a working knowledge of Linux, filesystems and networking, and some production experience operating a service in any role. It is labelled an advanced roadmap, so it assumes you are not learning to code or use a terminal for the first time.
+  - question: Why does the roadmap treat backup verification separately from backups themselves?
+    answer: Because a backup that has never been restored is only a hypothesis, and the moment you discover it was wrong is the worst possible moment. The Backup and Restore Verification phase treats the restore, not the backup, as the deliverable — done when a restore runs automatically on a schedule, its duration is recorded as a metric, and someone is alerted when a restore fails rather than when a backup does.
+  - question: Does this roadmap teach running databases on Kubernetes?
+    answer: Yes — Databases on Kubernetes is one of the ten phases, and the roadmap is candid that running stateful workloads on an orchestrator designed to reschedule things freely is the hardest operational problem it covers, and sometimes the honest answer is not to. It is done when you have run a database on Kubernetes through a node failure and a rolling upgrade without data loss, and can argue in writing when a managed service would have been the better call.

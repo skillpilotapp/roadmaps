@@ -1,0 +1,701 @@
+# Cloud Security Engineer Roadmap
+# Generated from the SkillPilot content source. Edit here, not there.
+slug: cloud-security-engineer
+title: Cloud Security Engineer Roadmap
+description: A path into cloud security as an engineering discipline, covering the shared responsibility model, identity, network segmentation, encryption, workload hardening, detection, governance as code, threat modelling and incident response.
+level: advanced
+updatedAt: "2026-08-10"
+overview: |-
+  This path assumes working knowledge of one public cloud and comfort on the command line. It treats cloud security as engineering rather than as a review gate — controls you build and test, not findings you file.
+
+  The reason identity is the longest phase: **in the cloud, identity is the perimeter**. There is no network edge to stand behind, and almost every serious cloud breach reduces to a credential or a role that could do more than it needed to. A misconfigured IAM policy outranks an unpatched host.
+
+  Detection sits after the preventive phases deliberately. Alerts on a system you have not hardened produce a queue nobody works, and the queue becomes the control.
+
+  Expect 9–12 months, the longest path here. Phase five spans containers and supply chain because that is one attack surface, not two.
+totalDuration:
+  value: 9-12 months at 10h/week
+  source: SkillPilot editorial estimate
+  retrievedAt: "2026-08-08"
+salary:
+  currency: USD
+  market: United States
+  entry:
+    value: $134,792
+    source: Glassdoor Cloud Security Engineer salary estimate, 25th percentile (US, 431 salaries)
+    retrievedAt: "2026-08-08"
+  mid:
+    value: $169,173
+    source: Glassdoor Cloud Security Engineer salary estimate (overall average, US, 431 salaries)
+    retrievedAt: "2026-08-08"
+  senior:
+    value: $180,921
+    source: Glassdoor Senior Cloud Security Engineer salary estimate (average, US, 95 salaries)
+    retrievedAt: "2026-08-08"
+prerequisites:
+  - Working knowledge of at least one public cloud (compute, storage, networking)
+  - Comfort with Linux, the command line and at least one scripting language
+  - Basic understanding of TCP/IP, DNS and TLS
+phases:
+  - id: shared-responsibility
+    title: Cloud Security Fundamentals
+    description: "Every cloud security mistake starts with a wrong answer to one question: who secures this? The line moves between IaaS, PaaS and SaaS, and it moves per service. Done when you can take one real workload, draw the responsibility boundary for every service it uses, and name the controls that fall to you rather than the provider."
+    duration: 3-4 weeks
+    skills:
+      - name: Shared Responsibility Model
+        level: intermediate
+        category: core
+      - name: Cloud Threat Landscape
+        level: intermediate
+        category: core
+      - name: Security Design Principles
+        level: intermediate
+        category: core
+      - name: Defence in Depth
+        level: intermediate
+        category: core
+      - name: Blast Radius Reasoning
+        level: advanced
+        category: core
+      - name: Control Types & Placement
+        level: intermediate
+        category: core
+      - name: Cloud Service Taxonomy
+        level: beginner
+        category: core
+      - name: Reading Security Documentation
+        level: beginner
+        category: core
+    projects:
+      - Take one real workload and draw the shared responsibility boundary per service, naming which controls are yours and which the provider already owns
+      - Review a published cloud breach report and classify each contributing failure as a customer-side or provider-side control gap
+      - Assess one account against the AWS Well-Architected Security Pillar and record every question you could not answer with evidence
+      - Write down the blast radius of your most privileged credential — what it reaches, and what stops it — then verify the answer rather than assuming it
+      - Compare the shared responsibility split for the same workload run on IaaS and on a managed equivalent, and say which controls you gave up
+      - Build a one-page control map for a service you already run, marking each control as preventive, detective or responsive
+    resources:
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: Shared Responsibility in the Cloud
+        type: documentation
+        url: https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility
+        provider: Microsoft
+        free: true
+      - title: "Well-Architected Framework: Security, Privacy & Compliance Pillar"
+        type: documentation
+        url: https://docs.cloud.google.com/architecture/framework/security
+        provider: Google Cloud
+        free: true
+      - title: CNCF Cloud Native Security Whitepaper
+        type: documentation
+        url: https://www.cncf.io/reports/cloud-native-security-whitepaper/
+        provider: CNCF
+        free: true
+      - title: CIS Benchmarks
+        type: documentation
+        url: https://www.cisecurity.org/cis-benchmarks
+        provider: Center for Internet Security
+        free: true
+      - title: Practical Cloud Security
+        type: book
+        provider: Chris Dotson
+        free: false
+        isbnAsin: "1098148177"
+        year: 2023
+        freeAlternative:
+          title: AWS Well-Architected Security Pillar
+          url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+  - id: identity-access
+    title: Identity & Access Management
+    description: The spine of the whole path. In cloud, identity is the perimeter — the network boundary you inherited from the datacentre no longer decides who reaches what. Done when you have replaced a permissive policy on a real workload with a least-privilege one derived from observed access, and proved the old one granted more than the workload ever used.
+    duration: 5-6 weeks
+    skills:
+      - name: IAM Policy Authoring
+        level: advanced
+        category: core
+      - name: Least Privilege Derivation
+        level: advanced
+        category: core
+      - name: Roles & Temporary Credentials
+        level: advanced
+        category: core
+      - name: Federation & SSO
+        level: advanced
+        category: core
+      - name: Permission Boundaries & SCPs
+        level: advanced
+        category: core
+      - name: Policy Evaluation Logic
+        level: advanced
+        category: core
+      - name: Workload Identity
+        level: advanced
+        category: core
+      - name: Privilege Escalation Paths
+        level: advanced
+        category: core
+      - name: Access Reviews
+        level: intermediate
+        category: core
+    projects:
+      - Write a least-privilege IAM policy for a real workload from its observed access activity, and prove the previous policy granted permissions it never used
+      - Eliminate long-lived access keys from one workload by moving it to role-based temporary credentials, and confirm no key remains by auditing the account
+      - Trace the policy evaluation for a request that is denied and explain which of identity policy, resource policy, boundary and SCP produced the deny
+      - Map the privilege escalation paths inside one account — which role can grant itself more — and close the highest-risk one
+      - Implement a permissions guardrail with an SCP, test it on a single account before the organisation, and document what it broke
+      - Run an access review that removes unused roles and permissions, and report the percentage of privileges withdrawn
+    resources:
+      - title: Security Best Practices in IAM
+        type: documentation
+        url: https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+        provider: AWS
+        free: true
+      - title: Service Control Policies (SCPs)
+        type: documentation
+        url: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html
+        provider: AWS
+        free: true
+      - title: "NIST SP 800-207: Zero Trust Architecture"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/207/final
+        provider: NIST
+        free: true
+      - title: AWS Security Reference Architecture
+        type: documentation
+        url: https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html
+        provider: AWS
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+    prerequisites:
+      - shared-responsibility
+  - id: network-security
+    title: Network Security in the Cloud
+    description: The network is no longer the perimeter, but it is still a control. Segmentation, private connectivity and egress restriction limit what a compromised workload can reach next. Done when you have segmented a real environment so one workload cannot reach a service it has no reason to call, and demonstrated the block with a connection test rather than a diagram.
+    duration: 4-5 weeks
+    skills:
+      - name: VPC & Subnet Design
+        level: advanced
+        category: core
+      - name: Security Groups & NACLs
+        level: intermediate
+        category: core
+      - name: Network Segmentation
+        level: advanced
+        category: core
+      - name: Egress Control
+        level: advanced
+        category: core
+      - name: Private Endpoints
+        level: advanced
+        category: core
+      - name: TLS & Certificate Management
+        level: intermediate
+        category: core
+      - name: Flow Log Analysis
+        level: advanced
+        category: core
+      - name: DNS Security
+        level: intermediate
+        category: core
+    projects:
+      - Segment an environment so one workload cannot reach a service it has no reason to call, and prove the block with a connection test
+      - Restrict egress on a workload that previously had open internet access, then find every dependency the restriction broke and allow only those
+      - Replace public service access with private endpoints so traffic never traverses the internet, and verify with flow logs that it no longer does
+      - Enable flow logs and use them to find one connection nobody could justify, then remove the path that allowed it
+      - Audit security groups for rules allowing 0.0.0.0/0, and for each one either close it or write down why it must stay
+      - Enforce TLS on a service using a policy condition rather than trusting clients to opt in, and confirm plaintext requests are rejected
+    resources:
+      - title: Security Best Practices for Your VPC
+        type: documentation
+        url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html
+        provider: AWS
+        free: true
+      - title: "NIST SP 800-207: Zero Trust Architecture"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/207/final
+        provider: NIST
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: CIS Benchmarks
+        type: documentation
+        url: https://www.cisecurity.org/cis-benchmarks
+        provider: Center for Internet Security
+        free: true
+    prerequisites:
+      - identity-access
+  - id: data-protection
+    title: Data Protection & Encryption
+    description: Encryption is easy to enable and easy to get wrong, because the interesting question is never the cipher — it is who can use the key. Done when you have encrypted a real dataset with a customer-managed key, written a key policy that denies access to an identity that can read the data store, and shown the denial in practice.
+    duration: 4-5 weeks
+    skills:
+      - name: Key Management Services
+        level: advanced
+        category: core
+      - name: Key Policies & Grants
+        level: advanced
+        category: core
+      - name: Envelope Encryption
+        level: advanced
+        category: core
+      - name: Encryption at Rest & in Transit
+        level: intermediate
+        category: core
+      - name: Secrets Management
+        level: advanced
+        category: core
+      - name: Data Classification
+        level: intermediate
+        category: core
+      - name: Key Rotation & Lifecycle
+        level: advanced
+        category: core
+      - name: Exfiltration Controls
+        level: advanced
+        category: core
+    projects:
+      - Encrypt a dataset with a customer-managed key and write a key policy that denies an identity which can otherwise read the store, then demonstrate the denial
+      - Move hardcoded credentials out of an application into a secrets manager, then grep the repository history to find the ones still committed
+      - Implement key rotation for one key and verify that data encrypted before rotation is still readable afterwards
+      - Classify the data in one system into tiers, and apply a different control set to each tier rather than the same one everywhere
+      - Block public access on an object store at the account level, then attempt to make a bucket public and confirm the guardrail wins
+      - Write the exfiltration control for one sensitive store — a policy restricting which network paths and identities can read it — and test it from outside
+    resources:
+      - title: AWS Key Management Service
+        type: documentation
+        url: https://docs.aws.amazon.com/kms/latest/developerguide/overview.html
+        provider: AWS
+        free: true
+      - title: Cloud Key Management Service Overview
+        type: documentation
+        url: https://docs.cloud.google.com/kms/docs/key-management-service
+        provider: Google Cloud
+        free: true
+      - title: Security Best Practices for Amazon S3
+        type: documentation
+        url: https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html
+        provider: AWS
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+    prerequisites:
+      - network-security
+  - id: workload-security
+    title: Workload, Container & Supply Chain Security
+    description: Where the code actually runs, and where the software you did not write arrives. Image hardening, runtime restriction and build provenance. Done when you have hardened a container workload so it runs unprivileged with a read-only filesystem, and can produce the signed provenance for the image running in production.
+    duration: 5-6 weeks
+    skills:
+      - name: Container Image Hardening
+        level: advanced
+        category: core
+      - name: Pod Security Standards
+        level: advanced
+        category: tool
+      - name: Kubernetes RBAC
+        level: advanced
+        category: tool
+      - name: Admission Control
+        level: advanced
+        category: tool
+      - name: Vulnerability Scanning
+        level: intermediate
+        category: tool
+      - name: Software Supply Chain & SBOM
+        level: advanced
+        category: core
+      - name: Build Provenance
+        level: advanced
+        category: core
+      - name: Runtime Hardening
+        level: advanced
+        category: core
+      - name: Serverless Security
+        level: intermediate
+        category: core
+    projects:
+      - Harden a container workload to run unprivileged with a read-only root filesystem and dropped capabilities, and confirm it still works under load
+      - Enforce the restricted Pod Security Standard on a namespace, then find every existing workload it rejects and fix them rather than exempting them
+      - Generate an SBOM for one application and identify which dependencies you could not attribute to a known source
+      - Sign build artefacts and verify the signature at deploy time, so an unsigned image cannot reach the cluster
+      - Write Kubernetes RBAC for one team that grants only the verbs they use, and check it against the cluster-admin binding it replaces
+      - Add an admission policy that blocks a specific unsafe configuration, and record how many existing manifests it would have caught
+    resources:
+      - title: Kubernetes Security Concepts
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/
+        provider: Kubernetes
+        free: true
+      - title: Pod Security Standards
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/security/pod-security-standards/
+        provider: Kubernetes
+        free: true
+      - title: Using RBAC Authorization
+        type: documentation
+        url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+        provider: Kubernetes
+        free: true
+      - title: Kubernetes Network Policies
+        type: documentation
+        url: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+        provider: Kubernetes
+        free: true
+      - title: About SLSA — Supply Chain Levels for Software Artifacts
+        type: documentation
+        url: https://slsa.dev/spec/v1.0/about
+        provider: SLSA
+        free: true
+      - title: CNCF Cloud Native Security Whitepaper
+        type: documentation
+        url: https://www.cncf.io/reports/cloud-native-security-whitepaper/
+        provider: CNCF
+        free: true
+      - title: CIS Benchmarks
+        type: documentation
+        url: https://www.cisecurity.org/cis-benchmarks
+        provider: Center for Internet Security
+        free: true
+    prerequisites:
+      - data-protection
+  - id: detection-monitoring
+    title: Detection & Security Monitoring
+    description: Prevention fails eventually, and the only thing separating a contained incident from a breach report is whether anyone noticed. Audit logs, threat detection and the queries that turn them into findings. Done when you have written a detection that fires on a simulated misuse in your own account, and tuned it until it stops firing on normal activity.
+    duration: 4-5 weeks
+    skills:
+      - name: Audit Logging
+        level: advanced
+        category: core
+      - name: Threat Detection Services
+        level: advanced
+        category: tool
+      - name: Detection Engineering
+        level: advanced
+        category: core
+      - name: SIEM & Log Pipelines
+        level: advanced
+        category: tool
+      - name: MITRE ATT&CK Mapping
+        level: advanced
+        category: core
+      - name: Alert Triage & Tuning
+        level: advanced
+        category: core
+      - name: Log Integrity & Retention
+        level: intermediate
+        category: core
+      - name: Baseline & Anomaly Detection
+        level: intermediate
+        category: core
+    projects:
+      - Write a detection that fires on a simulated misuse in your own account, then tune it until normal activity stops triggering it
+      - Enable organisation-wide audit logging with tamper-resistant storage, and verify an administrator cannot quietly delete a log
+      - Map your current detections to MITRE ATT&CK cloud techniques and name the three highest-risk gaps
+      - Take a week of findings from a managed threat detection service and triage each one, recording how many were actionable
+      - Build a log pipeline that routes security events to a queryable store, and answer a question about last month using only that store
+      - Measure how long it takes you to answer "which identity made this change?" for a real change, and shorten it
+    resources:
+      - title: What Is AWS CloudTrail?
+        type: documentation
+        url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html
+        provider: AWS
+        free: true
+      - title: What Is Amazon GuardDuty?
+        type: documentation
+        url: https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html
+        provider: AWS
+        free: true
+      - title: MITRE ATT&CK Cloud Matrix
+        type: documentation
+        url: https://attack.mitre.org/matrices/enterprise/cloud/
+        provider: MITRE
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+    prerequisites:
+      - workload-security
+  - id: governance-as-code
+    title: Compliance & Governance as Code
+    description: Compliance is where cloud security most often degenerates into a questionnaire. The engineering version is a control that enforces itself and emits its own evidence. Done when you have expressed one written control as executable policy, blocked a non-compliant change with it, and produced the audit evidence automatically rather than by screenshot.
+    duration: 3-4 weeks
+    skills:
+      - name: Policy as Code
+        level: advanced
+        category: core
+      - name: Open Policy Agent & Rego
+        level: advanced
+        category: tool
+      - name: Configuration Compliance
+        level: advanced
+        category: tool
+      - name: Control Frameworks
+        level: intermediate
+        category: core
+      - name: Continuous Evidence Collection
+        level: advanced
+        category: core
+      - name: IaC Security Scanning
+        level: advanced
+        category: tool
+      - name: Drift Detection & Remediation
+        level: advanced
+        category: core
+      - name: Exception Management
+        level: intermediate
+        category: core
+    projects:
+      - Express one written control as executable policy, block a non-compliant change with it, and generate the audit evidence without a screenshot
+      - Add infrastructure-as-code scanning to a pipeline, then measure its false-positive rate before you make it blocking
+      - Detect configuration drift on a resource somebody changed by hand, and automate the correction with an audit trail
+      - Map one compliance framework's controls to the technical checks that actually enforce them, and mark the ones with no automated check at all
+      - Build a continuous compliance dashboard that reports control coverage as a percentage rather than a pass or fail
+      - Design an exception process for a guardrail, including expiry, so temporary exemptions do not become permanent
+    resources:
+      - title: Open Policy Agent Documentation
+        type: documentation
+        url: https://openpolicyagent.org/docs
+        provider: Open Policy Agent
+        free: true
+      - title: What Is AWS Config?
+        type: documentation
+        url: https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html
+        provider: AWS
+        free: true
+      - title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+        provider: NIST
+        free: true
+      - title: CIS Benchmarks
+        type: documentation
+        url: https://www.cisecurity.org/cis-benchmarks
+        provider: Center for Internet Security
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+    prerequisites:
+      - detection-monitoring
+  - id: threat-modelling
+    title: Threat Modelling Cloud Architectures
+    description: A defensive discipline that borrows an attacker's perspective. You model a system, ask what can go wrong, and decide what to do about it — before the design is concrete. Done when you have threat modelled a real architecture, ranked the threats, and shipped a mitigation for the highest-ranked one that the design review would otherwise have missed.
+    duration: 3-4 weeks
+    skills:
+      - name: Threat Modelling Methodology
+        level: advanced
+        category: core
+      - name: STRIDE
+        level: advanced
+        category: core
+      - name: Data Flow Diagramming
+        level: intermediate
+        category: core
+      - name: Trust Boundary Identification
+        level: advanced
+        category: core
+      - name: Attack Path Analysis
+        level: advanced
+        category: core
+      - name: Risk Ranking
+        level: advanced
+        category: core
+      - name: Secure Design Review
+        level: advanced
+        category: core
+      - name: Mitigation Selection
+        level: intermediate
+        category: core
+    projects:
+      - Threat model a real architecture with STRIDE, rank the threats, and ship a mitigation for the top one that a normal design review would have missed
+      - Draw the data flow diagram for a system you run and mark every trust boundary, then check whether a control exists at each one
+      - Analyse the attack path from a compromised low-privilege workload to your most sensitive data store, and break the path at its cheapest link
+      - Run a threat modelling session with the engineers who own a service, and record which threats they raised that you had not
+      - Re-threat-model a system after a real design change, and note which mitigations the change invalidated
+      - Write the secure design review checklist your team applies before a new service ships, and run it against one already in production
+    resources:
+      - title: OWASP Threat Modeling Cheat Sheet
+        type: documentation
+        url: https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html
+        provider: OWASP
+        free: true
+      - title: MITRE ATT&CK Cloud Matrix
+        type: documentation
+        url: https://attack.mitre.org/matrices/enterprise/cloud/
+        provider: MITRE
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: CNCF Cloud Native Security Whitepaper
+        type: documentation
+        url: https://www.cncf.io/reports/cloud-native-security-whitepaper/
+        provider: CNCF
+        free: true
+    prerequisites:
+      - governance-as-code
+  - id: incident-response
+    title: Incident Response in the Cloud
+    description: "Cloud incident response breaks the habits built on physical machines: the host you want to image may be gone, and the evidence lives in an API. Done when you have run a simulated incident end to end — contained a compromised identity, preserved evidence, and written the timeline from logs — and can state how long containment took."
+    duration: 3-4 weeks
+    skills:
+      - name: Cloud Incident Response
+        level: advanced
+        category: core
+      - name: Credential Compromise Containment
+        level: advanced
+        category: core
+      - name: Forensic Evidence Preservation
+        level: advanced
+        category: core
+      - name: Timeline Reconstruction
+        level: advanced
+        category: core
+      - name: Automated Response
+        level: advanced
+        category: core
+      - name: Runbook Authoring
+        level: intermediate
+        category: core
+      - name: Blameless Postmortems
+        level: intermediate
+        category: core
+      - name: Incident Communication
+        level: intermediate
+        category: core
+    projects:
+      - Run a simulated incident end to end — contain a compromised identity, preserve evidence, reconstruct the timeline from logs — and report the containment time
+      - Write the runbook for a leaked credential, then have someone unfamiliar with the account follow it while you say nothing
+      - Preserve forensic evidence from an ephemeral workload before it is replaced, and document what you lost anyway
+      - Automate one containment action — isolating a resource or revoking a session — with an audit log and a way to disable it quickly
+      - Reconstruct the full timeline of a change made in your account using only audit logs, and note every question the logs could not answer
+      - Run a blameless postmortem for a simulated incident, with an owner and a date on every action item
+    resources:
+      - title: AWS Security Incident Response User Guide
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/aws-security-incident-response-guide.html
+        provider: AWS
+        free: true
+      - title: "NIST SP 800-61 Rev. 3: Incident Response Recommendations"
+        type: documentation
+        url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+        provider: NIST
+        free: true
+      - title: What Is AWS CloudTrail?
+        type: documentation
+        url: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html
+        provider: AWS
+        free: true
+      - title: MITRE ATT&CK Cloud Matrix
+        type: documentation
+        url: https://attack.mitre.org/matrices/enterprise/cloud/
+        provider: MITRE
+        free: true
+    prerequisites:
+      - threat-modelling
+  - id: security-at-scale
+    title: Security at Organisational Scale
+    description: The multiplier. Securing one account is engineering; making a hundred accounts secure by default is what changes an organisation. Landing zones, account structure and guardrails inherited rather than applied. Done when a team you do not sit with shipped into your landing zone and inherited its controls without you reviewing the change.
+    duration: 4-5 weeks
+    skills:
+      - name: Landing Zone Design
+        level: advanced
+        category: core
+      - name: Multi-Account Strategy
+        level: advanced
+        category: core
+      - name: Organisational Guardrails
+        level: advanced
+        category: core
+      - name: Secure Baselines
+        level: advanced
+        category: core
+      - name: Paved Road Platforms
+        level: advanced
+        category: core
+      - name: Security Metrics & Reporting
+        level: advanced
+        category: core
+      - name: Developer Enablement
+        level: intermediate
+        category: core
+      - name: Influence Without Authority
+        level: intermediate
+        category: core
+    projects:
+      - Build a landing zone a team can ship into and inherit its controls without you reviewing the change, then confirm one team did exactly that
+      - Design an account structure that isolates production from everything else, and migrate one real workload into it
+      - Publish a secure baseline other teams consume as a module rather than as documentation, and count adoptions after you stop promoting it
+      - Define the five security metrics you report to leadership, with the query behind each so nobody recalculates them by hand
+      - Make the secure path the easy path for one common task, then measure whether the insecure path is still being used
+      - Run a security review with a team you do not manage and record which decisions changed without you escalating
+    resources:
+      - title: Organizing Your AWS Environment Using Multiple Accounts
+        type: documentation
+        url: https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/organizing-your-aws-environment.html
+        provider: AWS
+        free: true
+      - title: AWS Security Reference Architecture
+        type: documentation
+        url: https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/welcome.html
+        provider: AWS
+        free: true
+      - title: Service Control Policies (SCPs)
+        type: documentation
+        url: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html
+        provider: AWS
+        free: true
+      - title: AWS Well-Architected Security Pillar
+        type: documentation
+        url: https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
+        provider: AWS
+        free: true
+      - title: "Well-Architected Framework: Security, Privacy & Compliance Pillar"
+        type: documentation
+        url: https://docs.cloud.google.com/architecture/framework/security
+        provider: Google Cloud
+        free: true
+    prerequisites:
+      - incident-response
+relatedRoadmaps:
+  - sre
+  - devops-engineer
+  - cloud-architect
+  - ai-security-engineer
+relatedCertifications:
+  - cks
+  - cka
+  - aws-solutions-architect-associate
+  - ccsp
+  - aws-security-specialty
+faq:
+  - question: Why does identity get one of the longest phases in this roadmap?
+    answer: In the cloud, identity is the perimeter — there is no network edge to stand behind, and almost every serious cloud breach reduces to a credential or a role that could do more than it needed to. A misconfigured IAM policy outranks an unpatched host, which is why Identity & Access Management runs 5-6 weeks, tied with Workload, Container & Supply Chain Security as the longest phases in the path.
+  - question: How long does the Cloud Security Engineer roadmap take?
+    answer: The full path is estimated at 9-12 months at 10 hours a week. Phase five alone spans containers and supply chain security because the editorial view treats that as one attack surface rather than two, which is part of why the timeline runs long.
+  - question: Why does detection come after the preventive phases instead of first?
+    answer: Detection & Security Monitoring is deliberately placed after identity, network, data and workload security are covered. Alerts on a system you have not hardened produce a queue nobody works, and that unworked queue becomes the control instead of an actual fix.
+  - question: How much does a Cloud Security Engineer earn?
+    answer: In the United States, entry-level pay is around $134,792 (Glassdoor 25th percentile), the overall average is about $169,173, and senior Cloud Security Engineers average roughly $180,921. All three figures come from Glassdoor's Cloud Security Engineer salary data retrieved in August 2026.
+  - question: What prior knowledge do I need before starting this roadmap?
+    answer: You need working knowledge of at least one public cloud covering compute, storage and networking, comfort with Linux, the command line and at least one scripting language, plus a basic understanding of TCP/IP, DNS and TLS. The roadmap builds on those fundamentals rather than teaching them from scratch.
+  - question: What does the Compliance & Governance as Code phase actually involve?
+    answer: "It treats compliance as engineering rather than a questionnaire: expressing a written control as executable policy, blocking a non-compliant change with it, and producing audit evidence automatically instead of by screenshot. It covers policy as code, tools like Open Policy Agent and Rego, IaC scanning, drift detection, and mapping compliance frameworks to the technical checks that actually enforce them."
