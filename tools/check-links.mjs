@@ -28,7 +28,7 @@ const DATA_DIR = join(ROOT, 'data/roadmaps')
 const BLOCKED_STATUSES = new Set([401, 403, 405, 429])
 const CONCURRENCY = 8
 const TIMEOUT_MS = 15000
-const UA = 'skillpilot-roadmaps-linkcheck/1.0 (+https://github.com/carlosinfantes/skillpilot-roadmaps)'
+const UA = 'roadmaps-linkcheck/1.0 (+https://github.com/skillpilotapp/roadmaps)'
 
 const urls = new Map()
 for (const file of readdirSync(DATA_DIR).filter((f) => f.endsWith('.yaml'))) {

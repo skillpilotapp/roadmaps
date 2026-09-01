@@ -7,8 +7,8 @@
 
 <br><br>
 
-[![validate](https://github.com/carlosinfantes/skillpilot-roadmaps/actions/workflows/validate.yml/badge.svg)](../../actions/workflows/validate.yml)
-[![links](https://github.com/carlosinfantes/skillpilot-roadmaps/actions/workflows/check-links.yml/badge.svg)](../../actions/workflows/check-links.yml)
+[![validate](https://github.com/skillpilotapp/roadmaps/actions/workflows/validate.yml/badge.svg)](../../actions/workflows/validate.yml)
+[![links](https://github.com/skillpilotapp/roadmaps/actions/workflows/check-links.yml/badge.svg)](../../actions/workflows/check-links.yml)
 [![data licence: CC BY-SA 4.0](https://img.shields.io/badge/data-CC%20BY--SA%204.0-7a5a10?labelColor=33353a)](LICENSE)
 [![code licence: MIT](https://img.shields.io/badge/code-MIT-63656a?labelColor=33353a)](LICENSE)
 [![no dependencies](https://img.shields.io/badge/dataset-no%20dependencies-0f7a4a?labelColor=33353a)](#using-it)

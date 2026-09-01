@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/carlosinfantes/skillpilot-roadmaps/schema/roadmap.schema.json",
+  "$id": "https://github.com/skillpilotapp/roadmaps/schema/roadmap.schema.json",
   "title": "SkillPilot career roadmap",
   "type": "object",
   "required": [
