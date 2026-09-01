@@ -114,6 +114,12 @@ npm run validate      # runs in CI on every push
 npm run check-links   # weekly in CI; slow, hits the network
 ```
 
+`check-links` reaches 426 unique URLs. A dozen of them — MySQL's docs,
+`platform.openai.com`, the Ansible docs — answer 403 or 429 to any automated
+request and 200 to a browser, so they are reported as blocked rather than failed:
+a weekly red build over links that are perfectly alive just teaches everyone to
+ignore the badge.
+
 Consume it from any language — plain YAML with a published schema. No build
 step, no API to depend on.
 
